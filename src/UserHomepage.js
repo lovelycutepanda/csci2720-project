@@ -6,7 +6,6 @@ class UserHomepage extends React.Component {
     return (
       <div>
         <p>This is user's home page</p>
-        <p>Hi I am Jenny, fuck u Max Wong</p>
       </div>
     );
   }
