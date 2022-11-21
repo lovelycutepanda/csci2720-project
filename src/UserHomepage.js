@@ -4,7 +4,10 @@ import React from 'react';
 class UserHomepage extends React.Component {
   render() {
     return (
-      <p>This is user's home page</p>
+      <div>
+        <p>This is user's home page</p>
+        <p>Hi I am Jenny, fuck u Max Wong</p>
+      </div>
     );
   }
 }
