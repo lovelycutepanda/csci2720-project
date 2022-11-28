@@ -5,8 +5,8 @@ In this project, we try to set up a web application that allows users to check d
 
 
 ## Groupmates / Collaborators
-Tam King Man https://github.com/marcotam2002
-Ku Nok Tik https://github.com/lovelycutepanda 
-Tung Yuen Lok https://github.com/JohnnyTung123
-Lai Cheuk Lam https://github.com/lclam027
+Tam King Man https://github.com/marcotam2002 <br>
+Ku Nok Tik https://github.com/lovelycutepanda <br>
+Tung Yuen Lok https://github.com/JohnnyTung123 <br>
+Lai Cheuk Lam https://github.com/lclam027 <br>
 Wong Wai Chun https://github.com/MaxWongProgramming
