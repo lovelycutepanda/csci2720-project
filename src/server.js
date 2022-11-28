@@ -2,12 +2,14 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+require('dotenv').config();
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 const cors = require('cors');
 app.use(cors());
 
-mongoose.connect('mongodb+srv://stu058:p308367W@cluster0.wenbhsm.mongodb.net/stu058');
+
+mongoose.connect(process.env.MONGODB_URI);
 
 const db = mongoose.connection;
 const Schema = mongoose.Schema;

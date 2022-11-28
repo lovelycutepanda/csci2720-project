@@ -4,7 +4,7 @@ import React from 'react';
 class Login extends React.Component {
 
   async getData() {
-    await fetch(process.env.REACT_APP_BASE_URL, {
+    await fetch(process.env.REACT_APP_SERVER_URL, {
         method: "GET",
         headers: new Headers({
             "Content-Type": 'application/json',
