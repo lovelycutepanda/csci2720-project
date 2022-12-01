@@ -1,10 +1,17 @@
-import React from 'react';
+import { React, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
-class UserHomepage extends React.Component {
+const UserHomepage = () => {
 
-  async getAllEvent() {
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/getalleventdata`, {
+  const navigate = useNavigate();  
+
+  useEffect(() => {
+    console.log(window.sessionStorage.getItem("user"));
+  }, []);
+
+  const getAllEvent = async () => {
+    await fetch(`${process.env.REACT_APP_SERVER_URL}/event`, {
       method: "GET",
       headers: new Headers({
           "Content-Type": 'application/json',
@@ -17,8 +24,8 @@ class UserHomepage extends React.Component {
       });
   }
 
-  async getAllLocation() {
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/getalllocationdata`, {
+  const getAllLocation = async () => {
+    await fetch(`${process.env.REACT_APP_SERVER_URL}/location`, {
       method: "GET",
       headers: new Headers({
           "Content-Type": 'application/json',
@@ -31,15 +38,27 @@ class UserHomepage extends React.Component {
       });
   }
 
-  render() {
-    return (
-      <>
-        <p>This is user's home page</p>
-        <button onClick={() => {this.getAllEvent()}}>Get events</button>
-        <button onClick={() => {this.getAllLocation()}}>Get locations</button>
-      </>
-    );
+  const logout = () => {
+    window.sessionStorage.removeItem("user");
+    navigate("/");
   }
+
+  return (
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
+          <p>This is user's home page</p>
+          <button className="btn btn-success mx-1" onClick={() => {getAllEvent()}}>Get events</button>
+          <button className="btn btn-success mx-1" onClick={() => {getAllLocation()}}>Get locations</button>
+        </div>
+
+        <div className="col-2 col-sm-4 col-lg-3 col-xl-2">
+          <p>User: {window.sessionStorage.getItem("user")}</p>
+          <button className="btn btn-success" onClick={() => {logout()}}>Log out</button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default UserHomepage;

@@ -26,18 +26,23 @@ db.once('open', () => {
 })
 
 // example
-app.get('/getalleventdata', async (req, res) => {
+app.get('/event', async (req, res) => {
     return event.findAllEvent(req, res);
 })
 
 // example
-app.get('/getalllocationdata', async (req, res) => {
+app.get('/location', async (req, res) => {
     return location.findAllLocation(req, res);
 })
 
 // example
-app.get('/getalluserdata', async (req, res) => {
+app.get('/user', async (req, res) => {
     return user.findAllUser(req, res);
+})
+
+// login request
+app.post('/login', async (req, res) => {
+    return user.login(req, res);
 })
     
 // handle ALL requests

@@ -17,8 +17,15 @@ module.exports.findAllUser = async function (req, res) {
             return res.send({ message: err });
         res.json(users);
     })
+}
 
+module.exports.login = async function (req, res) {
+    let { username, password } = req.body;
+    console.log("username: ", username, ", password: ", password);
+    let obj = {};
 
+    // handle password
+    // search in database
 
-    
+    res.json(obj);
 }

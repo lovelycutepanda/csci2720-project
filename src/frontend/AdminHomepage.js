@@ -1,10 +1,17 @@
-import React from 'react';
+import { React, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
-class AdminHomepage extends React.Component {
+const AdminHomepage = () => {
 
-  async getAllUser() {
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/getalluserdata`, {
+  const navigate = useNavigate();  
+
+  useEffect(() => {
+    console.log(window.sessionStorage.getItem("user"));
+  }, []);
+
+  const getAllUser = async () => {
+    await fetch(`${process.env.REACT_APP_SERVER_URL}/user`, {
       method: "GET",
       headers: new Headers({
           "Content-Type": 'application/json',
@@ -26,14 +33,26 @@ class AdminHomepage extends React.Component {
       });
   }
 
-  render() {
-    return (
-      <>
-        <p>This is admin's home page</p>
-        <button onClick={() => {this.getAllUser()}}>Get users</button>
-      </>
-    );
+  const logout = () => {
+    window.sessionStorage.removeItem("user");
+    navigate("/");
   }
+
+  return (
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
+        <p>This is admin's home page</p>
+          <button className="btn btn-success mx-1" onClick={() => {getAllUser()}}>Get users</button>
+        </div>
+
+        <div className="col-2 col-sm-4 col-lg-3 col-xl-2">
+          <p>User: {window.sessionStorage.getItem("user")}</p>
+          <button className="btn btn-success" onClick={() => {logout()}}>Log out</button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default AdminHomepage;
