@@ -7,14 +7,16 @@ const Login = () => {
 
   const navigate = useNavigate();  
 
-  let login = async (e) => {
-
+  const login = async (e) => {
     e.preventDefault();
 
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
-    if (username)
+    if (username.length < 4 || username.length > 20)
+      return console.log("Username is of 4-20 characters.");
+    if (password.length < 4 || password.length > 20)
+      return console.log("Password is of 4-20 characters.");
 
     await fetch(`${process.env.REACT_APP_SERVER_URL}/login`, {
         method: "POST",
@@ -28,27 +30,23 @@ const Login = () => {
     })
         .then((res) => res.json())
         .then((obj) => {
-
           // if error is found
           if (obj.err) {
             console.log(obj.err);
             // warning about incorrect message
             return;
           }
-
-          // no error
           window.sessionStorage.setItem("user", username);
           if (username === 'admin')
             navigate("./admin");
           else
             navigate("./user");
-
         });
   }
 
   return (
     <div>
-      <p>Log in page</p>
+      <h2>Log in page</h2>
 
       <form>
 
@@ -63,6 +61,17 @@ const Login = () => {
         <button className="btn btn-success" onClick={(e) => {login(e);}}>Log In</button>
 
       </form>
+
+      <div>
+        <br/><br/><br/>
+        user <br/>
+        username: testPlayer <br/>
+        password: testing <br/>
+        <br/>
+        admin <br/>
+        username: admin <br/>
+        password: admin
+      </div>
       
     </div>
   );

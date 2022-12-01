@@ -47,7 +47,7 @@ const UserHomepage = () => {
     <div className="container-fluid">
       <div className="row">
         <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
-          <p>This is user's home page</p>
+          <h2>This is user's home page</h2>
           <button className="btn btn-success mx-1" onClick={() => {getAllEvent()}}>Get events</button>
           <button className="btn btn-success mx-1" onClick={() => {getAllLocation()}}>Get locations</button>
         </div>

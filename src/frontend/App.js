@@ -25,7 +25,7 @@ const App = () => {
           </Routes>
         </div>
         
-      {/* to be replaced */}
+      {/* to be deleted */}
         <hr />
         <div>
           <ul>

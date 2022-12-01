@@ -25,17 +25,17 @@ db.once('open', () => {
     console.log("Connection is open...");
 })
 
-// example
+// get event list
 app.get('/event', async (req, res) => {
     return event.findAllEvent(req, res);
 })
 
-// example
+// get location list
 app.get('/location', async (req, res) => {
     return location.findAllLocation(req, res);
 })
 
-// example
+// get user list
 app.get('/user', async (req, res) => {
     return user.findAllUser(req, res);
 })
@@ -43,6 +43,11 @@ app.get('/user', async (req, res) => {
 // login request
 app.post('/login', async (req, res) => {
     return user.login(req, res);
+})
+
+// create user request
+app.post('/user/create', async (req, res) => {
+    return user.create(req, res);
 })
     
 // handle ALL requests
