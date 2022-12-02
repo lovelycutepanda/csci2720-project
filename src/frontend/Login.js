@@ -13,12 +13,14 @@ const Login = () => {
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
+    // input validation
     if (username.length < 4 || username.length > 20)
       return console.log("Username is of 4-20 characters.");
     if (password.length < 4 || password.length > 20)
       return console.log("Password is of 4-20 characters.");
 
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/login`, {
+    // input verification
+    await fetch(`${process.env.REACT_APP_SERVER_URL}/user/findone`, {
         method: "POST",
         headers: new Headers({
           "Content-Type": 'application/json',
@@ -46,6 +48,9 @@ const Login = () => {
 
   return (
     <div>
+
+      {/* please work on frontend design */}
+
       <h2>Log in page</h2>
 
       <form>
@@ -62,6 +67,7 @@ const Login = () => {
 
       </form>
 
+      {/* to be deleted */}
       <div>
         <br/><br/><br/>
         user <br/>

@@ -45,6 +45,9 @@ const UserHomepage = () => {
 
   return (
     <div className="container-fluid">
+
+      {/* please work on frontend design */}
+
       <div className="row">
         <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
           <h2>This is user's home page</h2>

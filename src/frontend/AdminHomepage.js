@@ -5,8 +5,11 @@ import { useNavigate } from 'react-router-dom';
 const AdminHomepage = () => {
 
   const navigate = useNavigate();  
+
+  // states
   const [userList, setUserList] = useState([]);
   const [action, setAction] = useState("");
+  const [updateTarget, setUpdateTarget] = useState("");
 
   // componentDidMount
   useEffect(() => {
@@ -14,8 +17,8 @@ const AdminHomepage = () => {
   }, []);
 
   // retrieval, called when "Show Users" button is clicked
-  const getUser = async () => {
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/user`, {
+  const findAllUser = async () => {
+    await fetch(`${process.env.REACT_APP_SERVER_URL}/user/findall`, {
       method: "GET",
       headers: new Headers({
           "Content-Type": 'application/json',
@@ -49,7 +52,7 @@ const AdminHomepage = () => {
   }
 
   // displayed when "Create User" button is clicked
-  const showForm = () => {
+  const showCreateForm = () => {
     return(
       <form>
       Create user <br/>
@@ -101,6 +104,88 @@ const AdminHomepage = () => {
         });
   }
 
+  // displayed when "Update User" button is clicked
+  const showUpdateForm = () => {
+
+    const findUser = async (e) => {
+      e.preventDefault();
+      await fetch(`${process.env.REACT_APP_SERVER_URL}/user/findone`, {
+        method: "POST",
+        headers: new Headers({
+            "Content-Type": 'application/json',
+        }),
+        body: JSON.stringify({
+          username: document.getElementById("username").value
+        })
+    })
+        .then((res) => res.json())
+        .then((obj) => {
+          if (obj.err) 
+            console.log(obj.err);
+          else
+            setUpdateTarget(obj.username);
+        });
+    }
+
+    return(
+      <>
+        <p id="getdata">
+          Input user name to load the user information: 
+          <input type="text" id="username" name="username" />
+          <button onClick={(e) => {findUser(e)}}>Get Data</button>
+        </p>
+
+        {updateTarget && <form id="inputForm" method="get">
+        <br />
+        Update to: <br />
+
+        <label htmlFor="username">Username (Original: {updateTarget})</label>
+        <input type="text" id="updatedUsername" name="updatedUsername" />
+        <br />
+
+        <label htmlFor="password">Password</label>
+        <input type="text" id="updatedPassword" name="updatedPassword" />
+        <br />
+
+        <button onClick={(e) => {updateUser(e)}}>Update</button>
+        </form>}
+
+      </>
+  )}
+
+  // update, called when "Update" button is clicked
+  const updateUser = async (e) => {
+    e.preventDefault();
+
+    let username = document.getElementById("updatedUsername").value;
+    let password = document.getElementById("updatedPassword").value;
+
+    if (username.length < 4 || username.length > 20)
+      return console.log("Username is of 4-20 characters.");
+    if (password.length < 4 || password.length > 20)
+      return console.log("Password is of 4-20 characters.");
+
+    await fetch(`${process.env.REACT_APP_SERVER_URL}/user/update`, {
+        method: "POST",
+        headers: new Headers({
+          "Content-Type": 'application/json',
+        }),
+        body: JSON.stringify({
+          username: updateTarget,
+          newUsername: username,
+          newPassword: password
+        })
+    })
+        .then((res) => res.json())
+        .then((obj) => {
+          // if error is found
+          if (obj.err)
+            console.log(obj.err);
+          else
+            console.log(obj.msg);
+        });
+  }
+
   const logout = () => {
     window.sessionStorage.removeItem("user");
     navigate("/");
@@ -109,9 +194,9 @@ const AdminHomepage = () => {
   const actionSwitch = () => {
     return <div className="py-4">
       {action === "getUser" && showUser()}
-      {action === "createUser" && showForm()}
-      {/*action === "updateUser" && ()*/}
-      {/*action === "deleteUser" && ()*/}
+      {action === "createUser" && showCreateForm()}
+      {action === "updateUser" && showUpdateForm()}
+      {/*action === "deleteUser" && showDeleteForm()*/}
     </div>;
   }
 
@@ -120,9 +205,9 @@ const AdminHomepage = () => {
       <div className="row">
         <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
           <h2>This is admin's home page</h2>
-          <button className="btn btn-success mx-1" onClick={() => {getUser()}}>Show users</button>
+          <button className="btn btn-success mx-1" onClick={() => {findAllUser()}}>Show users</button>
           <button className="btn btn-success mx-1" onClick={() => {setAction("createUser")}}>Create user</button>
-          
+          <button className="btn btn-success mx-1" onClick={() => {setAction("updateUser"); setUpdateTarget("");}}>Update user</button>
           {actionSwitch()}
         </div>
 

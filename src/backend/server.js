@@ -36,18 +36,23 @@ app.get('/location', async (req, res) => {
 })
 
 // get user list
-app.get('/user', async (req, res) => {
+app.get('/user/findall', async (req, res) => {
     return user.findAllUser(req, res);
 })
 
-// login request
-app.post('/login', async (req, res) => {
-    return user.login(req, res);
+// get single user info or log in request
+app.post('/user/findone', async (req, res) => {
+    return user.findUser(req, res);
 })
 
 // create user request
 app.post('/user/create', async (req, res) => {
     return user.create(req, res);
+})
+
+// update user request
+app.post('/user/update', async (req, res) => {
+    return user.update(req, res);
 })
     
 // handle ALL requests
