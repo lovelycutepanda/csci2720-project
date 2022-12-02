@@ -85,3 +85,16 @@ module.exports.update = async function (req, res) {
     user.save();
     res.json({ msg: `User ${newUsername} updated.` });
 }
+
+module.exports.delete = async function (req, res) {
+    const { username } = req.body;
+    console.log("username:", username);
+
+    User.deleteOne({ username: username }, (err, user) => {
+        if (user.deletedCount === 0)
+            res.json({ err: "User not found."});
+        else {
+            res.json({ err: `User ${username} deleted.`});
+        }
+    });
+}

@@ -132,7 +132,7 @@ const AdminHomepage = () => {
         <p id="getdata">
           Input user name to load the user information: 
           <input type="text" id="username" name="username" />
-          <button onClick={(e) => {findUser(e)}}>Get Data</button>
+          <button className="btn btn-success" onClick={(e) => {findUser(e)}}>Load user</button>
         </p>
 
         {updateTarget && <form id="inputForm" method="get">
@@ -147,7 +147,7 @@ const AdminHomepage = () => {
         <input type="text" id="updatedPassword" name="updatedPassword" />
         <br />
 
-        <button onClick={(e) => {updateUser(e)}}>Update</button>
+        <button className="btn btn-success" onClick={(e) => {updateUser(e)}}>Update</button>
         </form>}
 
       </>
@@ -166,7 +166,7 @@ const AdminHomepage = () => {
       return console.log("Password is of 4-20 characters.");
 
     await fetch(`${process.env.REACT_APP_SERVER_URL}/user/update`, {
-        method: "POST",
+        method: "PUT",
         headers: new Headers({
           "Content-Type": 'application/json',
         }),
@@ -174,6 +174,48 @@ const AdminHomepage = () => {
           username: updateTarget,
           newUsername: username,
           newPassword: password
+        })
+    })
+        .then((res) => res.json())
+        .then((obj) => {
+          // if error is found
+          if (obj.err)
+            console.log(obj.err);
+          else
+            console.log(obj.msg);
+        });
+  }
+
+  // displayed when "Create User" button is clicked
+  const showDeleteForm = () => {
+    return(
+      <form>
+      Delete user <br/>
+      <br/>
+
+      <label htmlFor="username">Username</label>
+      <input type="text" id="username" name="username" />
+      <br/>
+
+      <button className="btn btn-success" onClick={(e) => {deleteUser(e)}}>Delete</button>
+
+      </form>
+    )
+  }
+
+  // update, called when "Update" button is clicked
+  const deleteUser = async (e) => {
+    e.preventDefault();
+
+    let username = document.getElementById("username").value;
+
+    await fetch(`${process.env.REACT_APP_SERVER_URL}/user/delete`, {
+        method: "DELETE",
+        headers: new Headers({
+          "Content-Type": 'application/json',
+        }),
+        body: JSON.stringify({
+          username: username,
         })
     })
         .then((res) => res.json())
@@ -196,18 +238,22 @@ const AdminHomepage = () => {
       {action === "getUser" && showUser()}
       {action === "createUser" && showCreateForm()}
       {action === "updateUser" && showUpdateForm()}
-      {/*action === "deleteUser" && showDeleteForm()*/}
+      {action === "deleteUser" && showDeleteForm()}
     </div>;
   }
 
   return (
     <div className="container-fluid">
+
+      {/* please work on frontend design */}
+      
       <div className="row">
         <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
           <h2>This is admin's home page</h2>
           <button className="btn btn-success mx-1" onClick={() => {findAllUser()}}>Show users</button>
           <button className="btn btn-success mx-1" onClick={() => {setAction("createUser")}}>Create user</button>
           <button className="btn btn-success mx-1" onClick={() => {setAction("updateUser"); setUpdateTarget("");}}>Update user</button>
+          <button className="btn btn-success mx-1" onClick={() => {setAction("deleteUser")}}>Delete user</button>
           {actionSwitch()}
         </div>
 

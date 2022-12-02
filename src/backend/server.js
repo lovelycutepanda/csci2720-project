@@ -51,8 +51,13 @@ app.post('/user/create', async (req, res) => {
 })
 
 // update user request
-app.post('/user/update', async (req, res) => {
+app.put('/user/update', async (req, res) => {
     return user.update(req, res);
+})
+
+// delete user request
+app.delete('/user/delete', async (req, res) => {
+    return user.delete(req, res);
 })
     
 // handle ALL requests
