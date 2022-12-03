@@ -11,14 +11,15 @@ const UserHomepage = () => {
     getEvent();
   }, []);
 
-  const xml2json = (xml) => {
+  const eventxml2json = (xml) => {
     let event = xml.getElementsByTagName("event");
     let dataList = [];
     for (let e of event) {
       let obj = {}
       obj.event_id = e.getAttribute("id");
       obj.title = e.getElementsByTagName("titlee")[0].childNodes[0].nodeValue;
-      obj.description = (e.getElementsByTagName("desce")[0].childNodes[0])? e.getElementsByTagName("desce")[0].childNodes[0].nodeValue : "";
+      if (e.getElementsByTagName("desce")[0].childNodes[0])
+        obj.description = e.getElementsByTagName("desce")[0].childNodes[0].nodeValue;
 
       // add more
 
@@ -29,22 +30,39 @@ const UserHomepage = () => {
 
   const getEvent = async () => {
 
-    fetch("https://s3-ap-southeast-1.amazonaws.com/historical-resource-archive/2022/11/17/https%253A%252F%252Fwww.lcsd.gov.hk%252Fdatagovhk%252Fevent%252Fevents.xml/1347")
+    let timestamp;
+
+    // set yesterday date
+    const url = "https%3A%2F%2Fwww.lcsd.gov.hk%2Fdatagovhk%2Fevent%2Fevents.xml";
+    let date = new Date();
+    date.setDate(date.getDate()-1);
+    let dd = String(date.getDate()).padStart(2, '0');
+    let mm = String(date.getMonth() + 1).padStart(2, '0');
+    let yyyy = date.getFullYear();
+    date = yyyy + mm + dd;
+
+    // gets latest data timestamp
+    await fetch(`https://api.data.gov.hk/v1/historical-archive/list-file-versions?url=${url}&start=${date}&end=${date}`)
+    .then((res) => res.json())
+    .then((data) => {
+      timestamp = data.timestamps[0];
+    });
+
+    // gets data 
+    await fetch(`https://api.data.gov.hk/v1/historical-archive/get-file?url=${url}&time=${timestamp}`)
     .then((res) => res.text())
     .then((data) => {
-      //console.log(data);
       data = data.substr(data.indexOf("\n") + 1);
       let parser = new DOMParser();
       let xml = parser.parseFromString(data, "application/xml");
 
-      let obj = xml2json(xml);   // here is the list of objects after fetch
-      console.log(obj);
+      let obj = eventxml2json(xml);   // here is the list of objects after fetch
+      console.log("Event List:", obj);
 
       // handle obj here
 
     })
-    .catch((err) => console.log("error: " + err));
-    
+    .catch((err) => console.log("error: ", err));
   }
 
   const getAllLocation = async () => {
@@ -63,6 +81,61 @@ const UserHomepage = () => {
       });
   }
 
+  // test
+  const locationxml2json = (xml) => {
+    let locations = xml.getElementsByTagName("venue");
+    let dataList = [];
+    for (let loc of locations) {
+      if (loc.getElementsByTagName("longitude")[0].childNodes[0])
+        dataList.push({
+          locationId: loc.getAttribute("id"),
+          name: loc.getElementsByTagName("venuee")[0].childNodes[0].nodeValue,
+          position: {
+            longitude: loc.getElementsByTagName("longitude")[0].childNodes[0].nodeValue,
+            latitude: loc.getElementsByTagName("latitude")[0].childNodes[0].nodeValue
+          }
+        });
+    }
+    return dataList;
+  }
+
+  const getListOfOnlineLocations = async () => {
+
+    let timestamp;
+
+    // set yesterday date
+    const url = "https%3A%2F%2Fwww.lcsd.gov.hk%2Fdatagovhk%2Fevent%2Fvenues.xml";
+    let date = new Date();
+    date.setDate(date.getDate()-1);
+    let dd = String(date.getDate()).padStart(2, '0');
+    let mm = String(date.getMonth() + 1).padStart(2, '0');
+    let yyyy = date.getFullYear();
+    date = yyyy + mm + dd;
+
+    // gets latest data timestamp
+    await fetch(`https://api.data.gov.hk/v1/historical-archive/list-file-versions?url=${url}&start=${date}&end=${date}`)
+    .then((res) => res.json())
+    .then((data) => {
+      timestamp = data.timestamps[0];
+    });
+
+    // gets data 
+    await fetch(`https://api.data.gov.hk/v1/historical-archive/get-file?url=${url}&time=${timestamp}`)
+    .then((res) => res.text())
+    .then((data) => {
+      data = data.substr(data.indexOf("\n") + 1);
+      let parser = new DOMParser();
+      let xml = parser.parseFromString(data, "application/xml");
+
+      let obj = locationxml2json(xml);   // here is the list of objects after fetch
+      console.log("Location List:", obj);
+
+      // handle obj here
+
+    })
+    .catch((err) => console.log("error: ", err));
+  }
+
   const logout = () => {
     window.sessionStorage.removeItem("user");
     navigate("/");
@@ -76,7 +149,7 @@ const UserHomepage = () => {
       <div className="row">
         <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
           <h2>This is user's home page</h2>
-          <button className="btn btn-success mx-1" onClick={() => {getAllLocation()}}>Get locations</button>
+          <button className="btn btn-success mx-1" onClick={() => {getListOfOnlineLocations()}}>Get locations</button>
         </div>
 
         <div className="col-2 col-sm-4 col-lg-3 col-xl-2">
