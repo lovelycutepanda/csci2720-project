@@ -99,6 +99,8 @@ const UserHomepage = () => {
     return dataList;
   }
 
+  const location_obj = [];
+
   const getListOfOnlineLocations = async () => {
 
     let timestamp;
@@ -130,10 +132,13 @@ const UserHomepage = () => {
       let obj = locationxml2json(xml);   // here is the list of objects after fetch
       console.log("Location List:", obj);
 
-      // handle obj here
-
+      location_obj = obj;
     })
     .catch((err) => console.log("error: ", err));
+  }
+
+  const showMap = (location_obj) => {
+    
   }
 
   const logout = () => {
