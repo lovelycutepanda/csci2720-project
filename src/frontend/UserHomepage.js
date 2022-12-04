@@ -3,6 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 
+import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
+
+
+
 const UserHomepage = () => {
 
   const navigate = useNavigate();  
@@ -140,10 +144,14 @@ const UserHomepage = () => {
 
   // processing map part
 
-  mapboxgl.accessToken = 
-
-  const showMap = (location_obj) => {
-    
+  function showMap(){
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFyY290YW0yMDAyIiwiYSI6ImNsYjllZTA5ajB0eXgzcHA3cTRjNXQ4YXMifQ.HqFbWQNPcjFpJm6WjSty8w';
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        style: 'mapbox://styles/marcotam2002/clb9erv0g006g14s3czkij38y', // style URL
+        center: [-74.5, 40], // starting position [lng, lat]
+        zoom: 9, // starting zoom
+    });
   }
 
   const logout = () => {
@@ -168,9 +176,7 @@ const UserHomepage = () => {
         </div>
       </div>
 
-      <div>
-        This is for testing.
-      </div>
+      <div id='map' style='width: 400px; height: 300px;'></div>
     </div>
   );
 }
