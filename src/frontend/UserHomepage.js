@@ -1,10 +1,10 @@
-import { React, useEffect } from 'react';
+import { React, useRef, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
-
-import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
-
+//var mapboxAccessToken = 'pk.eyJ1IjoibWFyY290YW0yMDAyIiwiYSI6ImNsYjllZTA5ajB0eXgzcHA3cTRjNXQ4YXMifQ.HqFbWQNPcjFpJm6WjSty8w';
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
 
 const UserHomepage = () => {
@@ -142,17 +142,34 @@ const UserHomepage = () => {
     .catch((err) => console.log("error: ", err));
   }
 
-  // processing map part
+  // mapping
 
-  function showMap(){
-    mapboxgl.accessToken = 'pk.eyJ1IjoibWFyY290YW0yMDAyIiwiYSI6ImNsYjllZTA5ajB0eXgzcHA3cTRjNXQ4YXMifQ.HqFbWQNPcjFpJm6WjSty8w';
-    const map = new mapboxgl.Map({
-        container: 'map', // container ID
-        style: 'mapbox://styles/marcotam2002/clb9erv0g006g14s3czkij38y', // style URL
-        center: [-74.5, 40], // starting position [lng, lat]
-        zoom: 9, // starting zoom
+  const mapContainer = useRef(null);
+  const map = useRef(null);
+  const [lng, setLng] = useState(-70.9);
+  const [lat, setLat] = useState(42.35);
+  const [zoom, setZoom] = useState(9);
+
+  useEffect(() => {
+    if (map.current) return; // initialize map only once
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/marcotam2002/clb9erv0g006g14s3czkij38y',
+      center: [lng, lat],
+      zoom: zoom
     });
-  }
+  });
+
+  useEffect(() => {
+    if (!map.current) return; // wait for map to initialize
+    map.current.on('move', () => {
+    setLng(map.current.getCenter().lng.toFixed(4));
+    setLat(map.current.getCenter().lat.toFixed(4));
+    setZoom(map.current.getZoom().toFixed(2));
+    });
+  });
+
+  // logout
 
   const logout = () => {
     window.sessionStorage.removeItem("user");
@@ -176,7 +193,9 @@ const UserHomepage = () => {
         </div>
       </div>
 
-      <div id='map' style='width: 400px; height: 300px;'></div>
+      <div>
+        <div ref={mapContainer} className="map-container" />
+      </div>
     </div>
   );
 }
