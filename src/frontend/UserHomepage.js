@@ -157,6 +157,10 @@ const UserHomepage = () => {
           <button className="btn btn-success" onClick={() => {logout()}}>Log out</button>
         </div>
       </div>
+
+      <div>
+        This is for testing.
+      </div>
     </div>
   );
 }
