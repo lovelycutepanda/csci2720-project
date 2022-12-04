@@ -1,5 +1,6 @@
 import { React, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 
 const UserHomepage = () => {
@@ -136,6 +137,10 @@ const UserHomepage = () => {
     })
     .catch((err) => console.log("error: ", err));
   }
+
+  // processing map part
+
+  mapboxgl.accessToken = 
 
   const showMap = (location_obj) => {
     
