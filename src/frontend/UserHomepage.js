@@ -142,7 +142,7 @@ const UserHomepage = () => {
     .catch((err) => console.log("error: ", err));
   }
 
-  // mapping
+  // create Map
 
   const mapContainer = useRef(null);
   const map = useRef(null);
