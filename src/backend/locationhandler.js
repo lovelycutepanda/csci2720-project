@@ -10,7 +10,13 @@ const LocationSchema = Schema({
 });
 const Location = mongoose.model('Location', LocationSchema);
 
-// example
 module.exports.findAllLocation = async function (req, res) {
-    res.send({ message: "location" });
+    Location.find()
+    .select("locationId name position eventList comment")
+    .exec((err, locations) => {
+        if (err)
+            res.json({ err: err });
+        else
+            res.json(locations);
+    })
 }

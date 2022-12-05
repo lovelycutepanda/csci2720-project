@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShowUser, CreateUser, UpdateUser, DeleteUser } from './AdminUserAction/Actions';
+import { ShowUser, CreateUser, UpdateUser, DeleteUser } from './AdminUserAction/index.js';
+import { ShowLocation, CreateLocation } from './AdminLocationAction/index.js';
 
 
 const AdminHomepage = () => {
@@ -22,13 +23,13 @@ const AdminHomepage = () => {
 
   const actionSwitch = () => {
     return <div className="py-4">
-      {action === "getUser" && <ShowUser />}
+      {action === "showUser" && <ShowUser />}
       {action === "createUser" && <CreateUser />}
       {action === "updateUser" && <UpdateUser />}
       {action === "deleteUser" && <DeleteUser />}
+      {action === "showLocation" && <ShowLocation />}
+      {action === "createLocation" && <CreateLocation />}
       {/*
-      {action === "getLocation" && showLocation()}
-      {action === "createLocation" && showCreateLocationForm()}
       {action === "updateLocation" && showUpdateLocationForm()}
       {action === "deleteLocation" && showDeleteLocationForm()}
       */}
@@ -43,13 +44,13 @@ const AdminHomepage = () => {
       <div className="row">
         <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
           <h2>This is admin's home page</h2>
-          <button className="btn btn-success mx-1" onClick={() => {setAction("getUser")}}>Show users</button>
+          <button className="btn btn-success mx-1" onClick={() => {setAction("showUser")}}>Show users</button>
           <button className="btn btn-success mx-1" onClick={() => {setAction("createUser")}}>Create user</button>
           <button className="btn btn-success mx-1" onClick={() => {setAction("updateUser")}}>Update user</button>
           <button className="btn btn-success mx-1" onClick={() => {setAction("deleteUser")}}>Delete user</button>
+          <button className="btn btn-success mx-1" onClick={() => {setAction("showLocation")}}>Show locations</button>
+          <button className="btn btn-success mx-1" onClick={() => {setAction("createLocation")}}>Create location</button>
           {/*
-          <button className="btn btn-success mx-1" onClick={() => {findAllLocation()}}>Show users</button>
-          <button className="btn btn-success mx-1" onClick={() => {setAction("createLocation")}}>Create user</button>
           <button className="btn btn-success mx-1" onClick={() => {setAction("updateLocation"); setUpdateTarget("");}}>Update user</button>
           <button className="btn btn-success mx-1" onClick={() => {setAction("deleteLocation")}}>Delete user</button>
           */}

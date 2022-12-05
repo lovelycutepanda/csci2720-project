@@ -14,7 +14,7 @@ module.exports.findAllUser = async function (req, res) {
     .select("username password favourite")
     .exec((err, users) => {
         if (err)
-            return res.json({ err: err });
+            res.json({ err: err });
         else
             res.json(users);
     })

@@ -105,6 +105,7 @@ const UserHomepage = () => {
     .catch((err) => console.log("error: ", err));
   }
 
+  /*
   const getAllLocation = async () => {
     await fetch(`${process.env.REACT_APP_SERVER_URL}/location`, {
       method: "GET",
@@ -120,6 +121,7 @@ const UserHomepage = () => {
         
       });
   }
+  */
 
   // test
   const locationxml2json = (xml) => {

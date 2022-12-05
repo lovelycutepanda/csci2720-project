@@ -6,7 +6,7 @@ const ShowUser = () => {
     // states
     const [userList, setUserList] = useState([]);
 
-    // componentDidMount, called when "Show Users" button is clicked
+    // componentDidMount
     useEffect(() => {
         fetch(`${process.env.REACT_APP_SERVER_URL}/user/findall`, {
             method: "GET",
@@ -20,7 +20,7 @@ const ShowUser = () => {
         })
     }, []);
 
-    // displayed when getUser() is called
+    // retrieval, called when "Show Users" button is clicked
     return(
         <div>
         User List:
@@ -30,8 +30,8 @@ const ShowUser = () => {
             <p key={index}>
                 user {index+1} <br/>
                 username: {username} <br/>
-                password: {password} <br/>
-                favourite locations: {favourite} <br/>
+                password (hashed): {password} <br/>
+                favourite locations (Location _id): {favourite} <br/>
             </p>
             );
         })}

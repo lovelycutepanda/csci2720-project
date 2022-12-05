@@ -31,7 +31,7 @@ app.get('/event', async (req, res) => {
 })
 
 // get location list
-app.get('/location', async (req, res) => {
+app.get('/location/findall', async (req, res) => {
     return location.findAllLocation(req, res);
 })
 
