@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// current data in database may not follow this schema
 const LocationSchema = Schema({
     locationId: { type: Number, required: true, unique: true },
     name: { type: String },
