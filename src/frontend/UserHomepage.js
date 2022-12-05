@@ -53,13 +53,18 @@ const UserHomepage = () => {
     for (let e of event) {
       const venueId = parseInt(e.getElementsByTagName("venueid")[0].childNodes[0].nodeValue);
       eventCount[venueId] = eventCount[venueId]? eventCount[venueId]+1 : 1;
-      dataList.push({
-        event_id: parseInt(e.getAttribute("id")),
-        title: e.getElementsByTagName("titlee")[0].childNodes[0].nodeValue,
-        description: e.getElementsByTagName("desce")[0].childNodes[0].nodeValue,
-        venueid: venueId
-        // add more
-      });
+
+      let obj = {
+          event_id: parseInt(e.getAttribute("id")),
+          title: e.getElementsByTagName("titlee")[0].childNodes[0].nodeValue,
+          venueid: venueId
+          // add more
+        }
+
+      if (e.getElementsByTagName("desce")[0].childNodes[0])
+        obj.description = e.getElementsByTagName("desce")[0].childNodes[0].nodeValue;
+
+      dataList.push(obj);
     }
     return dataList;
   }
