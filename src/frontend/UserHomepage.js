@@ -10,8 +10,7 @@ const UserHomepage = () => {
 
   const navigate = useNavigate(); 
 
-  // mapping
-
+  // states
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(-70.9);
@@ -20,7 +19,7 @@ const UserHomepage = () => {
 
   let location_obj;
 
-  // counting (to be deleted)
+  // counting event numbers in each location (to be deleted)
   let eventCount = {};
 
   useEffect(() => {
@@ -47,10 +46,6 @@ const UserHomepage = () => {
       setZoom(map.current.getZoom().toFixed(2));
     });
   }, [lng, lat, zoom]);
-
-  useEffect(() => {
-    
-  }, []);
 
   const eventxml2json = (xml) => {
     let event = xml.getElementsByTagName("event");
