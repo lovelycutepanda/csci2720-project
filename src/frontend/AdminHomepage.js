@@ -2,6 +2,7 @@ import { React, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShowUser, CreateUser, UpdateUser, DeleteUser } from './AdminUserAction/index.js';
 import { ShowLocation, CreateLocation } from './AdminLocationAction/index.js';
+import './AdminHomepage.css';
 
 
 const AdminHomepage = () => {
@@ -43,7 +44,7 @@ const AdminHomepage = () => {
       
       <div className="row">
         <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
-          <h2>This is admin's home page</h2>
+          <h2 className='testing'>This is admin's home page</h2>
           <button className="btn btn-success mx-1" onClick={() => {setAction("showUser")}}>Show users</button>
           <button className="btn btn-success mx-1" onClick={() => {setAction("createUser")}}>Create user</button>
           <button className="btn btn-success mx-1" onClick={() => {setAction("updateUser")}}>Update user</button>

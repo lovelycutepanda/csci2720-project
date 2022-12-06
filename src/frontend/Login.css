@@ -1,6 +1,11 @@
 /*login page layout*/
 @import url('https://fonts.googleapis.com/css2?family=Nerko+One&family=Oswald:wght@400;500&display=swap');
 
+body{ 
+    background: rgb(34,193,195);
+    background: linear-gradient(135deg, rgba(34,193,195,1) 0%,     rgba(253,187,45,1) 100%);
+}
+  
 .loginform{
     max-width: 500px;
     min-width: 300px;
