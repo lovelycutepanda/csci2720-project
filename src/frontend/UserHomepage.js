@@ -6,7 +6,6 @@ import './UserHomepage.css';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
-
 const UserHomepage = () => {
 
   const navigate = useNavigate(); 
@@ -17,10 +16,41 @@ const UserHomepage = () => {
   const [lng, setLng] = useState(-70.9);
   const [lat, setLat] = useState(42.35);
   const [zoom, setZoom] = useState(9);
+
   const [locationList, setLocationList] = useState([]);
 
   // counting event numbers in each location (to be deleted)
   let eventCount = {};
+
+  // temp data for map marker testing
+  const geojson = {
+    type: 'FeatureCollection',
+    features: [
+      {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [-77.032, 38.913]
+        },
+        properties: {
+          title: 'Mapbox',
+          description: 'Washington, D.C.'
+        }
+      },
+      {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [-122.414, 37.776]
+        },
+        properties: {
+          title: 'Mapbox',
+          description: 'San Francisco, California'
+        }
+      }
+    ]
+  };
+  
 
   useEffect(() => {
 
@@ -28,14 +58,37 @@ const UserHomepage = () => {
     // if (map.current) return; 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/marcotam2002/clb9erv0g006g14s3czkij38y',
+      style: process.env.REACT_APP_MAPBOXGL_STYLE,
       center: [lng, lat],
       zoom: zoom
     });
 
+    // add markers to map
+    for (const feature of geojson.features) {
+      // create a HTML element for each feature
+      var el = document.createElement('div');
+      el.className = 'marker';
+
+      // make a marker for each feature and add to the map
+      new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map.current);
+
+      new mapboxgl.Marker(el)
+      .setLngLat(feature.geometry.coordinates)
+      .setPopup(
+        new mapboxgl.Popup({ offset: 25 }) // add popups
+          .setHTML(
+            `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
+          )
+      )
+      .addTo(map.current);
+
+    }
+
     // retrieve event 
     console.log(window.sessionStorage.getItem("user"));
-    getEvent();
+    
+    getAllLocation();
+    getAllEvent();
   }, []);
 
   useEffect(() => {
@@ -46,6 +99,35 @@ const UserHomepage = () => {
       setZoom(map.current.getZoom().toFixed(2));
     });
   }, [lng, lat, zoom]);
+
+  //////////////////////////////////////////////////////////////////////////////////////////
+  // Search for locations which contain keywords in the name
+
+  function keywordSearch(list, keyWord) {
+    var reg =  new RegExp(keyWord);
+    var arr = [];
+    for (var i = 0; i < list.length; i++) {
+      if (reg.test(list[i])) {
+        arr.push(list[i]);
+      }
+    }
+    return arr;
+  }
+
+  const showSearching = (e) => {
+    
+    // prevent reload, need to delete after update html element
+    e.preventDefault();
+
+    var keyword = document.getElementById('SearchingKeyword').value;
+
+    var searchingResult = keywordSearch(locationList, keyword);
+
+    // show result
+    setLocationList(searchingResult);
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////////
 
   const eventxml2json = (xml) => {
     let event = xml.getElementsByTagName("event");
@@ -69,7 +151,7 @@ const UserHomepage = () => {
     return dataList;
   }
 
-  const getEvent = async () => {
+  const getAllEvent = async () => {
 
     let timestamp;
 
@@ -199,7 +281,6 @@ const UserHomepage = () => {
       <div className="row">
         <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
           <h2>This is user's home page</h2>
-          <button className="btn btn-success mx-1" onClick={() => {getAllLocation()}}>Get locations</button>
 
         </div>
 
@@ -215,7 +296,18 @@ const UserHomepage = () => {
         </div>
         <div ref={mapContainer} className="map-container" />
       </div>
-      
+
+      <div>
+        <form id="locationSearchForm">
+          <label> Search location </label>
+          <input type="text" id="SearchingKeyword"></input>
+          <button onClick={showSearching}> Search </button>
+        </form>
+      </div>
+
+      <div>
+        <span>{locationList.map(({locationId, name, position}, index) => {return <p key={index}> {locationId}, {name}, {position.longitude}, {position.latitude}</p>})}</span>
+      </div>
     </div>
   );
 }
