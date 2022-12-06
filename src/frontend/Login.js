@@ -52,6 +52,11 @@ const Login = () => {
 
       {/* please work on frontend design */}
       <div className='loginform'>
+
+      <div className='usericon'>
+      <i class="fa-regular fa-user fa-5x"></i>
+      </div>
+      
       <h2 className='header'>Login</h2>
 
       <form>

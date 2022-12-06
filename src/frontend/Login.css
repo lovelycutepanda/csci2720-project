@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:600|Work+Sans:400,500,600,700&display=swap');
+/*login page layout*/
+@import url('https://fonts.googleapis.com/css2?family=Nerko+One&family=Oswald:wght@400;500&display=swap');
 
 .loginform{
     max-width: 500px;
@@ -11,19 +12,24 @@
     border-radius: 25px;
 }
 
+.usericon{
+    text-align: center;
+    padding-top: 2rem;
+}
+
 .header{
     text-align: center;
-    font-family: 'open sans', sans-serif;
-    padding: 2rem 0;
+    font-family: 'Nerko One', cursive;
+    padding-top: 1rem;
     margin: 0;
-    font-size: 2rem;
+    font-size: 3rem;
 }
 
 .row{
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 2rem;
+    padding-top: 1rem;
     max-width: 100%; 
 }
 
