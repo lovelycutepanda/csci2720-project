@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 
+
 const Login = () => {
 
   const navigate = useNavigate();  
@@ -50,22 +51,27 @@ const Login = () => {
     <div>
 
       {/* please work on frontend design */}
-
-      <h2>Log in page</h2>
+      <div className='loginform'>
+      <h2 className='header'>Login</h2>
 
       <form>
 
-        <label htmlFor="username">Username</label>
-        <input type="text" id="username" name="username" />
-        <br/>
+      <div className='row'>
+      <label htmlFor="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="Enter your username"/>
+      <br/>
+      </div>
 
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" name="password" />
-        <br/>
+      <div className='row'>
+      <label htmlFor="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password"/>
+      <br/>
+      </div>
 
-        <button className="btn btn-success" onClick={(e) => {login(e);}}>Log In</button>
+      <button className="loginbutton" onClick={(e) => {login(e);}}>Log In</button>
 
       </form>
+      </div>
 
       {/* to be deleted */}
       <div>
