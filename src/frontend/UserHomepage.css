@@ -13,7 +13,7 @@
     padding: 6px 12px;
     font-family: monospace;
     z-index: 1;
-    position: relative;
+    position: absolute;
     margin: 12px;
     border-radius: 4px;
 }

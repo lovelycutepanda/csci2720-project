@@ -8,7 +8,7 @@ const EventSchema = Schema({
     time: [{ type: Date }],
     description: { type: String },
     presenter: { type: String },
-    price: [{ type: Number }]
+    price: { type: String }
 });
 const Event = mongoose.model('Event', EventSchema);
 

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import './UserHomepage.css';
+import loadLocation from './FetchAPI.js';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
@@ -13,86 +14,32 @@ const UserHomepage = () => {
   // states
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(-70.9);
-  const [lat, setLat] = useState(42.35);
-  const [zoom, setZoom] = useState(9);
+  const [lng, setLng] = useState(114.1315);
+  const [lat, setLat] = useState(22.3725);
+  const [zoom, setZoom] = useState(9.39);
 
   const [locationList, setLocationList] = useState([]);
-
-  // counting event numbers in each location (to be deleted)
-  let eventCount = {};
-
-  // temp data for map marker testing
-  const geojson = {
-    type: 'FeatureCollection',
-    features: [
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [-77.032, 38.913]
-        },
-        properties: {
-          title: 'Mapbox',
-          description: 'Washington, D.C.'
-        }
-      },
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [-122.414, 37.776]
-        },
-        properties: {
-          title: 'Mapbox',
-          description: 'San Francisco, California'
-        }
-      }
-    ]
-  };
-  
+  const [searchLocationList, setSearchLocationList] = useState([]);
 
   useEffect(() => {
 
+    // retrieve event 
+    console.log(window.sessionStorage.getItem("user"));
+
+    loadLocation();
+
     // initialize map
-    // if (map.current) return; 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: process.env.REACT_APP_MAPBOXGL_STYLE,
       center: [lng, lat],
       zoom: zoom
-    });
-
-    // add markers to map
-    for (const feature of geojson.features) {
-      // create a HTML element for each feature
-      var el = document.createElement('div');
-      el.className = 'marker';
-
-      // make a marker for each feature and add to the map
-      new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map.current);
-
-      new mapboxgl.Marker(el)
-      .setLngLat(feature.geometry.coordinates)
-      .setPopup(
-        new mapboxgl.Popup({ offset: 25 }) // add popups
-          .setHTML(
-            `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
-          )
-      )
-      .addTo(map.current);
-
-    }
-
-    // retrieve event 
-    console.log(window.sessionStorage.getItem("user"));
+    });  
     
-    getAllLocation();
-    getAllEvent();
   }, []);
 
+  // change map position
   useEffect(() => {
-    // if (!map.current) return; // wait for map to initialize
     map.current.on('move', () => {
       setLng(map.current.getCenter().lng.toFixed(4));
       setLat(map.current.getCenter().lat.toFixed(4));
@@ -100,18 +47,33 @@ const UserHomepage = () => {
     });
   }, [lng, lat, zoom]);
 
+  // change marker on map
+  useEffect(() => {
+    console.log(locationList);
+    locationList.forEach(({locationId, name, position}) => {
+      // create a HTML element for each feature
+      var el = document.createElement('div');
+      el.className = 'marker';
+
+      // make a marker for each feature and add to the map
+      new mapboxgl.Marker(el)
+      .setLngLat([position.longitude, position.latitude])
+      .setPopup(
+        new mapboxgl.Popup({ offset: 25 }) // add popups
+          .setHTML(
+            `<h3>Location ID: ${locationId}</h3><h5>${name}</h5>`
+          )
+      )
+      .addTo(map.current);
+    })
+  }, [locationList]);
+
   //////////////////////////////////////////////////////////////////////////////////////////
   // Search for locations which contain keywords in the name
 
-  function keywordSearch(list, keyWord) {
+  const keywordSearch = (list, keyWord) => {
     var reg =  new RegExp(keyWord);
-    var arr = [];
-    for (var i = 0; i < list.length; i++) {
-      if (reg.test(list[i])) {
-        arr.push(list[i]);
-      }
-    }
-    return arr;
+    return list.filter((obj) => reg.test(obj.name));
   }
 
   const showSearching = (e) => {
@@ -124,75 +86,12 @@ const UserHomepage = () => {
     var searchingResult = keywordSearch(locationList, keyword);
 
     // show result
-    setLocationList(searchingResult);
+    setSearchLocationList(searchingResult);
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////
 
-  const eventxml2json = (xml) => {
-    let event = xml.getElementsByTagName("event");
-    let dataList = [];
-    for (let e of event) {
-      const venueId = parseInt(e.getElementsByTagName("venueid")[0].childNodes[0].nodeValue);
-      eventCount[venueId] = eventCount[venueId]? eventCount[venueId]+1 : 1;
-
-      let obj = {
-          event_id: parseInt(e.getAttribute("id")),
-          title: e.getElementsByTagName("titlee")[0].childNodes[0].nodeValue,
-          venueid: venueId
-          // add more
-        }
-
-      if (e.getElementsByTagName("desce")[0].childNodes[0])
-        obj.description = e.getElementsByTagName("desce")[0].childNodes[0].nodeValue;
-
-      dataList.push(obj);
-    }
-    return dataList;
-  }
-
-  const getAllEvent = async () => {
-
-    let timestamp;
-
-    // set yesterday date
-    const url = "https%3A%2F%2Fwww.lcsd.gov.hk%2Fdatagovhk%2Fevent%2Fevents.xml";
-    let date = new Date();
-    date.setDate(date.getDate()-1);
-    let dd = String(date.getDate()).padStart(2, '0');
-    let mm = String(date.getMonth() + 1).padStart(2, '0');
-    let yyyy = date.getFullYear();
-    let enddate = yyyy + mm + dd;
-    date.setDate(date.getDate()-1);
-    dd = String(date.getDate()).padStart(2, '0');
-    mm = String(date.getMonth() + 1).padStart(2, '0');
-    yyyy = date.getFullYear();
-    let startdate = yyyy + mm + dd;
-
-    // gets latest data timestamp
-    await fetch(`https://api.data.gov.hk/v1/historical-archive/list-file-versions?url=${url}&start=${startdate}&end=${enddate}`)
-    .then((res) => res.json())
-    .then((data) => {
-      timestamp = data.timestamps[data.timestamps.length-1];
-    });
-
-    // gets data 
-    await fetch(`https://api.data.gov.hk/v1/historical-archive/get-file?url=${url}&time=${timestamp}`)
-    .then((res) => res.text())
-    .then((data) => {
-      data = data.substr(data.indexOf("\n") + 1);
-      let parser = new DOMParser();
-      let xml = parser.parseFromString(data, "application/xml");
-      let obj = eventxml2json(xml);
-      console.log("Event List:", obj);
-
-      // handle obj here
-
-    })
-    .catch((err) => console.log("error: ", err));
-  }
-
-  const getAllLocation = async () => {
+  const loadLocation = () => {
     fetch(`${process.env.REACT_APP_SERVER_URL}/location/findall`, {
       method: "GET",
       headers: new Headers({
@@ -201,70 +100,9 @@ const UserHomepage = () => {
     })
     .then((res) => res.json())
     .then((obj) => {
-        console.log("Location List:", obj);
-        setLocationList(obj);
+      setLocationList(obj);
     })
   }
-
-  /*
-  // test
-  const locationxml2json = (xml) => {
-    let locations = xml.getElementsByTagName("venue");
-    let dataList = [];
-    for (let loc of locations) {
-      if (loc.getElementsByTagName("longitude")[0].childNodes[0])
-        dataList.push({
-          locationId: parseInt(loc.getAttribute("id")),
-          name: loc.getElementsByTagName("venuee")[0].childNodes[0].nodeValue,
-          position: {
-            longitude: loc.getElementsByTagName("longitude")[0].childNodes[0].nodeValue,
-            latitude: loc.getElementsByTagName("latitude")[0].childNodes[0].nodeValue
-          },
-          eventNumber: eventCount[parseInt(loc.getAttribute("id"))]? eventCount[parseInt(loc.getAttribute("id"))] : 0
-        });
-    }
-    dataList.sort((loc1, loc2) => {
-      return loc1.eventNumber - loc2.eventNumber;
-    })
-    return dataList;
-  }
-
-  const getListOfOnlineLocations = async () => {
-
-    let timestamp;
-
-    // set yesterday date
-    const url = "https%3A%2F%2Fwww.lcsd.gov.hk%2Fdatagovhk%2Fevent%2Fvenues.xml";
-    let date = new Date();
-    date.setDate(date.getDate()-1);
-    let dd = String(date.getDate()).padStart(2, '0');
-    let mm = String(date.getMonth() + 1).padStart(2, '0');
-    let yyyy = date.getFullYear();
-    date = yyyy + mm + dd;
-
-    // gets latest data timestamp
-    await fetch(`https://api.data.gov.hk/v1/historical-archive/list-file-versions?url=${url}&start=${date}&end=${date}`)
-    .then((res) => res.json())
-    .then((data) => {
-      timestamp = data.timestamps[0];
-    });
-
-    // gets data 
-    await fetch(`https://api.data.gov.hk/v1/historical-archive/get-file?url=${url}&time=${timestamp}`)
-    .then((res) => res.text())
-    .then((data) => {
-      data = data.substr(data.indexOf("\n") + 1);
-      let parser = new DOMParser();
-      let xml = parser.parseFromString(data, "application/xml");
-
-      let obj = locationxml2json(xml);   // here is the list of objects after fetch
-      console.log("Location List:", obj);
-
-      location_obj = obj;
-    })
-    .catch((err) => console.log("error: ", err));
-  }
-  */
 
   // logout
 
@@ -301,12 +139,12 @@ const UserHomepage = () => {
         <form id="locationSearchForm">
           <label> Search location </label>
           <input type="text" id="SearchingKeyword"></input>
-          <button onClick={showSearching}> Search </button>
+          <button onClick={(e) => showSearching(e)}> Search </button>
         </form>
       </div>
 
       <div>
-        <span>{locationList.map(({locationId, name, position}, index) => {return <p key={index}> {locationId}, {name}, {position.longitude}, {position.latitude}</p>})}</span>
+        <span>{searchLocationList.map(({locationId, name, position}, index) => {return <p key={index}> {locationId}, {name}, {position.longitude}, {position.latitude}</p>})}</span>
       </div>
     </div>
   );
