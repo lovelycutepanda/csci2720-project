@@ -180,34 +180,6 @@ const UserHomepage = () => {
     })
     .catch((err) => console.log("error: ", err));
   }
-
-  // create Map
-
-  // const mapContainer = useRef(null);
-  // const map = useRef(null);
-  // const [lng, setLng] = useState(-70.9);
-  // const [lat, setLat] = useState(42.35);
-  // const [zoom, setZoom] = useState(9);
-
-  // useEffect(() => {
-  //   if (map.current) return; // initialize map only once
-  //   map.current = new mapboxgl.Map({
-  //     container: mapContainer.current,
-  //     style: 'mapbox://styles/marcotam2002/clb9erv0g006g14s3czkij38y',
-  //     center: [lng, lat],
-  //     zoom: zoom
-  //   });
-  // });
-
-  // useEffect(() => {
-  //   if (!map.current) return; // wait for map to initialize
-  //   map.current.on('move', () => {
-  //   setLng(map.current.getCenter().lng.toFixed(4));
-  //   setLat(map.current.getCenter().lat.toFixed(4));
-  //   setZoom(map.current.getZoom().toFixed(2));
-  //   });
-  // });
-
   // logout
 
   const logout = () => {
@@ -224,6 +196,7 @@ const UserHomepage = () => {
         <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
           <h2>This is user's home page</h2>
           <button className="btn btn-success mx-1" onClick={() => {getListOfOnlineLocations()}}>Get locations</button>
+
         </div>
 
         <div className="col-2 col-sm-4 col-lg-3 col-xl-2">
@@ -232,7 +205,7 @@ const UserHomepage = () => {
         </div>
       </div>
 
-      <div>
+      <div id="map">
         <div className="sidebar">
           Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
         </div>
