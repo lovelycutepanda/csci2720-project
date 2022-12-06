@@ -21,3 +21,12 @@
     border-radius: 50%;
     cursor: pointer;
 }
+
+#user .mapboxgl-popup {
+    max-width: 200px;
+  }
+  
+#user .mapboxgl-popup-content {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+}

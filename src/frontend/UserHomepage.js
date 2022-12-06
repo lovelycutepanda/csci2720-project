@@ -58,10 +58,31 @@ const UserHomepage = () => {
     // if (map.current) return; 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/marcotam2002/clb9erv0g006g14s3czkij38y',
+      style: process.env.REACT_APP_MAPBOXGL_STYLE,
       center: [lng, lat],
       zoom: zoom
     });
+
+    // add markers to map
+    for (const feature of geojson.features) {
+      // create a HTML element for each feature
+      var el = document.createElement('div');
+      el.className = 'marker';
+
+      // make a marker for each feature and add to the map
+      new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map.current);
+
+      new mapboxgl.Marker(el)
+      .setLngLat(feature.geometry.coordinates)
+      .setPopup(
+        new mapboxgl.Popup({ offset: 25 }) // add popups
+          .setHTML(
+            `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
+          )
+      )
+      .addTo(map.current);
+
+    }
 
     // retrieve event 
     console.log(window.sessionStorage.getItem("user"));
@@ -76,6 +97,8 @@ const UserHomepage = () => {
       setZoom(map.current.getZoom().toFixed(2));
     });
   }, [lng, lat, zoom]);
+
+  //////////////////////////////////////////////////////////////////////////////////////////
 
   const eventxml2json = (xml) => {
     let event = xml.getElementsByTagName("event");
