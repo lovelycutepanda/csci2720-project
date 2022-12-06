@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import 'https://kit.fontawesome.com/7663343623.js';
 
 
 
@@ -48,13 +49,13 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <div id="login">
 
       {/* please work on frontend design */}
       <div className='loginform'>
 
       <div className='usericon'>
-      <i class="fa-regular fa-user fa-5x"></i>
+      <i className="fa-regular fa-user fa-5x"></i>
       </div>
       
       <h2 className='header'>Login</h2>
@@ -73,21 +74,11 @@ const Login = () => {
       <br/>
       </div>
 
+      <div className='row'>
       <button className="loginbutton" onClick={(e) => {login(e);}}>Log In</button>
-
-      </form>
       </div>
 
-      {/* to be deleted */}
-      <div>
-        <br/><br/><br/>
-        user <br/>
-        username: testPlayer <br/>
-        password: testing <br/>
-        <br/>
-        admin <br/>
-        username: admin <br/>
-        password: admin
+      </form>
       </div>
       
     </div>

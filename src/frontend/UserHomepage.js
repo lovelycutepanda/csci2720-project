@@ -2,6 +2,7 @@ import { useRef, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import './UserHomepage.css';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
@@ -187,7 +188,7 @@ const UserHomepage = () => {
   }
 
   return (
-    <div className="container-fluid">
+    <div id="user" className="container-fluid">
 
       {/* please work on frontend design */}
 
