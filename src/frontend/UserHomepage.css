@@ -12,3 +12,12 @@
     margin: 12px;
     border-radius: 4px;
 }
+
+#user .marker {
+    background-image: url('/src/photos/mapbox-marker-icon-20px-blue.png');
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
