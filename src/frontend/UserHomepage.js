@@ -17,6 +17,7 @@ const UserHomepage = () => {
   const [lat, setLat] = useState(42.35);
   const [zoom, setZoom] = useState(9);
 
+  const [listElement, setListElement] = useState([]);
   let location_obj;
 
   // counting event numbers in each location (to be deleted)
@@ -125,7 +126,7 @@ const UserHomepage = () => {
     var searchingResult = keywordSearch(list, keyword);
 
     // show result
-    console.log(keyword);
+    setListElement(searchingResult);
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////
@@ -304,7 +305,7 @@ const UserHomepage = () => {
       </div>
 
       <div>
-        <span>show here</span>
+        <span>{listElement.map((num) => {return <p> {num} </p>})}</span>
       </div>
     </div>
   );
