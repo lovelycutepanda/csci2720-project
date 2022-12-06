@@ -4,7 +4,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import './UserHomepage.css';
 
-//var mapboxAccessToken = 'pk.eyJ1IjoibWFyY290YW0yMDAyIiwiYSI6ImNsYjllZTA5ajB0eXgzcHA3cTRjNXQ4YXMifQ.HqFbWQNPcjFpJm6WjSty8w';
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
 
@@ -18,8 +17,7 @@ const UserHomepage = () => {
   const [lng, setLng] = useState(-70.9);
   const [lat, setLat] = useState(42.35);
   const [zoom, setZoom] = useState(9);
-
-  let location_obj;
+  const [locationList, setLocationList] = useState([]);
 
   // counting event numbers in each location (to be deleted)
   let eventCount = {};
@@ -82,13 +80,18 @@ const UserHomepage = () => {
     let dd = String(date.getDate()).padStart(2, '0');
     let mm = String(date.getMonth() + 1).padStart(2, '0');
     let yyyy = date.getFullYear();
-    date = yyyy + mm + dd;
+    let enddate = yyyy + mm + dd;
+    date.setDate(date.getDate()-1);
+    dd = String(date.getDate()).padStart(2, '0');
+    mm = String(date.getMonth() + 1).padStart(2, '0');
+    yyyy = date.getFullYear();
+    let startdate = yyyy + mm + dd;
 
     // gets latest data timestamp
-    await fetch(`https://api.data.gov.hk/v1/historical-archive/list-file-versions?url=${url}&start=${date}&end=${date}`)
+    await fetch(`https://api.data.gov.hk/v1/historical-archive/list-file-versions?url=${url}&start=${startdate}&end=${enddate}`)
     .then((res) => res.json())
     .then((data) => {
-      timestamp = data.timestamps[0];
+      timestamp = data.timestamps[data.timestamps.length-1];
     });
 
     // gets data 
@@ -107,24 +110,21 @@ const UserHomepage = () => {
     .catch((err) => console.log("error: ", err));
   }
 
-  /*
   const getAllLocation = async () => {
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/location`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/location/findall`, {
       method: "GET",
       headers: new Headers({
           "Content-Type": 'application/json',
       })
-  })
-      .then((res) => res.json())
-      .then((obj) => {
-        
-        let { message } = obj;
-        console.log(message);
-        
-      });
+    })
+    .then((res) => res.json())
+    .then((obj) => {
+        console.log("Location List:", obj);
+        setLocationList(obj);
+    })
   }
-  */
 
+  /*
   // test
   const locationxml2json = (xml) => {
     let locations = xml.getElementsByTagName("venue");
@@ -182,6 +182,7 @@ const UserHomepage = () => {
     })
     .catch((err) => console.log("error: ", err));
   }
+  */
 
   // logout
 
@@ -198,7 +199,7 @@ const UserHomepage = () => {
       <div className="row">
         <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
           <h2>This is user's home page</h2>
-          <button className="btn btn-success mx-1" onClick={() => {getListOfOnlineLocations()}}>Get locations</button>
+          <button className="btn btn-success mx-1" onClick={() => {getAllLocation()}}>Get locations</button>
 
         </div>
 
@@ -214,6 +215,7 @@ const UserHomepage = () => {
         </div>
         <div ref={mapContainer} className="map-container" />
       </div>
+      
     </div>
   );
 }

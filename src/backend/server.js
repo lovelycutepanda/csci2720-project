@@ -35,6 +35,11 @@ app.get('/location/findall', async (req, res) => {
     return location.findAllLocation(req, res);
 })
 
+// create location request
+app.post('/location/create', async (req, res) => {
+    return location.create(req, res);
+})
+
 // get user list
 app.get('/user/findall', async (req, res) => {
     return user.findAllUser(req, res);

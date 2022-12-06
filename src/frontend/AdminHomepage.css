@@ -1,1 +1,4 @@
-/*Admin Homepage layout*/
+#admin {
+    height: 100%;
+    overflow: auto;
+}

@@ -38,7 +38,7 @@ const AdminHomepage = () => {
   }
 
   return (
-    <div className="container-fluid">
+    <div id="admin" className="container-fluid">
 
       {/* please work on frontend design */}
       
