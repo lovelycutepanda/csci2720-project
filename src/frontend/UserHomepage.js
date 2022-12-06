@@ -99,6 +99,36 @@ const UserHomepage = () => {
   }, [lng, lat, zoom]);
 
   //////////////////////////////////////////////////////////////////////////////////////////
+  // Search for locations which contain keywords in the name
+
+  function keywordSearch(list, keyWord) {
+    var reg =  new RegExp(keyWord);
+    var arr = [];
+    for (var i = 0; i < list.length; i++) {
+      if (reg.test(list[i])) {
+        arr.push(list[i]);
+      }
+    }
+    return arr;
+  }
+
+  const showSearching = (e) => {
+    
+    // prevent reload, need to delete after update html element
+    e.preventDefault();
+
+    var keyword = document.getElementById('SearchingKeyword').value;
+
+    // this list is for testing only
+    const list = ['a','b','hahah', 'cuhk','home'];
+
+    var searchingResult = keywordSearch(list, keyword);
+
+    // show result
+    console.log(keyword);
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////////
 
   const eventxml2json = (xml) => {
     let event = xml.getElementsByTagName("event");
@@ -263,6 +293,18 @@ const UserHomepage = () => {
           Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
         </div>
         <div ref={mapContainer} className="map-container" />
+      </div>
+
+      <div>
+        <form id="locationSearchForm">
+          <label> Search location </label>
+          <input type="text" id="SearchingKeyword"></input>
+          <button onClick={showSearching}> Search </button>
+        </form>
+      </div>
+
+      <div>
+        <span>show here</span>
       </div>
     </div>
   );
