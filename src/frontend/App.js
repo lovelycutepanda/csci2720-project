@@ -35,6 +35,19 @@ const App = () => {
           </ul>
         </div>
       </BrowserRouter>
+
+      {/* to be deleted */}
+      <div>
+        <br/><br/><br/>
+        user <br/>
+        username: testPlayer <br/>
+        password: testing <br/>
+        <br/>
+        admin <br/>
+        username: admin <br/>
+        password: admin
+      </div>
+      
     </div>
   );
 } 

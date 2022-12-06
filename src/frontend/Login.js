@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import 'https://kit.fontawesome.com/7663343623.js';
+
 
 
 const Login = () => {
@@ -47,36 +49,36 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <div id="login">
 
       {/* please work on frontend design */}
+      <div className='loginform'>
 
-      <h2>Log in page</h2>
+      <div className='usericon'>
+      <i className="fa-regular fa-user fa-5x"></i>
+      </div>
+      
+      <h2 className='header'>Login</h2>
 
       <form>
 
-        <label htmlFor="username">Username</label>
-        <input type="text" id="username" name="username" />
-        <br/>
+      <div className='row'>
+      <label htmlFor="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="Enter your username"/>
+      <br/>
+      </div>
 
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" name="password" />
-        <br/>
+      <div className='row'>
+      <label htmlFor="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password"/>
+      <br/>
+      </div>
 
-        <button className="btn btn-success" onClick={(e) => {login(e);}}>Log In</button>
+      <div className='row'>
+      <button className="loginbutton" onClick={(e) => {login(e);}}>Log In</button>
+      </div>
 
       </form>
-
-      {/* to be deleted */}
-      <div>
-        <br/><br/><br/>
-        user <br/>
-        username: testPlayer <br/>
-        password: testing <br/>
-        <br/>
-        admin <br/>
-        username: admin <br/>
-        password: admin
       </div>
       
     </div>

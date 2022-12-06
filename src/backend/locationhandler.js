@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// current data in database may not follow this schema
 const LocationSchema = Schema({
     locationId: { type: Number, required: true, unique: true },
     name: { type: String },
@@ -11,7 +10,13 @@ const LocationSchema = Schema({
 });
 const Location = mongoose.model('Location', LocationSchema);
 
-// example
 module.exports.findAllLocation = async function (req, res) {
-    res.send({ message: "location" });
+    Location.find()
+    .select("locationId name position eventList comment")
+    .exec((err, locations) => {
+        if (err)
+            res.json({ err: err });
+        else
+            res.json(locations);
+    })
 }

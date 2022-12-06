@@ -1,32 +1,70 @@
-import { React, useRef, useEffect, useState} from 'react';
+import { useRef, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import './UserHomepage.css';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoibWFyY290YW0yMDAyIiwiYSI6ImNsYjllZTA5ajB0eXgzcHA3cTRjNXQ4YXMifQ.HqFbWQNPcjFpJm6WjSty8w';
-//mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
+//var mapboxAccessToken = 'pk.eyJ1IjoibWFyY290YW0yMDAyIiwiYSI6ImNsYjllZTA5ajB0eXgzcHA3cTRjNXQ4YXMifQ.HqFbWQNPcjFpJm6WjSty8w';
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
 
 const UserHomepage = () => {
 
-  const navigate = useNavigate();  
+  const navigate = useNavigate(); 
+
+  // states
+  const mapContainer = useRef(null);
+  const map = useRef(null);
+  const [lng, setLng] = useState(-70.9);
+  const [lat, setLat] = useState(42.35);
+  const [zoom, setZoom] = useState(9);
+
+  let location_obj;
+
+  // counting event numbers in each location (to be deleted)
+  let eventCount = {};
 
   useEffect(() => {
+
+    // initialize map
+    // if (map.current) return; 
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/marcotam2002/clb9erv0g006g14s3czkij38y',
+      center: [lng, lat],
+      zoom: zoom
+    });
+
+    // retrieve event 
     console.log(window.sessionStorage.getItem("user"));
     getEvent();
   }, []);
+
+  useEffect(() => {
+    // if (!map.current) return; // wait for map to initialize
+    map.current.on('move', () => {
+      setLng(map.current.getCenter().lng.toFixed(4));
+      setLat(map.current.getCenter().lat.toFixed(4));
+      setZoom(map.current.getZoom().toFixed(2));
+    });
+  }, [lng, lat, zoom]);
 
   const eventxml2json = (xml) => {
     let event = xml.getElementsByTagName("event");
     let dataList = [];
     for (let e of event) {
-      let obj = {}
-      obj.event_id = e.getAttribute("id");
-      obj.title = e.getElementsByTagName("titlee")[0].childNodes[0].nodeValue;
+      const venueId = parseInt(e.getElementsByTagName("venueid")[0].childNodes[0].nodeValue);
+      eventCount[venueId] = eventCount[venueId]? eventCount[venueId]+1 : 1;
+
+      let obj = {
+          event_id: parseInt(e.getAttribute("id")),
+          title: e.getElementsByTagName("titlee")[0].childNodes[0].nodeValue,
+          venueid: venueId
+          // add more
+        }
+
       if (e.getElementsByTagName("desce")[0].childNodes[0])
         obj.description = e.getElementsByTagName("desce")[0].childNodes[0].nodeValue;
-
-      // add more
 
       dataList.push(obj);
     }
@@ -60,8 +98,7 @@ const UserHomepage = () => {
       data = data.substr(data.indexOf("\n") + 1);
       let parser = new DOMParser();
       let xml = parser.parseFromString(data, "application/xml");
-
-      let obj = eventxml2json(xml);   // here is the list of objects after fetch
+      let obj = eventxml2json(xml);
       console.log("Event List:", obj);
 
       // handle obj here
@@ -70,6 +107,7 @@ const UserHomepage = () => {
     .catch((err) => console.log("error: ", err));
   }
 
+  /*
   const getAllLocation = async () => {
     await fetch(`${process.env.REACT_APP_SERVER_URL}/location`, {
       method: "GET",
@@ -85,6 +123,7 @@ const UserHomepage = () => {
         
       });
   }
+  */
 
   // test
   const locationxml2json = (xml) => {
@@ -93,18 +132,20 @@ const UserHomepage = () => {
     for (let loc of locations) {
       if (loc.getElementsByTagName("longitude")[0].childNodes[0])
         dataList.push({
-          locationId: loc.getAttribute("id"),
+          locationId: parseInt(loc.getAttribute("id")),
           name: loc.getElementsByTagName("venuee")[0].childNodes[0].nodeValue,
           position: {
             longitude: loc.getElementsByTagName("longitude")[0].childNodes[0].nodeValue,
             latitude: loc.getElementsByTagName("latitude")[0].childNodes[0].nodeValue
-          }
+          },
+          eventNumber: eventCount[parseInt(loc.getAttribute("id"))]? eventCount[parseInt(loc.getAttribute("id"))] : 0
         });
     }
+    dataList.sort((loc1, loc2) => {
+      return loc1.eventNumber - loc2.eventNumber;
+    })
     return dataList;
   }
-
-  const location_obj = [];
 
   const getListOfOnlineLocations = async () => {
 
@@ -169,15 +210,6 @@ const UserHomepage = () => {
     });
   });
 
-  useEffect(() => {
-    if (!map.current) return; // wait for map to initialize
-    map.current.on('move', () => {
-    setLng(map.current.getCenter().lng.toFixed(4));
-    setLat(map.current.getCenter().lat.toFixed(4));
-    setZoom(map.current.getZoom().toFixed(2));
-    });
-  });
-
   // logout
 
   const logout = () => {
@@ -186,7 +218,7 @@ const UserHomepage = () => {
   }
 
   return (
-    <div className="container-fluid">
+    <div id="user" className="container-fluid">
 
       {/* please work on frontend design */}
 

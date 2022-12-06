@@ -1,0 +1,102 @@
+/*login page layout*/
+@import url('https://fonts.googleapis.com/css2?family=Nerko+One&family=Oswald:wght@400;500&display=swap');
+
+#login {
+    height: 100%;
+    background: linear-gradient(135deg, rgba(34,193,195,1) 0%,     rgba(253,187,45,1) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login .loginform {
+    width: 500px;
+    max-width: 95%;
+    max-height: 100%;
+    overflow: auto;
+    /*
+    width: 30%;
+    height: 60%;
+    */
+    background-color: #FFFFFF;
+    border-radius: 25px;
+}
+
+#login .usericon{
+    text-align: center;
+    padding-top: 2rem;
+}
+
+#login .header{
+    text-align: center;
+    font-family: 'Nerko One', cursive;
+    padding: 1rem 0rem;
+    margin: 0;
+    font-size: 3rem;
+}
+
+#login .row{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+    margin: auto 0;
+    max-width: 100%; 
+}
+
+#login .row input{
+    width: 80%;
+    box-sizing: border-box;
+    border: none;
+    font-size: 1.3rem;
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+    box-shadow: inset 0px -3px 0px 0px rgba(187,187,187,0.2);
+    transition: box-shadow 0.2s ease-in;
+}
+
+#login .row input:focus{
+    box-shadow: inset 0px -3px 0px 0px rgba(34,193,195,0.7);
+    outline: none;
+}
+
+#login .row input::-webkit-input-placeholder{
+    opacity: 1;
+    transition: opacity 0.25s ease-out;
+}
+
+#login .row input:hover::-webkit-input-placeholder,
+#login .row input:focus::-webkit-input-placeholder{
+    opacity: 0;
+}
+
+
+#login .row label{
+    align-self: start;
+    padding-left: 4.5rem;
+    padding-bottom: 0.5rem;
+    color: rgba(187,187,187,0.9);
+}
+  
+#login .loginbutton{
+    border-radius: 25px;
+    width: 80%;
+    height: 40px;
+    font-size: 1.3rem;
+    color: white;
+    font-weight: 700;
+    background: rgb(34,193,195);
+    background: linear-gradient(90deg, rgba(34,193,195,1) 0%,     rgba(253,187,45,1) 100%);
+    border: 0px;
+    cursor: pointer;
+    transition: opacity 0.25s ease-out;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+#login .loginbutton:hover{
+    opacity: 0.8;
+}
+
+
+
