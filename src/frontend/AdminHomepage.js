@@ -43,8 +43,8 @@ const AdminHomepage = () => {
   }
 
   const myNav =() => {
-    document.getElementById("sidebar").style.width = "250px";
-    document.getElementById("contentarea").style.marginLeft= "250px";
+    document.getElementById("sidebar").style.width = "20%";
+    document.getElementById("contentarea").style.marginLeft= "20%";
   }
 
   return (
@@ -53,28 +53,29 @@ const AdminHomepage = () => {
       {/* please work on frontend design */}
       <div id="sidebar" className='side-bar' style={{width: 0}}>
       <a href="javascript:void(0)" class="closebtn" onClick={() => {closeNav()}}>&times;</a>
+      <h2>Action Menu</h2>
       <button className="btn" onClick={() => {setAction("createUser")}}>Create user</button>
       <button className="btn" onClick={() => {setAction("showUser")}}>Show users</button>
       <button className="btn" onClick={() => {setAction("updateUser")}}>Update user</button>
       <button className="btn" onClick={() => {setAction("deleteUser")}}>Delete user</button>
       <button className="btn" onClick={() => {setAction("showLocation")}}>Show locations</button>
       <button className="btn" onClick={() => {setAction("createLocation")}}>Create location</button>
+        {/*
+        <button className="btn btn-success mx-1" onClick={() => {setAction("updateLocation"); setUpdateTarget("");}}>Update user</button>
+        <button className="btn btn-success mx-1" onClick={() => {setAction("deleteLocation")}}>Delete user</button>
+        */}
       </div>
       
       <div id='contentarea' className="row">
         <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
           <h2 className='testing'>This is admin's home page</h2>
-          <button class="openbtn" onClick={() => {myNav()}}>&#9776; Admin User Action</button>
-          {/*
-          <button className="btn btn-success mx-1" onClick={() => {setAction("updateLocation"); setUpdateTarget("");}}>Update user</button>
-          <button className="btn btn-success mx-1" onClick={() => {setAction("deleteLocation")}}>Delete user</button>
-          */}
+          <button class="btn" onClick={() => {myNav()}}>&#9776; Admin User Action</button>
           {actionSwitch()}
         </div>
 
         <div className="col-2 col-sm-4 col-lg-3 col-xl-2">
           <p>User: {window.sessionStorage.getItem("user")}</p>
-          <button className="btn btn-success" onClick={() => {logout()}}>Log Out</button>
+          <button className="btn" onClick={() => {logout()}}>Log Out</button>
         </div>
 
       </div>
