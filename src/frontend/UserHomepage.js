@@ -5,7 +5,7 @@ import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-load
 import './UserHomepage.css';
 import loadLocation from './FetchAPI.js';
 import Spinner from './Spinner.js';
-import { render } from '@testing-library/react';
+import updownIcon from '../photos/updown_logo.png';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
@@ -22,7 +22,9 @@ const UserHomepage = () => {
 
   const [locationList, setLocationList] = useState([]);
   const [searchLocationList, setSearchLocationList] = useState([]);
+
   const [loading, setLoading] = useState(false);
+  const [showOrder, setShowOrder] = useState(true);
 
 
   // basic map setting
@@ -121,18 +123,30 @@ const UserHomepage = () => {
 
   //////////////////////////////////////////////////////////////////////////////////////////
 
+  const setOrder = () => {
+    if (showOrder == true) setShowOrder(false);
+    else setShowOrder(true);
+  }
+
   var showLocationTable = () => {
 
-    var str = searchLocationList.map(({locationId, name, position}, index) => {
-      return <tr><td>{locationId}</td><td>{name}</td><td>{}</td></tr>
+    var unsortedLocationList = [];
+    searchLocationList.map(({locationId, name, position}, index) => {
+      unsortedLocationList.push({locationId: locationId, locationName: name, EventNumber: locationList[index].eventList.length});
     })
+
+    var sortedLocationList = unsortedLocationList.sort((a, b) => (a.EventNumber > b.EventNumber) ? (showOrder? 1 : -1) : (showOrder? -1 : 1));
+    var str = sortedLocationList.map(({locationId,locationName,EventNumber}, index) => {
+      return <tr><td>{locationId}</td><td>{locationName}</td><td>{EventNumber}</td></tr>
+    });
+
     return(
       <div>
         <table>
           <thead>
             <th>Location ID</th>
             <th>Location name</th>
-            <th>Event number</th>
+            <th>Event number<img id="updownIcon" src={updownIcon} onClick={() => setOrder()} /></th>
           </thead>
           <tbody>
             {str}
@@ -184,7 +198,7 @@ const UserHomepage = () => {
         </div>
 
         <div>
-          <span>{showLocationTable()}</span>
+          {showLocationTable()}
         </div>
 
       </div>
