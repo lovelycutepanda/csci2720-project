@@ -112,11 +112,20 @@ const UserHomepage = () => {
   var showLocationTable = () => {
 
     var str = searchLocationList.map(({locationId, name, position}, index) => {
-      return <p key={index}> {locationId}, {name}, {position.longitude}, {position.latitude}</p>
+      return <tr><td>{locationId}</td><td>{name}</td><td>{}</td></tr>
     })
     return(
       <div>
-        {str}
+        <table>
+          <thead>
+            <th>Location ID</th>
+            <th>Location name</th>
+            <th>Event number</th>
+          </thead>
+          <tbody>
+            {str}
+          </tbody>
+        </table>
       </div>
     )
   }
