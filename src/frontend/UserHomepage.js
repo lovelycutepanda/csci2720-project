@@ -114,6 +114,7 @@ const UserHomepage = () => {
     .then((res) => res.json())
     .then((obj) => {
       setLocationList(obj);
+      setSearchLocationList(obj);
     })
   }
 
@@ -149,11 +150,8 @@ const UserHomepage = () => {
       </div>
 
       <div>
-        <form id="locationSearchForm">
-          <label> Search location </label>
-          <input type="text" id="SearchingKeyword"></input>
-          <button onClick={(e) => showSearching(e)}> Search </button>
-        </form>
+        <label> Search location </label>
+        <input type="text" id="SearchingKeyword" onChange={(e) => showSearching(e)}></input>
       </div>
 
       <div>
