@@ -9,6 +9,8 @@ import {
 import AdminHomepage from './AdminHomepage.js';
 import UserHomepage from './UserHomepage.js';
 import Login from './Login.js';
+import SingleLocation from './SingleLocation.js';
+import AllLocation from './AllLocation.js';
 
 
 
@@ -20,7 +22,10 @@ const App = () => {
         <div style={{height: '100vh'}}>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/user" element={<UserHomepage />} />
+            <Route path="/user" element={<UserHomepage />} >
+              <Route path="" element={<AllLocation />} />
+              <Route path="location/:locationId" element={<SingleLocation />} />
+            </Route>
             <Route path="/admin" element={<AdminHomepage />} />
           </Routes>
         </div>
