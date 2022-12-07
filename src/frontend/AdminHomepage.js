@@ -37,20 +37,34 @@ const AdminHomepage = () => {
     </div>;
   }
 
+  const closeNav = () => {
+    document.getElementById("sidebar").style.width = "0";
+    document.getElementById("contentarea").style.marginLeft= "0";
+  }
+
+  const myNav =() => {
+    document.getElementById("sidebar").style.width = "250px";
+    document.getElementById("contentarea").style.marginLeft= "250px";
+  }
+
   return (
     <div id="admin" className="container-fluid">
 
       {/* please work on frontend design */}
+      <div id="sidebar" className='side-bar' style={{width: 0}}>
+      <a href="javascript:void(0)" class="closebtn" onClick={() => {closeNav()}}>&times;</a>
+      <button className="btn" onClick={() => {setAction("createUser")}}>Create user</button>
+      <button className="btn" onClick={() => {setAction("showUser")}}>Show users</button>
+      <button className="btn" onClick={() => {setAction("updateUser")}}>Update user</button>
+      <button className="btn" onClick={() => {setAction("deleteUser")}}>Delete user</button>
+      <button className="btn" onClick={() => {setAction("showLocation")}}>Show locations</button>
+      <button className="btn" onClick={() => {setAction("createLocation")}}>Create location</button>
+      </div>
       
-      <div className="row">
+      <div id='contentarea' className="row">
         <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
           <h2 className='testing'>This is admin's home page</h2>
-          <button className="btn btn-success mx-1" onClick={() => {setAction("showUser")}}>Show users</button>
-          <button className="btn btn-success mx-1" onClick={() => {setAction("createUser")}}>Create user</button>
-          <button className="btn btn-success mx-1" onClick={() => {setAction("updateUser")}}>Update user</button>
-          <button className="btn btn-success mx-1" onClick={() => {setAction("deleteUser")}}>Delete user</button>
-          <button className="btn btn-success mx-1" onClick={() => {setAction("showLocation")}}>Show locations</button>
-          <button className="btn btn-success mx-1" onClick={() => {setAction("createLocation")}}>Create location</button>
+          <button class="openbtn" onClick={() => {myNav()}}>&#9776; Admin User Action</button>
           {/*
           <button className="btn btn-success mx-1" onClick={() => {setAction("updateLocation"); setUpdateTarget("");}}>Update user</button>
           <button className="btn btn-success mx-1" onClick={() => {setAction("deleteLocation")}}>Delete user</button>
