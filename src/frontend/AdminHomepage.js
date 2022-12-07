@@ -11,6 +11,7 @@ const AdminHomepage = () => {
 
   // states
   const [action, setAction] = useState("");
+  const [menu, setMenu] = useState(false);
 
   // componentDidMount
   useEffect(() => {
@@ -37,22 +38,11 @@ const AdminHomepage = () => {
     </div>;
   }
 
-  const closeNav = () => {
-    document.getElementById("sidebar").style.width = "0";
-    document.getElementById("contentarea").style.marginLeft= "0";
-  }
-
-  const myNav =() => {
-    document.getElementById("sidebar").style.width = "20%";
-    document.getElementById("contentarea").style.marginLeft= "20%";
-  }
-
   return (
     <div id="admin" className="container-fluid">
 
       {/* please work on frontend design */}
-      <div id="sidebar" className='side-bar' style={{width: 0}}>
-      <a href="javascript:void(0)" class="closebtn" onClick={() => {closeNav()}}>&times;</a>
+      <div id="sidebar" className="side-bar" style={{width: `${menu? "20%" : "0%"}`}}>
       <h2>Action Menu</h2>
       <button className="btn" onClick={() => {setAction("createUser")}}>Create user</button>
       <button className="btn" onClick={() => {setAction("showUser")}}>Show users</button>
@@ -66,10 +56,10 @@ const AdminHomepage = () => {
         */}
       </div>
       
-      <div id='contentarea' className="row">
+      <div id="contentarea" className="row" style={{marginLeft: `${menu? "20%" : "0%"}`}}>
         <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
           <h2 className='testing'>This is admin's home page</h2>
-          <button class="btn" onClick={() => {myNav()}}>&#9776; Admin User Action</button>
+          <button class="btn" onClick={() => {setMenu(!menu)}}>&#9776; Admin User Action</button>
           {actionSwitch()}
         </div>
 

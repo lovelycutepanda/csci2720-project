@@ -4,6 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import './UserHomepage.css';
 import loadLocation from './FetchAPI.js';
+import Spinner from './Spinner.js';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
@@ -20,14 +21,21 @@ const UserHomepage = () => {
 
   const [locationList, setLocationList] = useState([]);
   const [searchLocationList, setSearchLocationList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
 
     // retrieve event 
     console.log(window.sessionStorage.getItem("user"));
 
-    loadLocation();
-
+    loadLocation()
+    .then((locList) => {
+      console.log(locList);
+      setLocationList(locList);
+      setSearchLocationList(locList);
+      setLoading(false);
+    });
+    
     // initialize map
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
@@ -102,8 +110,8 @@ const UserHomepage = () => {
 
   //////////////////////////////////////////////////////////////////////////////////////////
 
+  /*
   const loadLocation = () => {
-
 
     fetch(`${process.env.REACT_APP_SERVER_URL}/location/findall`, {
       method: "GET",
@@ -116,6 +124,7 @@ const UserHomepage = () => {
       setLocationList(obj);
     })
   }
+  */
 
   // logout
 
@@ -125,41 +134,45 @@ const UserHomepage = () => {
   }
 
   return (
-    <div id="user" className="container-fluid">
+    <>
+      <Spinner display={loading}/>
+      <div id="user" className="container-fluid">
 
-      {/* please work on frontend design */}
+        {/* please work on frontend design */}
 
-      <div className="row">
-        <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
-          <h2>This is user's home page</h2>
+        <div className="row">
+          <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
+            <h2>This is user's home page</h2>
 
+          </div>
+
+          <div className="col-2 col-sm-4 col-lg-3 col-xl-2">
+            <p>User: {window.sessionStorage.getItem("user")}</p>
+            <button className="btn btn-success" onClick={() => {logout()}}>Log out</button>
+          </div>
         </div>
 
-        <div className="col-2 col-sm-4 col-lg-3 col-xl-2">
-          <p>User: {window.sessionStorage.getItem("user")}</p>
-          <button className="btn btn-success" onClick={() => {logout()}}>Log out</button>
+        <div id="map">
+          <div className="sidebar">
+            Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+          </div>
+          <div ref={mapContainer} className="map-container" />
+        </div>
+
+        <div>
+          <form id="locationSearchForm">
+            <label> Search location </label>
+            <input type="text" id="SearchingKeyword"></input>
+            <button onClick={(e) => showSearching(e)}> Search </button>
+          </form>
+        </div>
+
+        <div>
+          <span>{searchLocationList.map(({locationId, name, position}, index) => {return <p key={index}> {locationId}, {name}, {position.longitude}, {position.latitude}</p>})}</span>
         </div>
       </div>
-
-      <div id="map">
-        <div className="sidebar">
-          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </div>
-        <div ref={mapContainer} className="map-container" />
-      </div>
-
-      <div>
-        <form id="locationSearchForm">
-          <label> Search location </label>
-          <input type="text" id="SearchingKeyword"></input>
-          <button onClick={(e) => showSearching(e)}> Search </button>
-        </form>
-      </div>
-
-      <div>
-        <span>{searchLocationList.map(({locationId, name, position}, index) => {return <p key={index}> {locationId}, {name}, {position.longitude}, {position.latitude}</p>})}</span>
-      </div>
-    </div>
+    </>
+    
   );
 }
 
