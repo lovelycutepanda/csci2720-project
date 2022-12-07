@@ -110,9 +110,9 @@ const UserHomepage = () => {
   //////////////////////////////////////////////////////////////////////////////////////////
 
   var showLocationTable = () => {
-
+    
     var str = searchLocationList.map(({locationId, name, position}, index) => {
-      return <tr><td>{locationId}</td><td>{name}</td><td>{}</td></tr>
+      return <tr><td>{locationId}</td><td>{name}</td><td>{locationList[index].eventList.length}</td></tr>
     })
     return(
       <div>
