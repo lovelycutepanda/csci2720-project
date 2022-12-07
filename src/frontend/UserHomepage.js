@@ -5,6 +5,7 @@ import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-load
 import './UserHomepage.css';
 import loadLocation from './FetchAPI.js';
 import Spinner from './Spinner.js';
+import { render } from '@testing-library/react';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
@@ -23,6 +24,8 @@ const UserHomepage = () => {
   const [searchLocationList, setSearchLocationList] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
+  // basic map setting
   useEffect(() => {
 
     // retrieve event 
@@ -55,6 +58,7 @@ const UserHomepage = () => {
     });
   }, [lng, lat, zoom]);
 
+  // create some markers on the map
   var currentMarkers = []
   // change marker on map
   useEffect(() => {
@@ -83,7 +87,7 @@ const UserHomepage = () => {
   // Search for locations which contain keywords in the name
 
   const keywordSearch = (list, keyWord) => {
-    var reg =  new RegExp(keyWord);
+    var reg = new RegExp(keyWord);
     return list.filter((obj) => reg.test(obj.name));
   }
 
@@ -97,12 +101,7 @@ const UserHomepage = () => {
     var searchingResult = keywordSearch(locationList, keyword);
 
     // remove markers 
-    if (currentMarkers!==null) {
-      for (var i = currentMarkers.length - 1; i >= 0; i--) {
-        currentMarkers[i].remove();
-        console.log(currentMarkers);
-      }
-    }
+    currentMarkers.forEach((marker) => marker.remove());
 
     // show result
     setSearchLocationList(searchingResult);
@@ -110,21 +109,19 @@ const UserHomepage = () => {
 
   //////////////////////////////////////////////////////////////////////////////////////////
 
-  /*
-  const loadLocation = () => {
+  var showLocationTable = () => {
 
-    fetch(`${process.env.REACT_APP_SERVER_URL}/location/findall`, {
-      method: "GET",
-      headers: new Headers({
-          "Content-Type": 'application/json',
-      })
+    var str = searchLocationList.map(({locationId, name, position}, index) => {
+      return <p key={index}> {locationId}, {name}, {position.longitude}, {position.latitude}</p>
     })
-    .then((res) => res.json())
-    .then((obj) => {
-      setLocationList(obj);
-    })
+    return(
+      <div>
+        {str}
+      </div>
+    )
   }
-  */
+
+  //////////////////////////////////////////////////////////////////////////////////////////
 
   // logout
 
@@ -160,16 +157,14 @@ const UserHomepage = () => {
         </div>
 
         <div>
-          <form id="locationSearchForm">
-            <label> Search location </label>
-            <input type="text" id="SearchingKeyword"></input>
-            <button onClick={(e) => showSearching(e)}> Search </button>
-          </form>
+          <label> Search location </label>
+          <input type="text" id="SearchingKeyword" onChange={(e) => showSearching(e)}></input>
         </div>
 
         <div>
-          <span>{searchLocationList.map(({locationId, name, position}, index) => {return <p key={index}> {locationId}, {name}, {position.longitude}, {position.latitude}</p>})}</span>
+          <span>{showLocationTable()}</span>
         </div>
+
       </div>
     </>
     
