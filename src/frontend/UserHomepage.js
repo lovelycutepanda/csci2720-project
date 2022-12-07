@@ -4,6 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import './UserHomepage.css';
 import loadLocation from './FetchAPI.js';
+import { render } from '@testing-library/react';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
@@ -21,6 +22,8 @@ const UserHomepage = () => {
   const [locationList, setLocationList] = useState([]);
   const [searchLocationList, setSearchLocationList] = useState([]);
 
+
+  // basic map setting
   useEffect(() => {
 
     // retrieve event 
@@ -47,6 +50,7 @@ const UserHomepage = () => {
     });
   }, [lng, lat, zoom]);
 
+  // create some markers on the map
   var currentMarkers = []
   // change marker on map
   useEffect(() => {
@@ -118,6 +122,20 @@ const UserHomepage = () => {
     })
   }
 
+  var showLocationTable = () => {
+
+    var str = searchLocationList.map(({locationId, name, position}, index) => {
+      return <p key={index}> {locationId}, {name}, {position.longitude}, {position.latitude}</p>
+    })
+    return(
+      <div>
+        {str}
+      </div>
+    )
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////////
+
   // logout
 
   const logout = () => {
@@ -155,8 +173,9 @@ const UserHomepage = () => {
       </div>
 
       <div>
-        <span>{searchLocationList.map(({locationId, name, position}, index) => {return <p key={index}> {locationId}, {name}, {position.longitude}, {position.latitude}</p>})}</span>
+        <span>{showLocationTable()}</span>
       </div>
+
     </div>
   );
 }
