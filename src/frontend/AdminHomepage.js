@@ -1,8 +1,10 @@
 import { React, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShowUser, CreateUser, UpdateUser, DeleteUser } from './AdminUserAction/index.js';
-import { ShowLocation, CreateLocation } from './AdminLocationAction/index.js';
+import { ShowLocation, CreateLocation, UpdateLocation, DeleteLocation } from './AdminLocationAction/index.js';
 import './AdminHomepage.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const AdminHomepage = () => {
@@ -31,10 +33,8 @@ const AdminHomepage = () => {
       {action === "deleteUser" && <DeleteUser />}
       {action === "showLocation" && <ShowLocation />}
       {action === "createLocation" && <CreateLocation />}
-      {/*
-      {action === "updateLocation" && showUpdateLocationForm()}
-      {action === "deleteLocation" && showDeleteLocationForm()}
-      */}
+      {action === "updateLocation" && <UpdateLocation />}
+      {action === "deleteLocation" && <DeleteLocation />}
     </div>;
   }
 
@@ -50,16 +50,14 @@ const AdminHomepage = () => {
       <button className="btn" onClick={() => {setAction("deleteUser")}}>Delete user</button>
       <button className="btn" onClick={() => {setAction("showLocation")}}>Show locations</button>
       <button className="btn" onClick={() => {setAction("createLocation")}}>Create location</button>
-        {/*
-        <button className="btn btn-success mx-1" onClick={() => {setAction("updateLocation"); setUpdateTarget("");}}>Update user</button>
-        <button className="btn btn-success mx-1" onClick={() => {setAction("deleteLocation")}}>Delete user</button>
-        */}
+      <button className="btn" onClick={() => {setAction("updateLocation")}}>Update location</button>        
+      <button className="btn" onClick={() => {setAction("deleteLocation")}}>Delete location</button>
       </div>
       
       <div id="contentarea" className="row" style={{marginLeft: `${menu? "20%" : "0%"}`}}>
         <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
           <h2 className='testing'>This is admin's home page</h2>
-          <button class="btn" onClick={() => {setMenu(!menu)}}>&#9776; Admin User Action</button>
+          <button className="btn" onClick={() => {setMenu(!menu)}}>&#9776; Admin User Action</button>
           {actionSwitch()}
         </div>
 
@@ -69,6 +67,8 @@ const AdminHomepage = () => {
         </div>
 
       </div>
+
+      <ToastContainer position="bottom-right" autoClose={3000} pauseOnFocusLoss={false} />
     </div>
   );
 }

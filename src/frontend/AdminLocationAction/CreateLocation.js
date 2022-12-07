@@ -1,5 +1,7 @@
 // under construction
 
+import { toast } from "react-toastify";
+
 const CreateLocation = () => {
 
     // creation, called when "Create" button is clicked
@@ -14,7 +16,7 @@ const CreateLocation = () => {
         }
 
         if (!obj.locationId)
-            return console.log("Location ID required.");
+            return toast.error("Location ID required.");
 
         await fetch(`${process.env.REACT_APP_SERVER_URL}/location/create`, {
             method: "POST",
@@ -27,9 +29,9 @@ const CreateLocation = () => {
         .then((obj) => {
             // if error is found
             if (obj.err)
-                console.log(obj.err);
+                toast.error(obj.err);
             else
-                console.log(obj.msg);
+                toast.success(obj.msg);
         });
     }
 

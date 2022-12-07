@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import 'https://kit.fontawesome.com/7663343623.js';
@@ -9,11 +9,15 @@ const Login = () => {
 
   const navigate = useNavigate();  
 
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    console.log(window.sessionStorage.getItem("user"));
+  }, [])
+
   const login = async (e) => {
     e.preventDefault();
-
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
 
     // input validation
     if (username.length < 4 || username.length > 20)
@@ -45,6 +49,7 @@ const Login = () => {
             navigate("./admin");
           else
             navigate("./user");
+            
         });
   }
 
@@ -64,13 +69,13 @@ const Login = () => {
 
       <div className='row'>
       <label htmlFor="username">Username</label>
-      <input type="text" id="username" name="username" placeholder="Enter your username"/>
+      <input type="text" id="username" placeholder="Enter your username" value={username} onChange={(e) => setUsername(e.target.value)}/>
       <br/>
       </div>
 
       <div className='row'>
       <label htmlFor="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Enter your password"/>
+      <input type="password" id="password" placeholder="Enter your password"  value={password} onChange={(e) => setPassword(e.target.value)}/>
       <br/>
       </div>
 

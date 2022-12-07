@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 
 const UpdateUser = () => {
 
     // states
-    const [updateTarget, setUpdateTarget] = useState("");
+    const [updateTarget, setUpdateTarget] = useState({});
+    const [key, setKey] = useState(true);
 
     const findUser = async (e) => {
         e.preventDefault();
@@ -12,7 +14,7 @@ const UpdateUser = () => {
         let username = document.getElementById("username").value;
 
         if (username === "admin")
-            return console.log("Cannot change admin data.");
+            return toast.error("Cannot change admin data.");
         
         await fetch(`${process.env.REACT_APP_SERVER_URL}/user/findone`, {
             method: "POST",
@@ -26,9 +28,12 @@ const UpdateUser = () => {
         .then((res) => res.json())
         .then((obj) => {
             if (obj.err) 
-                console.log(obj.err);
-            else
-                setUpdateTarget(obj.username);
+                toast.error(obj.err);
+            else {
+                setUpdateTarget(obj);
+                setKey(!key);
+            }
+                
         });
     }
 
@@ -36,13 +41,13 @@ const UpdateUser = () => {
     const submitUpdate = async (e) => {
         e.preventDefault();
 
-        let username = document.getElementById("updatedUsername").value;
-        let password = document.getElementById("updatedPassword").value;
+        let username = document.getElementById("newUsername").value;
+        let password = document.getElementById("newPassword").value;
         
         if (username.length < 4 || username.length > 20)
-            return console.log("Username is of 4-20 characters.");
+            return toast.error("Username is of 4-20 characters.");
         if (password.length < 4 || password.length > 20)
-            return console.log("Password is of 4-20 characters.");
+            return toast.error("Password is of 4-20 characters.");
 
         await fetch(`${process.env.REACT_APP_SERVER_URL}/user/update`, {
             method: "PUT",
@@ -59,40 +64,39 @@ const UpdateUser = () => {
         .then((obj) => {
             // if error is found
             if (obj.err)
-                console.log(obj.err);
+                toast.error(obj.err);
             else
-                console.log(obj.msg);
+                toast.success(obj.msg);
         });
     }
 
     // displayed when "Update User" button is clicked
     return(
         <>
-          <p id="getdata">
-            Input user name to load the user information: 
-            <input type="text" id="username" name="username" />
-            <button className="btn btn-success" onClick={(e) => {findUser(e)}}>Load user</button>
-          </p>
-  
-          {updateTarget && <form id="inputForm" method="get">
-          <br />
-          Update to: <br />
-  
-          <label htmlFor="username">Username (Original: {updateTarget})</label>
-          <input type="text" id="updatedUsername" name="updatedUsername" />
-          <br />
-  
-          <label htmlFor="password">Password</label>
-          <input type="text" id="updatedPassword" name="updatedPassword" />
-          <br />
-  
-          <button className="btn btn-success" onClick={(e) => {submitUpdate(e)}}>Update</button>
-          </form>}
+            <p id="getdata">
+                Input user name to load the user information: 
+                <input type="text" id="username" name="username" />
+                <button className="btn btn-success" onClick={(e) => {findUser(e)}}>Load user</button>
+            </p>
+    
+            {updateTarget.username && <form id="inputForm" method="get" key={key}>
+            <br />
+            Update to: <br />
+    
+            <label htmlFor="newUsername">Username</label>
+            <input type="text" id="newUsername" name="newUsername" defaultValue={updateTarget.username}/>
+            <br />
+    
+            <label htmlFor="newPassword">Password</label>
+            <input type="text" id="newPassword" name="newPassword" />
+            <br />
+    
+            <button className="btn btn-success" onClick={(e) => {submitUpdate(e)}}>Update</button>
+            </form>}
   
         </>
     )
   
-
 }
 
 export default UpdateUser;

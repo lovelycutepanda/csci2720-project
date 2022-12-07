@@ -1,24 +1,21 @@
 import { toast } from 'react-toastify';
 
 
-const DeleteUser = () => {
+const DeleteLocation = () => {
 
     // deletion, called when "Delete" button is clicked
     const submitDelete = async (e) => {
         e.preventDefault();
 
-        let username = document.getElementById("username").value;
+        let locationId = document.getElementById("locationId").value;
 
-        if (username === "admin")
-            return toast.error("Cannot delete admin data.")
-
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/user/delete`, {
+        await fetch(`${process.env.REACT_APP_SERVER_URL}/location/delete`, {
             method: "DELETE",
             headers: new Headers({
                 "Content-Type": 'application/json',
             }),
             body: JSON.stringify({
-                username: username,
+                locationId: locationId,
             })
         })
         .then((res) => res.json())
@@ -31,14 +28,14 @@ const DeleteUser = () => {
         });
     }
 
-    // displayed when "Delete user" button is clicked
+    // displayed when "Delete location" button is clicked
     return(
         <form>
-        Delete user <br/>
+        Delete location <br/>
         <br/>
   
-        <label htmlFor="username">Username</label>
-        <input type="text" id="username" name="username" />
+        <label htmlFor="locationId">Location ID</label>
+        <input type="text" id="locationId" name="locationId" />
         <br/>
   
         <button className="btn btn-success" onClick={(e) => {submitDelete(e)}}>Delete</button>
@@ -47,4 +44,4 @@ const DeleteUser = () => {
     )
 }
 
-export default DeleteUser;
+export default DeleteLocation;

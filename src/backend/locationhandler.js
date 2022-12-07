@@ -24,6 +24,25 @@ module.exports.findAllLocation = async function (req, res) {
     })
 }
 
+module.exports.findLocation = async function (req, res) {
+    const { locationId } = req.body;
+
+    Location.findOne({ locationId: locationId, })
+    .select("name position")
+    .exec(async (err, location) => {
+        if (!location)
+            return res.json({ err: "Location not found." });
+
+        res.json({
+            locationId: locationId,
+            name: location.name,
+            longitude: location.position.longitude,
+            latitude: location.position.latitude
+        });
+    });
+
+}
+
 module.exports.create = async function (req, res) {
     const { locationId, name, longitude, latitude } = req.body;
 
@@ -41,9 +60,38 @@ module.exports.create = async function (req, res) {
         }
     }, (err, location) => {
         if (err)
-            res.json({ err: err });
+            res.json({ err: "Some error has occured. Please check if input are correct." });
         else {
             res.json({ msg: `Location ${locationId} created.` });
+        }
+    });
+}
+
+module.exports.update = async function (req, res) {
+    const { locationId, newLocationId, newName, newLongitude, newLatitude } = req.body;
+    // console.log("updateTarget:", username, "username:", newUsername, ", password:", newPassword);
+
+    const location = await Location.findOne({ locationId: locationId })
+
+    location.locationId = newLocationId;
+    location.name = newName;
+    location.position = {
+        longitude: newLongitude,
+        latitude: newLatitude
+    }
+    location.save();
+    res.json({ msg: `Location ${newLocationId} updated.` });
+}
+
+module.exports.delete = async function (req, res) {
+    const { locationId } = req.body;
+    // console.log("username:", username);
+
+    Location.deleteOne({ locationId: locationId }, (err, location) => {
+        if (location.deletedCount === 0)
+            res.json({ err: "Location not found."});
+        else {
+            res.json({ msg: `Location ${locationId} deleted.`});
         }
     });
 }

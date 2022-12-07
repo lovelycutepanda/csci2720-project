@@ -62,7 +62,7 @@ module.exports.create = async function (req, res) {
         password: hashedPassword, 
     }, (err, user) => {
         if (err)
-            res.json({ err: err });
+            res.json({ err: "Some error has occured. Please check if input are correct." });
         else {
             res.json({ msg: `User ${username} created.` });
         }

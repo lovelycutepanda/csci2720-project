@@ -35,9 +35,24 @@ app.get('/location/findall', async (req, res) => {
     return location.findAllLocation(req, res);
 })
 
+// get single location info
+app.post('/location/findone', async (req, res) => {
+    return location.findLocation(req, res);
+})
+
 // create location request
 app.post('/location/create', async (req, res) => {
     return location.create(req, res);
+})
+
+// update location request
+app.put('/location/update', async (req, res) => {
+    return location.update(req, res);
+})
+
+// delete location request
+app.delete('/location/delete', async (req, res) => {
+    return location.delete(req, res);
 })
 
 // get user list

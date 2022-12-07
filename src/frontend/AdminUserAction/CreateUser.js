@@ -1,3 +1,6 @@
+import { toast } from 'react-toastify';
+
+
 const CreateUser = () => {
 
     // creation, called when "Create" button is clicked
@@ -8,9 +11,9 @@ const CreateUser = () => {
         let password = document.getElementById("password").value;
 
         if (username.length < 4 || username.length > 20)
-            return console.log("Username is of 4-20 characters.");
+            return toast.error("Username is of 4-20 characters.");
         if (password.length < 4 || password.length > 20)
-            return console.log("Password is of 4-20 characters.");
+            return toast.error("Password is of 4-20 characters.");
 
         await fetch(`${process.env.REACT_APP_SERVER_URL}/user/create`, {
             method: "POST",
@@ -26,9 +29,9 @@ const CreateUser = () => {
         .then((obj) => {
             // if error is found
             if (obj.err)
-                console.log(obj.err);
+                toast.error(obj.err);
             else
-                console.log(obj.msg);
+                toast.success(obj.msg);
         });
     }
 

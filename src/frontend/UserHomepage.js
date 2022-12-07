@@ -22,22 +22,34 @@ const UserHomepage = () => {
 
   const [locationList, setLocationList] = useState([]);
   const [searchLocationList, setSearchLocationList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
 
   // basic map setting
   useEffect(() => {
 
     // retrieve event 
-    console.log(window.sessionStorage.getItem("user"));
+    //if (!window.sessionStorage.getItem("user"))
+    //  history_redirect.push("/");
 
-    loadLocation()
-    .then((locList) => {
-      console.log(locList);
+    // retrieve locationList
+    if ("locationList" in window.sessionStorage) {
+      const locList = JSON.parse(window.sessionStorage.getItem("locationList"))
       setLocationList(locList);
       setSearchLocationList(locList);
-      setLoading(false);
-    });
+    }
+    else {
+      setLoading(true);
+      loadLocation()
+      .then((locList) => {
+        console.log(locList);
+        setLocationList(locList);
+        setSearchLocationList(locList);
+        setLoading(false);
+        window.sessionStorage.setItem("locationList", JSON.stringify(locList));
+      });
+    }
+    
     
     // initialize map
     map.current = new mapboxgl.Map({
@@ -136,12 +148,13 @@ const UserHomepage = () => {
 
   const logout = () => {
     window.sessionStorage.removeItem("user");
+    window.sessionStorage.removeItem("locationList");
     navigate("/");
   }
 
   return (
     <>
-      <Spinner display={loading}/>
+      <Spinner display={loading} />
       <div id="user" className="container-fluid">
 
         {/* please work on frontend design */}
