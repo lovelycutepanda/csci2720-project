@@ -47,26 +47,29 @@ const UserHomepage = () => {
     });
   }, [lng, lat, zoom]);
 
+  var currentMarkers = []
   // change marker on map
   useEffect(() => {
-    console.log(locationList);
-    locationList.forEach(({locationId, name, position}) => {
+
+    searchLocationList.forEach(({locationId, name, position}) => {
       // create a HTML element for each feature
       var el = document.createElement('div');
       el.className = 'marker';
 
       // make a marker for each feature and add to the map
-      new mapboxgl.Marker(el)
+      var oneMarker = new mapboxgl.Marker(el)
       .setLngLat([position.longitude, position.latitude])
       .setPopup(
-        new mapboxgl.Popup({ offset: 25 }) // add popups
+        new mapboxgl.Popup({ offset: 10 }) // add popups
           .setHTML(
             `<h3>Location ID: ${locationId}</h3><h5>${name}</h5>`
           )
       )
       .addTo(map.current);
+      
+      currentMarkers.push(oneMarker)
     })
-  }, [locationList]);
+  }, [searchLocationList]);
 
   //////////////////////////////////////////////////////////////////////////////////////////
   // Search for locations which contain keywords in the name
@@ -85,6 +88,14 @@ const UserHomepage = () => {
 
     var searchingResult = keywordSearch(locationList, keyword);
 
+    // remove markers 
+    if (currentMarkers!==null) {
+      for (var i = currentMarkers.length - 1; i >= 0; i--) {
+        currentMarkers[i].remove();
+        console.log(currentMarkers);
+      }
+    }
+
     // show result
     setSearchLocationList(searchingResult);
   }
@@ -92,6 +103,8 @@ const UserHomepage = () => {
   //////////////////////////////////////////////////////////////////////////////////////////
 
   const loadLocation = () => {
+
+
     fetch(`${process.env.REACT_APP_SERVER_URL}/location/findall`, {
       method: "GET",
       headers: new Headers({
