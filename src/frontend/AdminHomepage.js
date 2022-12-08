@@ -36,8 +36,8 @@ const AdminHomepage = (props) => {
       {/* please work on frontend design */}
       <div id="sidebar" className="side-bar" style={{width: `${menu? "20%" : "0%"}`}}>
       <h2>Action Menu</h2>
-      <button className="btn" onClick={() => {setAction("createUser")}}>Create user</button>
       <button className="btn" onClick={() => {setAction("showUser")}}>Show users</button>
+      <button className="btn" onClick={() => {setAction("createUser")}}>Create user</button>
       <button className="btn" onClick={() => {setAction("updateUser")}}>Update user</button>
       <button className="btn" onClick={() => {setAction("deleteUser")}}>Delete user</button>
       <button className="btn" onClick={() => {setAction("showLocation")}}>Show locations</button>

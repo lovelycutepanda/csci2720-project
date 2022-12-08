@@ -79,6 +79,11 @@ app.put('/user/update', async (req, res) => {
 app.delete('/user/delete', async (req, res) => {
     return user.delete(req, res);
 })
+
+// user add favourite location request
+app.put('/user/addfavourite', async (req, res) => {
+    return user.addFavourite(req, res);
+})
     
 // handle ALL requests
 app.all('/*', (req, res) => {

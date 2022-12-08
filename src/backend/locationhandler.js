@@ -6,7 +6,7 @@ const LocationSchema = Schema({
     name: { type: String },
     position: { longitude: Number, latitude: Number },
     eventList: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
-    comment: [{ user: { type: Schema.Types.ObjectId, ref: 'User' }, text: String}]
+    comment: [{ user: { type: Schema.Types.ObjectId, ref: 'User' }, message: String}]
 });
 const Location = mongoose.model('Location', LocationSchema);
 
@@ -16,7 +16,6 @@ module.exports.findAllLocation = async function (req, res) {
     .populate({ path: "eventList" , select: "eventId" })
     .populate({ path: "comment.user" , select: "username" })
     .exec((err, locations) => {
-        console.log(locations);
         if (err)
             res.json({ err: err });
         else
@@ -94,4 +93,9 @@ module.exports.delete = async function (req, res) {
             res.json({ msg: `Location ${locationId} deleted.`});
         }
     });
+}
+
+module.exports.getObjectId = async function (locationId) {
+    const location = await Location.findOne({ locationId: locationId });
+    return location._id;
 }

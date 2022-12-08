@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nerko+One&family=Oswald:wght@400;500&family=Zen+Dots&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nerko+One&family=Oswald:wght@400;500&family=Zen+Dots&display=swap');
+
 #user {
     height: 100%;
     overflow: auto;
@@ -9,7 +10,6 @@
 }
 
 #user .row{
-  background-color: red;
   margin-bottom: 10px;
   padding: 10px 0px;
   display: flex;
@@ -157,8 +157,8 @@ tr{
   border-bottom: 1px solid #ddd !important;
 }
 
-tr:hover{
-  background-color: grey;
+tbody tr:hover{
+  background-color: rgb(184, 184, 184);
   cursor: pointer;
 }
 
