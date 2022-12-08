@@ -1,8 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
-import { useNavigate, useOutletContext, Link } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import updownIcon from '../photos/updown_logo.png';
+import 'https://kit.fontawesome.com/d97b87339f.js';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
@@ -110,16 +111,17 @@ const AllLocation = () => {
 
       <div className='search-box'>
         <input className='search-input' type="text" id="SearchingKeyword" placeholder="Search location.." onChange={(e) => showSearching(e)}></input>
-        <button class="search-btn"><i class="fas fa-search"></i></button>
+        <button className="search-btn"><i className="fas fa-search"></i></button>
       </div>
 
       <div>
-        <table>
+        <table className="container-fluid">
           <thead>
             <tr>
               <th>Location ID</th>
               <th>Location name</th>
               <th>Event number<img id="updownIcon" src={updownIcon} onClick={() => setShowOrder(-showOrder)} /></th>
+              <th>Visit location</th>
             </tr>
           </thead>
           <tbody>

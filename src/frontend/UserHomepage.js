@@ -54,14 +54,14 @@ const UserHomepage = () => {
       <div id="user" className="container-fluid">
 
         <div className="row">
-          <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
+          <div className="col-6">
             <h2>This is user's home page</h2>
           </div>
 
-          <div className="col-2 col-sm-4 col-lg-3 col-xl-2">
-            <i class="fa-regular fa-circle-user fa-2xl"></i>
-            <span>&nbsp; :{window.sessionStorage.getItem("user")}</span>
-            <button className="btn btn-primary" onClick={() => {logout()}}>Sign Out <i class="fa-solid fa-right-from-bracket fa-xl"></i></button>
+          <div className="col-6 text-end">
+            <i className="fa-regular fa-circle-user fa-2xl"></i>
+            <span>&nbsp;{window.sessionStorage.getItem("user")}</span>
+            <button className="btn btn-primary" onClick={() => {logout()}} id="logOut">Sign Out <i className="fa-solid fa-right-from-bracket fa-xl"></i></button>
           </div>
         </div>
 

@@ -1,7 +1,18 @@
 #user {
     height: 100%;
     overflow: auto;
-    padding-top: 30px;
+    padding-top: 15px;
+}
+
+#user #logOut {
+  margin-left: 20px;
+}
+
+@media screen and (max-width: 581px) {
+  #user #logOut {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
 }
 
 #user .map-container {
@@ -17,6 +28,7 @@
     position: absolute;
     margin: 12px;
     border-radius: 4px;
+    max-width: 80%;
 }
 
 #user .marker {
@@ -44,59 +56,62 @@
 }
 
 /* search button */
-.search-box {
-    width: 350px;
-    position: relative;
-    display: flex;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin-top: 20px;
-  }
+#user .search-box {
+  width: 350px;
+  position: relative;
+  display: flex;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-top: 20px;
+}
   
-  .search-input {
-    width: 100%;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    padding: 15px 45px 15px 15px;
-    background-color: #eaeaeb;
-    color: #6c6c6c;
-    border-radius: 6px;
-    border:none;
-    transition: all .4s;
-  }
-  
-  .search-input:focus {
-    border:none;
-    outline:none;
-    box-shadow: 0 1px 12px #b8c6db;
-    -moz-box-shadow: 0 1px 12px #b8c6db;
-    -webkit-box-shadow: 0 1px 12px #b8c6db;
-  }
-  
-  .search-btn {
-    background-color: transparent;
-    font-size: 18px;
-    padding: 6px 9px;
-    margin-left:-45px;
-    border:none;
-    color: #6c6c6c;
-    transition: all .4s;
-    z-index: 10;
-  }
-  
-  .search-btn:hover {
-    transform: scale(1.2);
-    cursor: pointer;
-    color: black;
-  }
-  
-  .search-btn:focus {
-    outline:none;
-    color:black;
-  }
-  
-  .btn{
-    margin-left: 20px;
-  }
+#user .search-input {
+  width: 100%;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  padding: 15px 45px 15px 15px;
+  background-color: #eaeaeb;
+  color: #6c6c6c;
+  border-radius: 6px;
+  border:none;
+  transition: all .4s;
+  margin-bottom: 10px;
+}
+
+#user .search-input:focus {
+  border:none;
+  outline:none;
+  box-shadow: 0 1px 12px #b8c6db;
+  -moz-box-shadow: 0 1px 12px #b8c6db;
+  -webkit-box-shadow: 0 1px 12px #b8c6db;
+}
+
+#user .search-btn {
+  height: 100%;
+  background-color: transparent;
+  font-size: 18px;
+  padding: 15px 9px;
+  margin-left:-45px;
+  border:none;
+  color: #6c6c6c;
+  transition: all .4s;
+  z-index: 10;
+}
+
+#user .search-btn:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+  color: black;
+}
+
+#user .search-btn:focus {
+  outline:none;
+  color:black;
+}
+
+#user th, td {
+  padding: 2px 5px;
+}
+
   
