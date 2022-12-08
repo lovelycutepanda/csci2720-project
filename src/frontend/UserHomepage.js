@@ -3,6 +3,7 @@ import { useNavigate, Outlet } from 'react-router-dom';
 import './UserHomepage.css';
 import loadLocation from './FetchAPI.js';
 import Spinner from './Spinner.js';
+import 'https://kit.fontawesome.com/d97b87339f.js';
 
 
 const UserHomepage = () => {
@@ -58,8 +59,9 @@ const UserHomepage = () => {
           </div>
 
           <div className="col-2 col-sm-4 col-lg-3 col-xl-2">
-            <p>User: {window.sessionStorage.getItem("user")}</p>
-            <button className="btn btn-success" onClick={() => {logout()}}>Log out</button>
+            <i class="fa-regular fa-circle-user fa-2xl"></i>
+            <span>&nbsp; :{window.sessionStorage.getItem("user")}</span>
+            <button className="btn btn-primary" onClick={() => {logout()}}>Sign Out <i class="fa-solid fa-right-from-bracket fa-xl"></i></button>
           </div>
         </div>
 

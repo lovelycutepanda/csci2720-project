@@ -108,9 +108,9 @@ const AllLocation = () => {
         <div ref={mapContainer} className="map-container" />
       </div>
 
-      <div>
-        <label> Search location </label>
-        <input type="text" id="SearchingKeyword" onChange={(e) => showSearching(e)}></input>
+      <div className='search-box'>
+        <input className='search-input' type="text" id="SearchingKeyword" placeholder="Search location.." onChange={(e) => showSearching(e)}></input>
+        <button class="search-btn"><i class="fas fa-search"></i></button>
       </div>
 
       <div>
