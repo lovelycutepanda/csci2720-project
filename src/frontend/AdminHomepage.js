@@ -4,6 +4,7 @@ import { ShowLocation, CreateLocation, UpdateLocation, DeleteLocation } from './
 import './AdminHomepage.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'https://kit.fontawesome.com/7663343623.js';
 
 
 const AdminHomepage = (props) => {
@@ -36,14 +37,14 @@ const AdminHomepage = (props) => {
       {/* please work on frontend design */}
       <div id="sidebar" className="side-bar" style={{width: `${menu? "20%" : "0%"}`}}>
       <h2>Action Menu</h2>
-      <button className="btn" onClick={() => {setAction("createUser")}}>Create user</button>
-      <button className="btn" onClick={() => {setAction("showUser")}}>Show users</button>
-      <button className="btn" onClick={() => {setAction("updateUser")}}>Update user</button>
-      <button className="btn" onClick={() => {setAction("deleteUser")}}>Delete user</button>
-      <button className="btn" onClick={() => {setAction("showLocation")}}>Show locations</button>
-      <button className="btn" onClick={() => {setAction("createLocation")}}>Create location</button>
-      <button className="btn" onClick={() => {setAction("updateLocation")}}>Update location</button>        
-      <button className="btn" onClick={() => {setAction("deleteLocation")}}>Delete location</button>
+      <button className="btn" onClick={() => {setAction("createUser")}}>Create user <i className="fa-solid fa-user-plus"></i></button>
+      <button className="btn" onClick={() => {setAction("showUser")}}>Show users <i className="fa-regular fa-user"></i></button>
+      <button className="btn" onClick={() => {setAction("updateUser")}}>Update user <i className="fa-solid fa-pencil"></i></button>
+      <button className="btn" onClick={() => {setAction("deleteUser")}}>Delete user <i className="fa-solid fa-user-minus"></i></button>
+      <button className="btn" onClick={() => {setAction("createLocation")}}>Create location <i class="fa-solid fa-location-dot"></i></button>
+      <button className="btn" onClick={() => {setAction("showLocation")}}>Show locations <i className="fa-solid fa-location-crosshairs"></i></button>
+      <button className="btn" onClick={() => {setAction("updateLocation")}}>Update location <i class="fa-solid fa-pen-nib"></i></button>        
+      <button className="btn" onClick={() => {setAction("deleteLocation")}}>Delete location <i class="fa-solid fa-trash-can"></i></button>
       </div>
       
       <div id="contentarea" className="row" style={{marginLeft: `${menu? "20%" : "0%"}`}}>
@@ -54,8 +55,9 @@ const AdminHomepage = (props) => {
         </div>
 
         <div className="col-2 col-sm-4 col-lg-3 col-xl-2">
-          <p>User: {window.sessionStorage.getItem("user")}</p>
-          <button className="btn" onClick={() => {logout()}}>Log Out</button>
+          <i className="fa-regular fa-circle-user fa-3x"></i>
+          <span className='username'>&nbsp;{window.sessionStorage.getItem("user")}</span>
+          <button className="btn" onClick={() => {logout()}} id="logOut">Log Out<i className="fa-solid fa-right-from-bracket fa-xl"></i></button>
         </div>
 
       </div>

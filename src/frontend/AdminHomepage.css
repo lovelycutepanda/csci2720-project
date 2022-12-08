@@ -63,3 +63,16 @@
 #contentarea .btn:hover{
     background-color: #444;
 }
+
+#contentarea{
+    margin-bottom: 10px;
+    padding: 10px 0px;
+}
+
+#contentarea .username{
+    font-size: 40px;
+}
+
+#contentarea #logOut i{
+    padding: 0px 10px;
+}
