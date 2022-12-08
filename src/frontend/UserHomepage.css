@@ -1,7 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Nerko+One&family=Oswald:wght@400;500&family=Zen+Dots&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nerko+One&family=Oswald:wght@400;500&family=Zen+Dots&display=swap');
 #user {
     height: 100%;
     overflow: auto;
     padding-top: 15px;
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+}
+
+#user .row{
+  background-color: red;
+  margin-bottom: 10px;
+  padding: 10px 0px;
+  display: flex;
+  align-items: center;
 }
 
 #user #logOut {
@@ -114,4 +126,14 @@
   padding: 2px 5px;
 }
 
-  
+h2 {
+  font-family: 'Zen Dots', cursive;
+}
+
+h6{
+  font-family: 'Zen Dots', cursive;
+}
+
+.username{
+  font-family: 'Oswald', sans-serif;
+}
