@@ -1,5 +1,5 @@
 import { useEffect, useState} from 'react';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import './UserHomepage.css';
 import loadLocation from './FetchAPI.js';
 import Spinner from './Spinner.js';
@@ -9,10 +9,8 @@ import 'https://kit.fontawesome.com/d97b87339f.js';
 
 const UserHomepage = (props) => {
 
-  const navigate = useNavigate(); 
 
   const [locationList, setLocationList] = useState([]);
-  const [searchLocationList, setSearchLocationList] = useState([]);
 
   const [loading, setLoading] = useState(false);
   
@@ -26,7 +24,6 @@ const UserHomepage = (props) => {
     if ("locationList" in window.sessionStorage) {
       const locList = JSON.parse(window.sessionStorage.getItem("locationList"))
       setLocationList(locList);
-      setSearchLocationList(locList);
     }
     else {
       setLoading(true);
@@ -34,7 +31,6 @@ const UserHomepage = (props) => {
       .then((locList) => {
         console.log(locList);
         setLocationList(locList);
-        setSearchLocationList(locList);
         setLoading(false);
         window.sessionStorage.setItem("locationList", JSON.stringify(locList));
       });
@@ -44,7 +40,7 @@ const UserHomepage = (props) => {
 
 
   const logout = () => {
-    window.sessionStorage.removeItem("locationList");
+    window.sessionStorage.clear();
     props.switchAccount("");
   }
     

@@ -41,29 +41,7 @@ const App = () => {
             <Route path="/admin" element={account === "admin"? <AdminHomepage switchAccount={switchAccount}/> : <Navigate to='/'/>} />
           </Routes>
         </div>
-        
-      {/* to be deleted */}
-        <hr />
-        <div>
-          <ul>
-            <li> <Link to="/">Log in</Link> </li>
-            <li> <Link to="/user">User Homepage</Link> </li>
-            <li> <Link to="/admin">Admin Homepage</Link> </li>
-          </ul>
-        </div>
       </BrowserRouter>
-
-      {/* to be deleted */}
-      <div>
-        <br/><br/><br/>
-        user <br/>
-        username: testPlayer <br/>
-        password: testing <br/>
-        <br/>
-        admin <br/>
-        username: admin <br/>
-        password: admin
-      </div>
       
     </div>
   );

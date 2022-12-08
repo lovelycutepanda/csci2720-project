@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import 'https://kit.fontawesome.com/7663343623.js';
 
 
-
 const Login = (props) => {
-
-  const navigate = useNavigate();  
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  useEffect(() => {
-    console.log(window.sessionStorage.getItem("user"));
-  }, [])
 
   const login = async (e) => {
     e.preventDefault();

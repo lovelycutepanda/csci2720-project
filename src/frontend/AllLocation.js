@@ -24,6 +24,10 @@ const AllLocation = () => {
 
   const locationList = useOutletContext();
   const [searchLocationList, setSearchLocationList] = useState([]);
+  
+
+  // create some markers on the map
+  let currentMarkers = []
 
   useEffect(() => {
     // initialize map
@@ -48,8 +52,6 @@ const AllLocation = () => {
     setSearchLocationList(locationList);
   }, [locationList]);
 
-  // create some markers on the map
-  let currentMarkers = []
   // change marker on map
   useEffect(() => {
 
@@ -103,10 +105,11 @@ const AllLocation = () => {
   return (
     <div>
       <div id="map">
-        <div className="sidebar">
-          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+        <div ref={mapContainer} className="map-container">
+          <div className="sidebar">
+            Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+          </div>
         </div>
-        <div ref={mapContainer} className="map-container" />
       </div>
 
       <div className='search-box'>
@@ -114,29 +117,29 @@ const AllLocation = () => {
         <button className="search-btn"><i className="fas fa-search"></i></button>
       </div>
 
-      <div>
-        <table className="container-fluid">
-          <thead>
-            <tr>
-              <th>Location ID</th>
-              <th>Location name</th>
-              <th>Event number<img id="updownIcon" src={updownIcon} onClick={() => setShowOrder(-showOrder)} /></th>
-            </tr>
-          </thead>
-          <tbody>
-            {searchLocationList
-            .sort((a, b) => showOrder * (a.eventList.length - b.eventList.length))
-            .map(({locationId, name, eventList}, index) => {
-              return (
-                <tr onClick={() => {visitLocation(locationId)}} key={index}>
-                  <td>{locationId}</td>
-                  <td>{name}</td>
-                  <td>{eventList.length}</td>
-                </tr>)
-            })}
-          </tbody>
-        </table>
-      </div>
+      <table className="container-fluid">
+        <thead>
+          <tr>
+            <th>Location ID</th>
+            <th>Location name</th>
+            <th>Event number<img id="updownIcon" src={updownIcon} onClick={() => setShowOrder(-showOrder)} /></th>
+            <th>Visit location</th>
+          </tr>
+        </thead>
+        <tbody>
+          {searchLocationList
+          .sort((a, b) => showOrder * (a.eventList.length - b.eventList.length))
+          .map(({locationId, name, eventList}, index) => {
+            return (
+              <tr key={index}>
+                <td>{locationId}</td>
+                <td>{name}</td>
+                <td>{eventList.length}</td>
+                <td><button onClick={() => {visitLocation(locationId)}}>GO</button></td>
+              </tr>)
+          })}
+        </tbody>
+      </table>
 
   </div>
     
