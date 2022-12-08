@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
+import './SingleLocation.css';
 
 
 const SingleLocation = () => {
@@ -29,10 +30,12 @@ const SingleLocation = () => {
 
   // add comment function
 
+  // load comment
+
   var username = sessionStorage.getItem("user");
 
   // get input comment
-  const getEvaluate = (e) => {
+  const getComment = (e) => {
     console.log('input: ' + e.target.value);
     setComment(e.target.value);
 
@@ -45,14 +48,18 @@ const SingleLocation = () => {
       comment: comment
     };
     console.log(newComment);
+    // send newComment to database
     
   }
-
 
   return (
     <div>
         Location ID: {locationId}
         <button onClick={() => back()}>Return to all locations</button>
+
+        <div>
+          
+        </div>
 
         <table className="container-fluid">
           <thead>
@@ -91,7 +98,7 @@ const SingleLocation = () => {
           <br/>
           <form>
             <textarea className='submit-comment' placeholder='Enter your comment' id='commentContent'
-              onChange={(e) => getEvaluate(e)}></textarea>
+              onChange={(e) => getComment(e)}></textarea>
           </form>
           <button onClick={() => sendSubmit()}>Submit</button>
         </div>
