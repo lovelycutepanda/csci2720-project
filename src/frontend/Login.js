@@ -5,7 +5,7 @@ import 'https://kit.fontawesome.com/7663343623.js';
 
 
 
-const Login = () => {
+const Login = (props) => {
 
   const navigate = useNavigate();  
 
@@ -44,12 +44,7 @@ const Login = () => {
             // warning about incorrect message
             return;
           }
-          window.sessionStorage.setItem("user", username);
-          if (username === 'admin')
-            navigate("./admin");
-          else
-            navigate("./user");
-            
+          props.switchAccount(username);
         });
   }
 

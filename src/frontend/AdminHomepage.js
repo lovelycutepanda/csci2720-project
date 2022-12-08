@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const AdminHomepage = () => {
+const AdminHomepage = (props) => {
 
   const navigate = useNavigate();  
 
@@ -15,14 +15,9 @@ const AdminHomepage = () => {
   const [action, setAction] = useState("");
   const [menu, setMenu] = useState(false);
 
-  // componentDidMount
-  useEffect(() => {
-    console.log(window.sessionStorage.getItem("user"));
-  }, []);
-
   const logout = () => {
-    window.sessionStorage.removeItem("user");
-    navigate("/");
+    window.sessionStorage.clear();
+    props.switchAccount("");
   }
 
   const actionSwitch = () => {

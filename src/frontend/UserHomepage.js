@@ -6,7 +6,7 @@ import Spinner from './Spinner.js';
 import 'https://kit.fontawesome.com/d97b87339f.js';
 
 
-const UserHomepage = () => {
+const UserHomepage = (props) => {
 
   const navigate = useNavigate(); 
 
@@ -43,9 +43,8 @@ const UserHomepage = () => {
 
 
   const logout = () => {
-    window.sessionStorage.removeItem("user");
     window.sessionStorage.removeItem("locationList");
-    navigate("/");
+    props.switchAccount("");
   }
 
   return (
