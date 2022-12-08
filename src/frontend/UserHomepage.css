@@ -162,5 +162,11 @@ tr:hover{
   cursor: pointer;
 }
 
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+ h2{
+  font-size: 10px;
+ }
+}
  
  
