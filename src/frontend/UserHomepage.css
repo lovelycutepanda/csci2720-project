@@ -137,3 +137,30 @@ h6{
 .username{
   font-family: 'Oswald', sans-serif;
 }
+
+/*Table*/
+thead{
+  background-color: #6c6c6c;
+  color: #fff;
+}
+
+tbody>tr>:nth-child(2){
+  font-weight: bold;
+ }
+
+tbody>tr>:nth-child(3){
+  color: red;
+  font-weight: bold;
+ }
+
+tr{
+  border-bottom: 1px solid #ddd !important;
+}
+
+tr:hover{
+  background-color: grey;
+  cursor: pointer;
+}
+
+ 
+ 

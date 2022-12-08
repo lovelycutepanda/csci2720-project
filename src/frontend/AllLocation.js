@@ -121,7 +121,6 @@ const AllLocation = () => {
               <th>Location ID</th>
               <th>Location name</th>
               <th>Event number<img id="updownIcon" src={updownIcon} onClick={() => setShowOrder(-showOrder)} /></th>
-              <th>Visit location</th>
             </tr>
           </thead>
           <tbody>
@@ -129,11 +128,10 @@ const AllLocation = () => {
             .sort((a, b) => showOrder * (a.eventList.length - b.eventList.length))
             .map(({locationId, name, eventList}, index) => {
               return (
-                <tr key={index}>
+                <tr onClick={() => {visitLocation(locationId)}} key={index}>
                   <td>{locationId}</td>
                   <td>{name}</td>
                   <td>{eventList.length}</td>
-                  <td><button onClick={() => {visitLocation(locationId)}}>GO</button></td>
                 </tr>)
             })}
           </tbody>
