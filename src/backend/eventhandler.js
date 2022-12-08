@@ -5,7 +5,7 @@ const EventSchema = Schema({
     eventId: { type: Number, required: true, unique: true },
     title: { type: String },
     venue: { type: Schema.Types.ObjectId, ref: 'Location' },
-    time: [{ type: Date }],
+    date: [{ type: Date }],
     description: { type: String },
     presenter: { type: String },
     price: { type: String }

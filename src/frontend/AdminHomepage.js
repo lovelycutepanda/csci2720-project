@@ -1,5 +1,4 @@
-import { React, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { React, useState } from 'react';
 import { ShowUser, CreateUser, UpdateUser, DeleteUser } from './AdminUserAction/index.js';
 import { ShowLocation, CreateLocation, UpdateLocation, DeleteLocation } from './AdminLocationAction/index.js';
 import './AdminHomepage.css';
@@ -8,8 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const AdminHomepage = (props) => {
-
-  const navigate = useNavigate();  
 
   // states
   const [action, setAction] = useState("");

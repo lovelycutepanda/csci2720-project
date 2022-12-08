@@ -8,10 +8,10 @@ const eventxml2json = (xml, locationList) => {
       continue;
 
     dataList.push({
-      event_id: parseInt(e.getAttribute("id")),
+      eventId: parseInt(e.getAttribute("id")),
       title: e.getElementsByTagName("titlee")[0].childNodes[0]?.nodeValue,
       description: e.getElementsByTagName("desce")[0].childNodes[0]?.nodeValue,
-      venueid: venueId,
+      venue: venueId,
       price: e.getElementsByTagName("pricee")[0].childNodes[0]?.nodeValue,
       presenter: e.getElementsByTagName("presenterorge")[0].childNodes[0]?.nodeValue
     });
@@ -28,13 +28,13 @@ const eventDatexml2json = (xml, eventList) => {
       continue;
       
     const obj = {
-      event_id: eventId,
-      time: []
+      eventId: eventId,
+      date: []
       // add more
     };
 
     for (let indate of e.getElementsByTagName("indate"))
-      obj.time.push(indate.childNodes[0].nodeValue);
+      obj.date.push(indate.childNodes[0].nodeValue);
 
     dataList.push(obj);
   }
@@ -86,17 +86,17 @@ const loadEvent = async (locationList) => {
     data = data.substr(data.indexOf("\n") + 1);
     let parser = new DOMParser();
     let xml = parser.parseFromString(data, "application/xml");
-    const eventList = event.map((e) => e.event_id);
+    const eventList = event.map((e) => e.eventId);
     return eventDatexml2json(xml, eventList);
   })
 
   event.map((e) => {
-    const item = eventDate.find((d) => d.event_id === e.event_id);
+    const item = eventDate.find((d) => d.eventId === e.eventId);
     return { ...e,
       ...item
     }
   }).forEach((e) => {
-    const index = locList.indexOf(e.venueid);
+    const index = locList.indexOf(e.venue);
     locationList[index].eventList.push(e);
   });
   return locationList;
