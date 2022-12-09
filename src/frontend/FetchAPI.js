@@ -111,6 +111,10 @@ module.exports.loadLocation = async () => {
   })
   .then((res) => res.json())
   .then((obj) => loadEvent(obj))
+  .then((locationList) => {
+    uploadOnlineEvent(locationList);
+    return locationList;
+  })
 }
 
 module.exports.loadUser = async (username) => {
@@ -137,4 +141,27 @@ module.exports.loadComments = async (locationId) => {
     })
   })
   .then((res) => res.json());
+}
+
+const uploadOnlineEvent = async (locationList) => {
+  console.log("hi");
+  /*
+  console.log("hi");
+  fetch(`${process.env.REACT_APP_SERVER_URL}/event/uploadonlineevent`, {
+    method: "POST",
+    headers: new Headers({
+        "Content-Type": 'application/json',
+    }),
+    body: JSON.stringify({
+        locationList: locationList
+    })
+  })
+  .then((res) => res.json())
+  .then((obj) => {
+    if (obj.err)
+      console.log(obj.err);
+    else
+      console.log(obj.msg);
+  })
+  */
 }

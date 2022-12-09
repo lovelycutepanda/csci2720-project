@@ -85,6 +85,11 @@ app.delete('/user/delete', async (req, res) => {
     return user.delete(req, res);
 })
 
+// create/update online event data
+app.post('/event/uploadonlineevent', async (req, res) => {
+    return event.uploadOnlineEvent(req, res);
+})
+
 // load location comments
 app.get('/user/location/:locationId', async(req, res) => {
     res.send('hi')
