@@ -30,6 +30,9 @@ const AdminHomepage = (props) => {
       {action === "updateLocation" && <UpdateLocation />}
       {action === "deleteLocation" && <DeleteLocation />}
       {action === "createEvent" && <CreateEvent />}
+      {action === "showEvent" && <ShowEvent />}
+      {action === "updateEvent" && <UpdateEvent />}
+      {action === "deleteEvent" && <DeleteEvent />} 
     </div>;
   }
 

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const location = require('./locationhandler');
+const location = require('./locationhandler.js');
 
 const EventSchema = Schema({
     eventId: { type: Number, required: true, unique: true },
@@ -16,6 +16,40 @@ const Event = mongoose.model('Event', EventSchema);
 // example
 module.exports.findAllEvent = async function (req, res) {
     res.send({ message: "event" });
+}
+
+module.exports.create = async function (req, res) {
+    const { eventId, title, venue, date, description, presenter, price } = req.body;
+
+    const event = await Event.findOne({eventId: eventId});
+
+    if (event) 
+        return res.json({err: "Event already exists."});
+
+    // check if venue exists
+    const venue_objectId = await Location.findOne({locationID: venue}, '_id');
+
+    if (!venue_objectId)
+        return res.json({err: "Location does not exist."});
+    
+    // convert date from string to list of string
+    const dateList = date.replace(' ', '').split(',');
+
+    // create event
+    await Event.create({
+        eventId: eventId,
+        title: title,
+        venue: venue_objectId,
+        date: dateList,
+        description: description,
+        presenter: presenter,
+        price: price
+    }, (err, e) => {
+        if (err) 
+            res.json({err: "Some error has occured. Please check if the input is correct."});
+        else
+            res.json({err: `Event ${eventId} successfully created.`});
+    })
 }
 
 module.exports.uploadOnlineEvent = async function (req, res) {

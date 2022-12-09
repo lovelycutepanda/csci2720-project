@@ -30,6 +30,11 @@ app.get('/event', async (req, res) => {
     return event.findAllEvent(req, res);
 })
 
+// create event
+app.post('/event/create', async (req, res) => {
+    return event.create(req, res);
+})
+
 // get location list
 app.get('/location/findall', async (req, res) => {
     return location.findAllLocation(req, res);
