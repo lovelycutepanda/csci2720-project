@@ -94,6 +94,10 @@ app.post('/user/location/:locationId', async(req, res) => {
 app.put('/user/addfavourite', async (req, res) => {
     return user.addFavourite(req, res);
 })
+
+app.post('/location/getcomment', async (req, res) => {
+    return location.getComment(req, res);
+})
     
 // handle ALL requests
 app.all('/*', (req, res) => {
