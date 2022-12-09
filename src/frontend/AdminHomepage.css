@@ -93,6 +93,28 @@ hr {
     margin-bottom: 25px;
 }
 
+/*table style*/
+table {
+    margin: 0 0 40px 0;
+    width: 100%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+th{
+    color: #ffffff;
+    background-color: #2980b9;
+}
+
+th, td {
+    padding: 8px;
+}
+  
+tr:nth-of-type(odd){
+    background: #e9e9e9;
+}
+
+
+
 @media only screen and (max-width: 768px) {
     /* For mobile phones: */
 
@@ -140,6 +162,5 @@ hr {
     #contentarea .btn i{
         display: none;
     }
-
 
 }
