@@ -19,7 +19,7 @@ const UserHomepage = (props) => {
 
   const [lng, setLng] = useState(114.1315);
   const [lat, setLat] = useState(22.3725);
-  const [zoom, setZoom] = useState(9.39);
+  const [zoom, setZoom] = useState(10);
 
   // create some markers on the map
   const [markerList, setMarkerList] = useState([])
@@ -32,7 +32,9 @@ const UserHomepage = (props) => {
       container: mapContainer.current,
       style: process.env.REACT_APP_MAPBOXGL_STYLE,
       center: [lng, lat],
-      zoom: zoom
+      zoom: zoom,
+      maxZoom: 13,
+      minZoom: 9
     });
   }, []);
 
@@ -44,6 +46,15 @@ const UserHomepage = (props) => {
       setZoom(map.current.getZoom().toFixed(2));
     });
   }, [lng, lat, zoom]);
+
+  //
+  // useEffect(() => {
+  //   map.mapboxgl-canvas {
+  //     position: relative,
+  //     left: 0,
+  //     top: 0,
+  //   };
+  // })
 
 
   // change marker on map
