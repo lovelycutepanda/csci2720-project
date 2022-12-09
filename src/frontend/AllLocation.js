@@ -107,12 +107,23 @@ const AllLocation = () => {
     setFavouriteSwitch(!favouriteSwitch);
   }
 
-  //Favoiurite col in the table
+  //favourite col in the table
   const favCol = (favourite, locationId) => {
-    if (favourite.includes(locationId)){
+    if (favourite.includes(locationId)) {
       return <i className="fa-solid fa-heart"></i>
     } else {
       return <i className="fa-regular fa-heart"></i>
+    }
+  }
+
+  //adding fav location by clicking heart icon
+  const addFav = (e, locationId, favourite) => {
+    e.stopPropagation();
+    console.log("Clicked, location Id is "+ locationId);
+    if(favourite.includes(locationId)){
+      setFavourite(favourite.filter((locId) => locId !== parseInt(locationId)));
+    } else{
+      setFavourite([...favourite, parseInt(locationId)]);
     }
   }
 
@@ -152,7 +163,7 @@ const AllLocation = () => {
                   <td>{locationId}</td>
                   <td>{name}</td>
                   <td>{eventList.length}</td>
-                  <td>{favCol(favourite,locationId)}</td>
+                  <td onClick={(e, x=locationId, f=favourite) => { addFav(e,x,f) }}>{favCol(favourite, locationId)}</td>
                 </tr>)
             })}
         </tbody>
