@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
 import 'https://kit.fontawesome.com/7663343623.js';
 
@@ -7,7 +10,7 @@ const Login = (props) => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  
   const login = async (e) => {
     e.preventDefault();
 
@@ -33,6 +36,7 @@ const Login = (props) => {
           // if error is found
           if (obj.err) {
             console.log(obj.err);
+            toast.error(obj.err);
             // warning about incorrect message
             return;
           }
@@ -72,7 +76,7 @@ const Login = (props) => {
 
       </form>
       </div>
-      
+      <ToastContainer position="bottom-right" autoClose={3000} pauseOnFocusLoss={false} />
     </div>
   );
 }
