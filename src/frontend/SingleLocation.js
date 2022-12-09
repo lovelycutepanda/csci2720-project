@@ -28,6 +28,16 @@ const SingleLocation = () => {
   // mapboxgl.clearPrewarmedResources();
   // mapboxgl.clearStorage();
 
+  useEffect(() => {
+    let loc = locationList.find((loc) => loc.locationId === parseInt(locationId));
+    return () => {
+      map.current.zoomTo(9.5, {
+        duration: 1000,
+        center: [114.1315, 22.3725]
+      });
+    };
+  }, [])
+
   /////////////////////////////////////////////////////////////////////////
 
   // back to previous page
@@ -50,10 +60,9 @@ const SingleLocation = () => {
     if (!loc)
       back();
     setLocation(loc);
-    console.log('location: ' + locationId);
     map.current.zoomTo(13, {
       duration: 1000,
-      offset: [100, 50]
+      center: [loc.position.longitude, loc.position.latitude]
     });
 
     API.loadComments(parseInt(locationId))
