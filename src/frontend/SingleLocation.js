@@ -12,7 +12,7 @@ const SingleLocation = () => {
 
   const { locationId } = useParams();
 
-  const [favourite, setFavourite, locationList] = useOutletContext();
+  const [favourite, setFavourite, locationList, searchLocationList, setSearchLocationList] = useOutletContext();
 
   const [location, setLocation] = useState({});
   const [comment, setComment] = useState("");
@@ -29,6 +29,7 @@ const SingleLocation = () => {
     setIsFavourite(favourite.indexOf(parseInt(locationId)) !== -1);
   }, [favourite]);
 
+  // component did mount
   useEffect(() => {
     if (!locationList.length)
       return;
@@ -42,6 +43,7 @@ const SingleLocation = () => {
       console.log(comments);
       setCommentList(comments)
     });
+    setSearchLocationList([loc]);
   }, [locationList]);
 
   // send comment to database and clear the textarea
