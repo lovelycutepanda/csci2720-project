@@ -79,6 +79,18 @@ app.put('/user/update', async (req, res) => {
 app.delete('/user/delete', async (req, res) => {
     return user.delete(req, res);
 })
+
+// load location comments
+app.get('/user/location/:locationId', async(req, res) => {
+
+})
+
+// update location comment
+app.post('/user/location/:locationId', async(req, res) => {
+    console.log('u success go to here');
+    console.log(req.body);
+    res.send(req.body['newComment']);
+})
     
 // handle ALL requests
 app.all('/*', (req, res) => {

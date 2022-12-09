@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
 import './SingleLocation.css';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const SingleLocation = () => {
@@ -42,14 +44,38 @@ const SingleLocation = () => {
   }
 
   // send comment to database and clear the textarea
-  const sendSubmit = () => {
+  const sendSubmit = async () => {
     let newComment = {
       user: username,
       comment: comment
     };
-    console.log(newComment);
+    console.log(`${process.env.REACT_APP_SERVER_URL}/user/location/${locationId}`);
     // send newComment to database
-    
+    if(Object.keys(newComment.comment).length === 0) console.log('there is no comment');
+    if(Object.keys(newComment.comment).length === 0){
+      // if the comment box is empty, we dont update
+      toast.error("There are no comment.");
+    } else {
+      await fetch(`${process.env.REACT_APP_SERVER_URL}/user/location/${locationId}`, {
+        method: "POST",
+        headers: new Headers({
+            "Content-Type": 'application/json',
+        }),
+        body: JSON.stringify({
+          newComment: newComment,
+        })
+      })
+      .then((res) => res.json())
+      .then((obj) => {
+      console.log(obj);
+      // if error is found
+      if (obj.err)
+          toast.error(obj.err);
+      else
+          toast.success(obj.msg);
+      });
+    }
+
   }
 
   return (
@@ -58,7 +84,7 @@ const SingleLocation = () => {
         <button onClick={() => back()}>Return to all locations</button>
 
         <div>
-          
+
         </div>
 
         <table className="container-fluid">
@@ -102,7 +128,7 @@ const SingleLocation = () => {
           </form>
           <button onClick={() => sendSubmit()}>Submit</button>
         </div>
-
+        <ToastContainer position="bottom-right" autoClose={3000} pauseOnFocusLoss={false} />
     </div>
     
   );
