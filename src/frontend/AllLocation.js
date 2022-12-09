@@ -10,7 +10,7 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
 const AllLocation = () => {
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   // states
   const mapContainer = useRef(null);
@@ -29,7 +29,7 @@ const AllLocation = () => {
 
   const [baseLocationList, setBaseLocationList] = useState([]);
   const [favouriteSwitch, setFavouriteSwitch] = useState(false);
-  
+
   // create some markers on the map
   const [markerList, setMarkerList] = useState([])
 
@@ -40,7 +40,7 @@ const AllLocation = () => {
       style: process.env.REACT_APP_MAPBOXGL_STYLE,
       center: [lng, lat],
       zoom: zoom
-    });  
+    });
   }, []);
 
   // change map position
@@ -59,23 +59,23 @@ const AllLocation = () => {
 
   // change marker on map
   useEffect(() => {
-    const markers = searchLocationList.map(({locationId, name, position}) => {
+    const markers = searchLocationList.map(({ locationId, name, position }) => {
       // create a HTML element for each feature
       let el = document.createElement('div');
       el.className = 'marker';
 
       // make a marker for each feature and add to the map
       let oneMarker = new mapboxgl.Marker(el)
-      .setLngLat([position.longitude, position.latitude])
-      .setPopup(
-        new mapboxgl.Popup({ offset: 10 }) // add popups
-          .setHTML(
-            `<h3>Location ID: ${locationId}</h3>
+        .setLngLat([position.longitude, position.latitude])
+        .setPopup(
+          new mapboxgl.Popup({ offset: 10 }) // add popups
+            .setHTML(
+              `<h3>Location ID: ${locationId}</h3>
              <h5>${name}</h5>`
-          )
-      )
-      .addTo(map.current);
-      
+            )
+        )
+        .addTo(map.current);
+
       return oneMarker;
     });
     markerList.forEach((marker) => marker.remove());
@@ -87,7 +87,7 @@ const AllLocation = () => {
   useEffect(() => {
     let searchingResult = baseLocationList.filter((loc) => loc.name.toLowerCase().indexOf(keyWord.toLowerCase()) !== -1);
 
-    // show result
+    // show resultƒ
     setSearchLocationList(searchingResult);
   }, [keyWord, baseLocationList])
 
@@ -107,6 +107,14 @@ const AllLocation = () => {
     setFavouriteSwitch(!favouriteSwitch);
   }
 
+  //Favoiurite col in the table
+  const favCol = (favourite, locationId) => {
+    if (favourite.includes(locationId)){
+      return <i className="fa-solid fa-heart"></i>
+    } else {
+      return <i className="fa-regular fa-heart"></i>
+    }
+  }
 
   return (
     <div>
@@ -119,12 +127,12 @@ const AllLocation = () => {
       </div>
 
       <div className='search-box'>
-        <input className='search-input' type="text" id="SearchingKeyword" 
-               placeholder="Search location.." onChange={(e) => setKeyWord(e.target.value)} value={keyWord}></input>
+        <input className='search-input' type="text" id="SearchingKeyword"
+          placeholder="Search location.." onChange={(e) => setKeyWord(e.target.value)} value={keyWord}></input>
         <button className="search-btn"><i className="fas fa-search"></i></button>
       </div>
 
-      <button onClick={() => {switchFavourite()}}>{favouriteSwitch? "Show all locations" : "Show favourite locations"}</button>
+      <button onClick={() => { switchFavourite() }}>{favouriteSwitch ? "Show all locations" : "Show favourite locations"}</button>
 
       <table className="container-fluid">
         <thead>
@@ -132,24 +140,26 @@ const AllLocation = () => {
             <th>Location ID</th>
             <th>Location name</th>
             <th>Event number<img id="updownIcon" src={updownIcon} onClick={() => setShowOrder(-showOrder)} /></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {searchLocationList
-          .sort((a, b) => showOrder * (a.eventList.length - b.eventList.length))
-          .map(({locationId, name, eventList}, index) => {
-            return (
-              <tr key={index} onClick={() => {visitLocation(locationId)}}>
-                <td>{locationId}</td>
-                <td>{name}</td>
-                <td>{eventList.length}</td>
-              </tr>)
-          })}
+            .sort((a, b) => showOrder * (a.eventList.length - b.eventList.length))
+            .map(({ locationId, name, eventList }, index) => {
+              return (
+                <tr key={index} onClick={() => { visitLocation(locationId) }}>
+                  <td>{locationId}</td>
+                  <td>{name}</td>
+                  <td>{eventList.length}</td>
+                  <td>{favCol(favourite,locationId)}</td>
+                </tr>)
+            })}
         </tbody>
       </table>
 
-  </div>
-    
+    </div>
+
   );
 }
 
