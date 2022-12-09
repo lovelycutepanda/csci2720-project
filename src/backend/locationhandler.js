@@ -118,3 +118,16 @@ module.exports.uploadComment = async function (req, res) {
     location.save();
     res.json({msg: "sucessful"});
 }
+
+module.exports.getComment = async function (req, res) {
+
+    const { locationId } = req.body;
+    
+    Location.findOne({ locationId: locationId })
+    .select("comment")
+    .populate({ path: "comment.user" , select: "username" })
+    .exec((err, location) => {
+        console.log(location.comment)
+        res.json(location.comment);
+    })
+}
