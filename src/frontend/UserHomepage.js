@@ -19,7 +19,7 @@ const UserHomepage = (props) => {
 
   const [lng, setLng] = useState(114.1315);
   const [lat, setLat] = useState(22.3725);
-  const [zoom, setZoom] = useState(10);
+  const [zoom, setZoom] = useState(9.5);
 
   // create some markers on the map
   const [markerList, setMarkerList] = useState([])
@@ -34,8 +34,15 @@ const UserHomepage = (props) => {
       center: [lng, lat],
       zoom: zoom,
       maxZoom: 13,
-      minZoom: 9
+      minZoom: 8
     });
+    // add scale ruler for user reference
+    map.current.addControl(new mapboxgl.NavigationControl());
+    var scale = new mapboxgl.ScaleControl({
+        maxWidth: 100,
+        unit: 'metric'
+    });
+    map.current.addControl(scale, "bottom-left");
   }, []);
 
   // change map position
@@ -166,7 +173,7 @@ const UserHomepage = (props) => {
         </div>
       </div>
 
-      <Outlet context={[favourite, setFavourite, locationList, searchLocationList, setSearchLocationList]}/>
+      <Outlet context={[favourite, setFavourite, locationList, searchLocationList, setSearchLocationList, map]}/>
 
     </div>
 
