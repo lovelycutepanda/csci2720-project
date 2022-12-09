@@ -93,8 +93,11 @@ const SingleLocation = () => {
   return (
     <div>
         Location ID: {locationId}
-        <button onClick={() => back()}>Return to all locations</button>
-        <button onClick={() => addFavourite()}>{isFavourite? "Remove from favourite" : "Add to favourite"}</button>
+        <br />
+        Venue: {location.name}
+        <br />
+        <button className='btn btn-outline-dark m-2' onClick={() => back()}>Return to all locations</button>
+        <button className='btn btn-outline-dark m-2' onClick={() => addFavourite()}>{isFavourite? "Remove from favourite" : "Add to favourite"}</button>
 
         <div>
 

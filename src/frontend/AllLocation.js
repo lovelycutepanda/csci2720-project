@@ -143,7 +143,7 @@ const AllLocation = () => {
         <button className="search-btn"><i className="fas fa-search"></i></button>
       </div>
 
-      <button onClick={() => { switchFavourite() }}>{favouriteSwitch ? "Show all locations" : "Show favourite locations"}</button>
+      <button className='btn btn-outline-dark m-2' onClick={() => { switchFavourite() }}>{favouriteSwitch ? "Show all locations" : "Show favourite locations"}</button>
 
       <table className="container-fluid">
         <thead>
