@@ -25,7 +25,7 @@
 }
 
 .side-bar .btn {
-    padding-left: 5%;
+    padding: 10px 20px;
     text-decoration: none;
     font-size: 25px;
     color: #818181;
@@ -34,20 +34,6 @@
   }
   
 .side-bar .btn:hover {
-    color: #f1f1f1;
-}
-
-.closebtn{
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-    text-decoration: none;
-    color: #818181;
-}
-
-.closebtn:hover{
     color: #f1f1f1;
 }
 
@@ -69,10 +55,69 @@
     padding: 10px 0px;
 }
 
+#contentarea h2{
+    margin-top: 20px;
+}
+
 #contentarea .username{
     font-size: 40px;
 }
 
 #contentarea #logOut i{
     padding: 0px 10px;
+}
+
+.side-bar i{
+    margin-left: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+
+    /*sidebar*/
+    .side-bar h2{
+        display: none; 
+    }
+
+    .side-bar .btn{
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .side-bar .btn i{
+        display: none;
+    }
+
+    /*contentarea*/
+
+    #contentarea .btn{
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #111;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+    }
+
+    #contentarea h2{
+        padding-top: 20px;
+        font-size: 20px;
+    }
+
+    #contentarea i{
+        padding-top: 10px;
+    }
+
+    #contentarea .username{
+       display: block;
+       font-size: 20px;
+    }
+    
+    #contentarea .btn i{
+        display: none;
+    }
+
+
 }

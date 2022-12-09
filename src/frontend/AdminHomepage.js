@@ -41,10 +41,10 @@ const AdminHomepage = (props) => {
       <button className="btn" onClick={() => {setAction("showUser")}}>Show users <i className="fa-regular fa-user"></i></button>
       <button className="btn" onClick={() => {setAction("updateUser")}}>Update user <i className="fa-solid fa-pencil"></i></button>
       <button className="btn" onClick={() => {setAction("deleteUser")}}>Delete user <i className="fa-solid fa-user-minus"></i></button>
-      <button className="btn" onClick={() => {setAction("createLocation")}}>Create location <i class="fa-solid fa-location-dot"></i></button>
+      <button className="btn" onClick={() => {setAction("createLocation")}}>Create location <i className="fa-solid fa-location-dot"></i></button>
       <button className="btn" onClick={() => {setAction("showLocation")}}>Show locations <i className="fa-solid fa-location-crosshairs"></i></button>
-      <button className="btn" onClick={() => {setAction("updateLocation")}}>Update location <i class="fa-solid fa-pen-nib"></i></button>        
-      <button className="btn" onClick={() => {setAction("deleteLocation")}}>Delete location <i class="fa-solid fa-trash-can"></i></button>
+      <button className="btn" onClick={() => {setAction("updateLocation")}}>Update location <i className="fa-solid fa-pen-nib"></i></button>        
+      <button className="btn" onClick={() => {setAction("deleteLocation")}}>Delete location <i className="fa-solid fa-trash-can"></i></button>
       </div>
       
       <div id="contentarea" className="row" style={{marginLeft: `${menu? "20%" : "0%"}`}}>
