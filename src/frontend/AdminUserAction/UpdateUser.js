@@ -31,6 +31,7 @@ const UpdateUser = () => {
                 toast.error(obj.err);
             else {
                 setUpdateTarget(obj);
+                console.log(obj);
                 setKey(!key);
             }
                 
@@ -55,7 +56,7 @@ const UpdateUser = () => {
                 "Content-Type": 'application/json',
             }),
             body: JSON.stringify({
-                username: updateTarget,
+                username: updateTarget.username,
                 newUsername: username,
                 newPassword: password
             })

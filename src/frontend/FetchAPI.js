@@ -102,7 +102,7 @@ const loadEvent = async (locationList) => {
   return locationList;
 }
 
-const loadLocation = async () => {
+module.exports.loadLocation = async () => {
   return await fetch(`${process.env.REACT_APP_SERVER_URL}/location/findall`, {
     method: "GET",
     headers: new Headers({
@@ -113,4 +113,15 @@ const loadLocation = async () => {
   .then((obj) => loadEvent(obj))
 }
 
-export default loadLocation;
+module.exports.loadUser = async (username) => {
+  return await fetch(`${process.env.REACT_APP_SERVER_URL}/user/findone`, {
+    method: "POST",
+    headers: new Headers({
+        "Content-Type": 'application/json',
+    }),
+    body: JSON.stringify({
+        username: username
+    })
+  })
+  .then((res) => res.json());
+}

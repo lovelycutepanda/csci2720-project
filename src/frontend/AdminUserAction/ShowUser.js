@@ -31,7 +31,7 @@ const ShowUser = () => {
                 user {index+1} <br/>
                 username: {username} <br/>
                 password (hashed): {password} <br/>
-                favourite locations (Location _id): {favourite} <br/>
+                favourite locations (Location _id): {favourite.join(', ')} <br/>
             </p>
             );
         })}

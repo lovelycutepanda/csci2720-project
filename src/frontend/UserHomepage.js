@@ -1,7 +1,7 @@
 import { useEffect, useState} from 'react';
 import { Outlet } from 'react-router-dom';
 import './UserHomepage.css';
-import loadLocation from './FetchAPI.js';
+import API from './FetchAPI.js';
 import Spinner from './Spinner.js';
 import 'https://kit.fontawesome.com/d97b87339f.js';
 
@@ -9,25 +9,22 @@ import 'https://kit.fontawesome.com/d97b87339f.js';
 
 const UserHomepage = (props) => {
 
-
   const [locationList, setLocationList] = useState([]);
+  const [favourite, setFavourite] = useState([]);
 
   const [loading, setLoading] = useState(false);
   
   
   useEffect(() => {
 
-    //if (!window.sessionStorage.getItem("user"))
-    //  history_redirect.push("/");
-
-    // retrieve locationList
+    // retrieve locationList and favourite
     if ("locationList" in window.sessionStorage) {
       const locList = JSON.parse(window.sessionStorage.getItem("locationList"))
       setLocationList(locList);
     }
     else {
       setLoading(true);
-      loadLocation()
+      API.loadLocation()
       .then((locList) => {
         console.log(locList);
         setLocationList(locList);
@@ -35,8 +32,19 @@ const UserHomepage = (props) => {
         window.sessionStorage.setItem("locationList", JSON.stringify(locList));
       });
     }
+
+    API.loadUser(window.sessionStorage.getItem("user"))
+      .then((user) => {
+        const favouriteList = user.favourite.map((loc) => loc.locationId);
+        setFavourite(favouriteList);
+      })
     
   }, []);
+
+  // testing
+  useEffect(() => {
+    console.log("favourite list:", favourite);
+  }, [favourite]);
 
 
   const logout = () => {
@@ -60,7 +68,7 @@ const UserHomepage = (props) => {
           </div>
         </div>
 
-      <Outlet context={locationList}/>
+      <Outlet context={[favourite, setFavourite, locationList]}/>
 
     </div>
 
