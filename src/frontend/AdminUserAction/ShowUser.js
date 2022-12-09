@@ -23,18 +23,25 @@ const ShowUser = () => {
     // retrieval, called when "Show Users" button is clicked
     return(
         <div>
-        User List:
-        <br/><br/>
+        <h4>User List</h4>
+        <hr/>
+    
+        <table>
+        <tr>
+            <th>Username</th>
+            <th>Password (hashed):</th>
+            <th>Favourite Locations (Location _id):</th>
+        </tr>
         {userList.map(({username, password, favourite}, index) => {
             return(
-            <p key={index}>
-                user {index+1} <br/>
-                username: {username} <br/>
-                password (hashed): {password} <br/>
-                favourite locations (Location _id): {favourite.join(', ')} <br/>
-            </p>
+            <tr key={index}>
+                <td>{username}</td>
+                <td>{password}</td>
+                <td>{favourite.join(', ')}</td>
+            </tr>
             );
         })}
+        </table>
         </div>
     ) 
 

@@ -100,15 +100,8 @@ module.exports.delete = async function (req, res) {
 }
 
 module.exports.getObjectId = async function (username) {
-    return User.findOne({ username: username })
-        .select("_id")
-        .exec((err, user) => {
-            console.log(user);
-            if (!user)
-                return -1;
-            else 
-                return user._id;
-        });
+    const user = await User.findOne({ username: username })
+    return user._id;
 }
 
 module.exports.addFavourite = async function (req, res) {
