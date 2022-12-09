@@ -4,6 +4,9 @@ import './SingleLocation.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import API from './FetchAPI.js';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import { use } from 'bcrypt/promises';
 
 
 const SingleLocation = () => {
@@ -12,17 +15,33 @@ const SingleLocation = () => {
 
   const { locationId } = useParams();
 
-  const [favourite, setFavourite, locationList, searchLocationList, setSearchLocationList] = useOutletContext();
+  const [favourite, setFavourite, locationList, searchLocationList, setSearchLocationList, map] = useOutletContext();
 
   const [location, setLocation] = useState({});
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState([]);
   const [isFavourite, setIsFavourite] = useState(false);
 
+  /////////////////////////////////////////////////////////////////////////
+  // Zoom in the specific location with camera //
+
+  mapboxgl.clearPrewarmedResources();
+  mapboxgl.clearStorage();
+
+  // useEffect(()=>{
+  //   map.current.on('load', () => {
+  //     map.addLayer();
+  //   })
+  // })
+
+  /////////////////////////////////////////////////////////////////////////
+
+  // back to previous page
   const back = () => {
     navigate('/user');
   }
 
+  // check if favourite location is empty
   useEffect(() => {
     if (!favourite.length)
       return;
@@ -86,6 +105,7 @@ const SingleLocation = () => {
 
   }
 
+  // add favourite location
   const addFavourite = () => {
     fetch(`${process.env.REACT_APP_SERVER_URL}/user/addfavourite`, {
       method: "PUT",
