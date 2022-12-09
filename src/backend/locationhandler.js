@@ -103,18 +103,18 @@ module.exports.getObjectId = async function (locationId) {
 }
 
 module.exports.uploadComment = async function (req, res) {
-    console.log('u success go to here');
-    console.log(req.body);
+
     const locationId = req.params['locationId'];
+
     const userId = await user.getObjectId(req.body['newComment'].user);
-    Location.findOne({locationId: locationId})
-    .select("comment")
-    .exec((err, e) => {
-        e.comment.push({
-            user: userId,
-            message: req.body['newComment'].comment 
-        });
-        e.save();
-        res.json("sucessful");
-    })
+    
+    const location = await Location.findOne({locationId: locationId});
+    console.log(userId, location);
+
+    location.comment.push({
+        user: userId,
+        message: req.body['newComment'].comment 
+    });
+    location.save();
+    res.json({msg: "sucessful"});
 }
