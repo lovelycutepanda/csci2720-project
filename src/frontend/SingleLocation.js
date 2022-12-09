@@ -28,12 +28,6 @@ const SingleLocation = () => {
   // mapboxgl.clearPrewarmedResources();
   // mapboxgl.clearStorage();
 
-  // useEffect(()=>{
-  //   map.current.on('load', () => {
-  //     map.current.addLayer();
-  //   })
-  // })
-
   /////////////////////////////////////////////////////////////////////////
 
   // back to previous page
@@ -56,6 +50,11 @@ const SingleLocation = () => {
     if (!loc)
       back();
     setLocation(loc);
+    console.log('location: ' + locationId);
+    map.current.zoomTo(13, {
+      duration: 1000,
+      offset: [100, 50]
+    });
 
     API.loadComments(parseInt(locationId))
       .then((comments) => {

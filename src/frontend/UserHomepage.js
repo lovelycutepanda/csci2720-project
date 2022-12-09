@@ -42,17 +42,26 @@ const UserHomepage = (props) => {
     // full screen mode
     map.current.addControl(new mapboxgl.FullscreenControl());
 
+    // show user location
+    // map.current.addControl(new mapboxgl.GeolocateControl({
+    //   positionOptions: {
+    //     enableHighAccuracy: true
+    //   },
+    //   trackUserLocation: true,
+    //   showUserHeading: true
+    // }));
+
     // add attribute
     map.current.addControl(new mapboxgl.AttributionControl({
       customAttribution: 'Location map'
     }));
 
     // add scale ruler for user reference
-    map.current.addControl(scale, "bottom-left");
-    var scale = new mapboxgl.ScaleControl({
-      maxWidth: 100,
-      unit: 'metric'
-  });
+    // map.current.addControl(scale, "bottom-left");
+    // var scale = new mapboxgl.ScaleControl({
+    //   maxWidth: 200,
+    //   unit: 'metric'
+    // });
   }, []);
 
   // change map position
