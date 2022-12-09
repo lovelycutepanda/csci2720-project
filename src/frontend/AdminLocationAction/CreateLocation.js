@@ -38,26 +38,27 @@ const CreateLocation = () => {
     // displayed when "Create Location" button is clicked
     return(
         <form>
-        Create location <br/>
-        <br/>
+        <h4>Create location</h4>
+        <hr/>
 
-        <label htmlFor="locationId">Location ID</label>
-        <input type="text" id="locationId" name="locationId" />
-        <br/>
+        <label htmlFor="locationId"><b>Location ID</b></label>
+        <input type="text" id="locationId" name="locationId" placeholder="Enter LocationId"/>
+        <hr/>
 
-        <label htmlFor="name">Name</label>
-        <input type="text" id="name" name="name" />
-        <br/>
+        <label htmlFor="name"><b>Name</b></label>
+        <input type="text" id="name" name="name" placeholder="Enter Name"/>
+        <hr/>
 
-        Position <br/>
+        <h4>Position </h4>
+        <hr/>
 
-        <label htmlFor="longitude">Longitude</label>
-        <input type="text" id="longitude" name="longitude" />
-        <br/>
+        <label htmlFor="longitude"><b>Longitude</b></label>
+        <input type="text" id="longitude" name="longitude" placeholder="Enter Longitude"/>
+        <hr/>
 
-        <label htmlFor="latitude">Latitude</label>
-        <input type="text" id="latitude" name="latitude" />
-        <br/>
+        <label htmlFor="latitude"><b>Latitude</b></label>
+        <input type="text" id="latitude" name="latitude" placeholder="Enter Latitude"/>
+        <hr/>
 
         <button className="btn btn-success" onClick={(e) => {submitCreate(e)}}>Create</button>
 
