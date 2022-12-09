@@ -65,8 +65,13 @@ const SingleLocation = () => {
 
     API.loadComments(parseInt(locationId))
       .then((comments) => {
-        console.log(comments);
-        setCommentList(comments)
+        console.log("comments:", comments);
+        setCommentList(comments.map((c) => {
+          return {
+            user: c.user.username,
+            message: c.message
+          }
+        }))
       });
     setSearchLocationList([loc]);
   }, [locationList]);
@@ -74,39 +79,40 @@ const SingleLocation = () => {
   // send comment to database and clear the textarea
   const sendSubmit = async () => {
 
+    if (!comment)
+      // if the comment box is empty, we dont update
+      return toast.error("There is no comment.");
+
     let newComment = {
       user: sessionStorage.getItem("user"),
-      comment: comment
+      message: comment
     };
-    console.log(`${process.env.REACT_APP_SERVER_URL}/user/location/${locationId}`);
     // send newComment to database
-    if (Object.keys(newComment.comment).length === 0) console.log('there is no comment');
-    if (Object.keys(newComment.comment).length === 0) {
-      // if the comment box is empty, we dont update
-      toast.error("There are no comment.");
-    } else {
-      await fetch(`${process.env.REACT_APP_SERVER_URL}/user/location/${locationId}`, {
-        method: "POST",
-        headers: new Headers({
-          "Content-Type": 'application/json',
-        }),
-        body: JSON.stringify({
-          newComment: newComment,
-        })
+    
+    const comments = [...commentList];
+    comments.push(newComment);
+    setCommentList(comments);
+
+    await fetch(`${process.env.REACT_APP_SERVER_URL}/user/location/${locationId}`, {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": 'application/json',
+      }),
+      body: JSON.stringify({
+        newComment: newComment,
       })
-        .then((res) => res.json())
-        .then((obj) => {
-          console.log(obj);
-          // if error is found
-          if (obj.err)
-            toast.error(obj.err);
-          else
-            toast.success(obj.msg);
-        })
-        .then(() => API.loadComments(parseInt(locationId)))
-        .then((comments) => setCommentList(comments));
-    }
-    setComment("");
+    })
+    .then((res) => res.json())
+    .then((obj) => {
+      // if error is found
+      if (obj.err)
+        toast.error(obj.err);
+      else
+        toast.success(obj.msg);
+      setComment("");
+    })
+    
+  
 
   }
 
@@ -200,7 +206,7 @@ const SingleLocation = () => {
         <h2>Comments: </h2>
         <div className='comment'>
           {commentList?.map(({ user, message }, index) => {
-            return <p key={index}>{user.username} commented: {message}</p>
+            return <p key={index}>{user} commented: {message}</p>
           })}
         </div>
 

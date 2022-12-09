@@ -31,7 +31,7 @@ const ShowUser = () => {
                 <tr>
                     <th>Username</th>
                     <th>Password (hashed):</th>
-                    <th>Favourite Locations (Location _id):</th>
+                    <th>Favourite Locations (Location ID):</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,7 +40,7 @@ const ShowUser = () => {
                     <tr key={index}>
                         <td>{username}</td>
                         <td>{password}</td>
-                        <td>{favourite.join(', ')}</td>
+                        <td>{favourite.map((loc) => loc.locationId).join(', ')}</td>
                     </tr>
                     );
                 })}

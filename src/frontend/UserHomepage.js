@@ -25,6 +25,7 @@ const UserHomepage = (props) => {
   const [markerList, setMarkerList] = useState([])
 
   const [searchLocationList, setSearchLocationList] = useState([]);
+  const [lastFetchTime, setLastFetchTime] = useState("");
 
   useEffect(() => {
     // initialize map
@@ -136,15 +137,19 @@ const UserHomepage = (props) => {
     if ("locationList" in window.sessionStorage) {
       const locList = JSON.parse(window.sessionStorage.getItem("locationList"))
       setLocationList(locList);
+      setLastFetchTime(window.sessionStorage.getItem("lastFetchTime"));
     }
     else {
       setLoading(true);
       API.loadLocation()
-      .then((locList) => {
-        console.log(locList);
+      .then(({locList, fetchTime}) => {
+        // console.log(locList);
         setLocationList(locList);
+        setLastFetchTime(fetchTime);
+        console.log(fetchTime);
         setLoading(false);
         window.sessionStorage.setItem("locationList", JSON.stringify(locList));
+        window.sessionStorage.setItem("lastFetchTime", fetchTime);
       });
     }
 
@@ -193,7 +198,7 @@ const UserHomepage = (props) => {
       </div>
 
       <Outlet context={[favourite, setFavourite, locationList, searchLocationList, setSearchLocationList, map]}/>
-
+      <p>Last updated time: {lastFetchTime}</p>
     </div>
 
   </>

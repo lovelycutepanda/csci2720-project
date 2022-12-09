@@ -43,6 +43,8 @@ const eventDatexml2json = (xml, eventList) => {
 
 const loadEvent = async (locationList) => {
 
+  locationList.forEach((loc) => {loc.eventList = []});
+
   const locList = locationList.map((loc) => loc.locationId);
 
   const eventUrl = "https%3A%2F%2Fwww.lcsd.gov.hk%2Fdatagovhk%2Fevent%2Fevents.xml";
@@ -113,7 +115,11 @@ module.exports.loadLocation = async () => {
   .then((obj) => loadEvent(obj))
   .then((locationList) => {
     uploadOnlineEvent(locationList);
-    return locationList;
+    const today = new Date();
+    return {
+      locList: locationList,
+      fetchTime: today.toLocaleString('en-US')
+    };
   })
 }
 
@@ -144,24 +150,23 @@ module.exports.loadComments = async (locationId) => {
 }
 
 const uploadOnlineEvent = async (locationList) => {
-  console.log("hi");
-  /*
-  console.log("hi");
-  fetch(`${process.env.REACT_APP_SERVER_URL}/event/uploadonlineevent`, {
-    method: "POST",
-    headers: new Headers({
-        "Content-Type": 'application/json',
-    }),
-    body: JSON.stringify({
-        locationList: locationList
+  locationList.forEach((loc) => {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/event/uploadonlineevent`, {
+      method: "POST",
+      headers: new Headers({
+          "Content-Type": 'application/json',
+      }),
+      body: JSON.stringify({
+          locationId: loc.locationId,
+          eventList: loc.eventList
+      })
+    })
+    .then((res) => res.json())
+    .then((obj) => {
+      if (obj.err)
+        console.log(obj.err);
+      else
+        console.log(obj.msg);
     })
   })
-  .then((res) => res.json())
-  .then((obj) => {
-    if (obj.err)
-      console.log(obj.err);
-    else
-      console.log(obj.msg);
-  })
-  */
 }

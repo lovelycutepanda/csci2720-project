@@ -70,7 +70,6 @@ module.exports.create = async function (req, res) {
 
 module.exports.update = async function (req, res) {
     const { locationId, newLocationId, newName, newLongitude, newLatitude } = req.body;
-    // console.log("updateTarget:", username, "username:", newUsername, ", password:", newPassword);
 
     const location = await Location.findOne({ locationId: locationId })
 
@@ -86,7 +85,6 @@ module.exports.update = async function (req, res) {
 
 module.exports.delete = async function (req, res) {
     const { locationId } = req.body;
-    // console.log("username:", username);
 
     Location.deleteOne({ locationId: locationId }, (err, location) => {
         if (location.deletedCount === 0)
@@ -109,14 +107,13 @@ module.exports.uploadComment = async function (req, res) {
     const userId = await user.getObjectId(req.body['newComment'].user);
     
     const location = await Location.findOne({locationId: locationId});
-    console.log(userId, location);
 
     location.comment.push({
         user: userId,
-        message: req.body['newComment'].comment 
+        message: req.body['newComment'].message 
     });
     location.save();
-    res.json({msg: "sucessful"});
+    res.json({msg: "Comment uploaded successfully."});
 }
 
 module.exports.getComment = async function (req, res) {
@@ -127,7 +124,12 @@ module.exports.getComment = async function (req, res) {
     .select("comment")
     .populate({ path: "comment.user" , select: "username" })
     .exec((err, location) => {
-        console.log(location.comment)
         res.json(location.comment);
     })
+}
+
+module.exports.uploadEventList = async function (locationId, eventList) {
+    const location = await Location.findOne({ locationId: locationId });
+    location.eventList = eventList;
+    location.save();
 }

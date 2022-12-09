@@ -16,9 +16,9 @@ const Login = (props) => {
 
     // input validation
     if (username.length < 4 || username.length > 20)
-      return console.log("Username is of 4-20 characters.");
+      return toast.error("Username is of 4-20 characters.");
     if (password.length < 4 || password.length > 20)
-      return console.log("Password is of 4-20 characters.");
+      return toast.error("Password is of 4-20 characters.");
 
     // input verification
     await fetch(`${process.env.REACT_APP_SERVER_URL}/user/findone`, {
@@ -34,12 +34,8 @@ const Login = (props) => {
         .then((res) => res.json())
         .then((obj) => {
           // if error is found
-          if (obj.err) {
-            console.log(obj.err);
-            toast.error(obj.err);
-            // warning about incorrect message
-            return;
-          }
+          if (obj.err)
+            return toast.error(obj.err);
           props.switchAccount(username);
         });
   }

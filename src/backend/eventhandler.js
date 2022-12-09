@@ -19,30 +19,42 @@ module.exports.findAllEvent = async function (req, res) {
 }
 
 module.exports.uploadOnlineEvent = async function (req, res) {
-    const { locationList } = req.body;
-    console.log(locationList);
+    const { locationId, eventList } = req.body;
+    
+    const locationObjectId = await location.getObjectId(locationId);
 
-    locationList.forEach(async (loc) => {
-        const locationId = await location.getObjectId(loc.locationId);
-        try {
-            loc.eventList.forEach((event) => {
-                Event.updateOne({ eventId: event.eventId }, {
-                    $set: {
-                        title: event.title,
-                        /*
-                        description: event.description,
-                        venue: locationId,
-                        presenter: event.presenter,
-                        price: event.price
-                        */
-                    }
-                }, {
-                    upsert: true
-                })
-            })
-        } catch (e) {
-            return res.json({err: e});
-        }
-        res.json({msg: "success"});
-    })
+    try {
+        const newEventList = await Promise.all(eventList.map(async (e) => {
+            const event = await Event.findOne({ eventId: e.eventId });
+
+            if (!event) {
+                newEvent = new Event({
+                    eventId: e.eventId,
+                    title: e.title,
+                    description: e.description,
+                    venue: locationObjectId,
+                    presenter: e.presenter,
+                    price: e.price,
+                    date: e.date.map((d) => new Date(`${d.slice(0,4)}-${d.slice(4,6)}-${d.slice(6)}`)) 
+                });
+                newEvent.save();
+                return newEvent._id;
+            } else {
+                event.title = e.title;
+                event.description = e.description;
+                event.venue = locationObjectId;
+                event.presenter = e.presenter;
+                event.price = e.pric;
+                event.date = e.date.map((d) => new Date(`${d.slice(0,4)}-${d.slice(4,6)}-${d.slice(6)}`));
+                event.save();
+                return event._id;
+            }
+        }));
+
+        location.uploadEventList(locationId, newEventList);
+        
+    } catch (e) {
+        return res.json({err: e});
+    }
+    res.json({msg: "Events uploaded successfully."});
 }

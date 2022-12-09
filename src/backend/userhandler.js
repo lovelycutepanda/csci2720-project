@@ -13,6 +13,7 @@ const User = mongoose.model('User', UserSchema);
 module.exports.findAllUser = async function (req, res) {
     User.find({ username: { $ne: "admin" } })
     .select("username password favourite")
+    .populate({ path: "favourite" , select: "locationId" })
     .exec((err, users) => {
         if (err)
             res.json({ err: err });
@@ -23,7 +24,6 @@ module.exports.findAllUser = async function (req, res) {
 
 module.exports.findUser = async function (req, res) {
     const { username, password } = req.body;
-    // console.log("username:", username, ", password:", password);
 
     User.findOne({ username: username })
     .select("username password favourite")
@@ -48,7 +48,6 @@ module.exports.findUser = async function (req, res) {
 
 module.exports.create = async function (req, res) {
     const { username, password } = req.body;
-    // console.log("username:", username, ", password:", password);
 
     const user = await User.findOne({ username: username })
 
@@ -73,7 +72,6 @@ module.exports.create = async function (req, res) {
 
 module.exports.update = async function (req, res) {
     const { username, newUsername, newPassword } = req.body;
-    // console.log("updateTarget:", username, "username:", newUsername, ", password:", newPassword);
 
     const user = await User.findOne({ username: username })
 
@@ -88,7 +86,6 @@ module.exports.update = async function (req, res) {
 
 module.exports.delete = async function (req, res) {
     const { username } = req.body;
-    // console.log("username:", username);
 
     User.deleteOne({ username: username }, (err, user) => {
         if (user.deletedCount === 0)
