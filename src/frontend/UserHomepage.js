@@ -34,15 +34,25 @@ const UserHomepage = (props) => {
       center: [lng, lat],
       zoom: zoom,
       maxZoom: 13,
-      minZoom: 8
+      minZoom: 8,
+      attributionControl: false,
     });
-    // add scale ruler for user reference
     map.current.addControl(new mapboxgl.NavigationControl());
-    var scale = new mapboxgl.ScaleControl({
-        maxWidth: 100,
-        unit: 'metric'
-    });
+
+    // full screen mode
+    map.current.addControl(new mapboxgl.FullscreenControl());
+
+    // add attribute
+    map.current.addControl(new mapboxgl.AttributionControl({
+      customAttribution: 'Location map'
+    }));
+
+    // add scale ruler for user reference
     map.current.addControl(scale, "bottom-left");
+    var scale = new mapboxgl.ScaleControl({
+      maxWidth: 100,
+      unit: 'metric'
+  });
   }, []);
 
   // change map position

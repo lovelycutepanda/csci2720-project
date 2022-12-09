@@ -25,12 +25,12 @@ const SingleLocation = () => {
   /////////////////////////////////////////////////////////////////////////
   // Zoom in the specific location with camera //
 
-  mapboxgl.clearPrewarmedResources();
-  mapboxgl.clearStorage();
+  // mapboxgl.clearPrewarmedResources();
+  // mapboxgl.clearStorage();
 
   // useEffect(()=>{
   //   map.current.on('load', () => {
-  //     map.addLayer();
+  //     map.current.addLayer();
   //   })
   // })
 
