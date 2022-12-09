@@ -6,7 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import API from './FetchAPI.js';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-import { use } from 'bcrypt/promises';
 
 
 const SingleLocation = () => {
@@ -29,7 +28,6 @@ const SingleLocation = () => {
   // mapboxgl.clearStorage();
 
   useEffect(() => {
-    let loc = locationList.find((loc) => loc.locationId === parseInt(locationId));
     return () => {
       map.current.zoomTo(9.5, {
         duration: 1000,
@@ -104,10 +102,9 @@ const SingleLocation = () => {
             toast.error(obj.err);
           else
             toast.success(obj.msg);
-
-          API.loadComments(parseInt(locationId))
-            .then((comments) => setCommentList(comments));
-        });
+        })
+        .then(() => API.loadComments(parseInt(locationId)))
+        .then((comments) => setCommentList(comments));
     }
     setComment("");
 

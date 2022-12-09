@@ -64,6 +64,16 @@ const AllLocation = () => {
   const addFav = (e, locationId, favourite) => {
     e.stopPropagation();
     console.log("Clicked, location Id is " + locationId);
+    fetch(`${process.env.REACT_APP_SERVER_URL}/user/addfavourite`, {
+      method: "PUT",
+      headers: new Headers({
+        "Content-Type": 'application/json',
+      }),
+      body: JSON.stringify({
+        username: sessionStorage.getItem("user"),
+        locationId: parseInt(locationId)
+      })
+    });
     if (favourite.includes(locationId)) {
       setFavourite(favourite.filter((locId) => locId !== parseInt(locationId)));
     } else {
