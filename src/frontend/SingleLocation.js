@@ -92,7 +92,8 @@ const SingleLocation = () => {
 
   return (
     <div>
-        Location ID: {locationId}
+        <p>Location ID: {locationId}</p>
+        <p>Location name: {location.name}</p>
         <button onClick={() => back()}>Return to all locations</button>
         <button onClick={() => addFavourite()}>{isFavourite? "Remove from favourite" : "Add to favourite"}</button>
 

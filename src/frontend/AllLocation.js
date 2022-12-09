@@ -64,18 +64,31 @@ const AllLocation = () => {
       let el = document.createElement('div');
       el.className = 'marker';
 
+      const innerHtmlContent = `<div style="min-width: 100px;font-size: large;color : black;">
+                  <h4 class="h4Class"> ${name} </h4> </div>`;
+
+      const divElement = document.createElement('div');
+      const assignBtn = document.createElement('div');
+      assignBtn.innerHTML = `<button class="btn btn-success btn-simple text-white" > visit </button>`;
+      divElement.innerHTML = innerHtmlContent;
+      divElement.appendChild(assignBtn);
+      assignBtn.addEventListener('click', (e) => {
+        navigate('/user/location/' + locationId);
+      });
+
       // make a marker for each feature and add to the map
       let oneMarker = new mapboxgl.Marker(el)
       .setLngLat([position.longitude, position.latitude])
       .setPopup(
-        new mapboxgl.Popup({ offset: 10 }) // add popups
-          .setHTML(
-            `<h3>Location ID: ${locationId}</h3>
-             <h5>${name}</h5>`
-          )
+        new mapboxgl.Popup({
+          closeOnClick: true,
+          offset: 10,
+          Anchor: false
+        }) // add popups
+        .setDOMContent(divElement)
       )
-      .addTo(map.current);
-      
+      .addTo(map.current)
+
       return oneMarker;
     });
     markerList.forEach((marker) => marker.remove());
@@ -115,6 +128,7 @@ const AllLocation = () => {
           <div className="sidebar">
             Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
           </div>
+          {/* <div ref={popupRef}>popup</div> */}
         </div>
       </div>
 
@@ -147,9 +161,7 @@ const AllLocation = () => {
           })}
         </tbody>
       </table>
-
   </div>
-    
   );
 }
 
