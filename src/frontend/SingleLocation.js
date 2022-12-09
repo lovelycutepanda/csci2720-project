@@ -3,6 +3,7 @@ import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
 import './SingleLocation.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import API from './FetchAPI.js';
 
 
 const SingleLocation = () => {
@@ -11,10 +12,11 @@ const SingleLocation = () => {
 
   const { locationId } = useParams();
 
-  const [favourite, setFavourite, locationList] = useOutletContext();
+  const [favourite, setFavourite, locationList, searchLocationList, setSearchLocationList] = useOutletContext();
 
   const [location, setLocation] = useState({});
   const [comment, setComment] = useState("");
+  const [commentList, setCommentList] = useState([]);
   const [isFavourite, setIsFavourite] = useState(false);
 
   const back = () => {
@@ -27,6 +29,7 @@ const SingleLocation = () => {
     setIsFavourite(favourite.indexOf(parseInt(locationId)) !== -1);
   }, [favourite]);
 
+  // component did mount
   useEffect(() => {
     if (!locationList.length)
       return;
@@ -34,6 +37,13 @@ const SingleLocation = () => {
     if (!loc)
       back();
     setLocation(loc);
+
+    API.loadComments(parseInt(locationId))
+    .then((comments) => {
+      console.log(comments);
+      setCommentList(comments)
+    });
+    setSearchLocationList([loc]);
   }, [locationList]);
 
   // send comment to database and clear the textarea
@@ -67,8 +77,12 @@ const SingleLocation = () => {
           toast.error(obj.err);
       else
           toast.success(obj.msg);
+
+      API.loadComments(parseInt(locationId))
+      .then((comments) => setCommentList(comments));
       });
     }
+    setComment("");
 
   }
 
@@ -92,12 +106,10 @@ const SingleLocation = () => {
 
   return (
     <div>
-        Location ID: {locationId}
-        <br />
-        Venue: {location.name}
-        <br />
-        <button className='btn btn-outline-dark m-2' onClick={() => back()}>Return to all locations</button>
-        <button className='btn btn-outline-dark m-2' onClick={() => addFavourite()}>{isFavourite? "Remove from favourite" : "Add to favourite"}</button>
+        <p>Location ID: {locationId}</p>
+        <p>Location name: {location.name}</p>
+        <button onClick={() => back()}>Return to all locations</button>
+        <button onClick={() => addFavourite()}>{isFavourite? "Remove from favourite" : "Add to favourite"}</button>
 
         <div>
 
@@ -162,7 +174,7 @@ const SingleLocation = () => {
         <div>
           <h2>Comments: </h2>
           <div className='comment'>
-            {location?.comment?.map(({user, message}, index) => {
+            {commentList?.map(({user, message}, index) => {
               return <p key={index}>{user.username} commented: {message}</p>
             })}
           </div>

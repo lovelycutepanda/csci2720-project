@@ -24,63 +24,76 @@ const AllLocation = () => {
 
   const [showOrder, setShowOrder] = useState(1);
 
-  const [favourite, setFavourite, locationList] = useOutletContext();
-  const [searchLocationList, setSearchLocationList] = useState([]);
+  const [favourite, setFavourite, locationList, searchLocationList, setSearchLocationList] = useOutletContext();
+  //const [searchLocationList, setSearchLocationList] = useState([]);
 
   const [baseLocationList, setBaseLocationList] = useState([]);
   const [favouriteSwitch, setFavouriteSwitch] = useState(false);
 
-  // create some markers on the map
-  const [markerList, setMarkerList] = useState([])
+  // // create some markers on the map
+  // const [markerList, setMarkerList] = useState([])
 
-  useEffect(() => {
-    // initialize map
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: process.env.REACT_APP_MAPBOXGL_STYLE,
-      center: [lng, lat],
-      zoom: zoom
-    });
-  }, []);
+  // useEffect(() => {
+  //   // initialize map
+  //   map.current = new mapboxgl.Map({
+  //     container: mapContainer.current,
+  //     style: process.env.REACT_APP_MAPBOXGL_STYLE,
+  //     center: [lng, lat],
+  //     zoom: zoom
+  //   });
+  // }, []);
 
-  // change map position
-  useEffect(() => {
-    map.current.on('move', () => {
-      setLng(map.current.getCenter().lng.toFixed(4));
-      setLat(map.current.getCenter().lat.toFixed(4));
-      setZoom(map.current.getZoom().toFixed(2));
-    });
-  }, [lng, lat, zoom]);
+  // // change map position
+  // useEffect(() => {
+  //   map.current.on('move', () => {
+  //     setLng(map.current.getCenter().lng.toFixed(4));
+  //     setLat(map.current.getCenter().lat.toFixed(4));
+  //     setZoom(map.current.getZoom().toFixed(2));
+  //   });
+  // }, [lng, lat, zoom]);
 
   useEffect(() => {
     setBaseLocationList(locationList);
   }, [locationList]);
 
 
-  // change marker on map
-  useEffect(() => {
-    const markers = searchLocationList.map(({ locationId, name, position }) => {
-      // create a HTML element for each feature
-      let el = document.createElement('div');
-      el.className = 'marker';
+  // // change marker on map
+  // useEffect(() => {
+  //   const markers = searchLocationList.map(({ locationId, name, position }) => {
+  //     // create a HTML element for each feature
+  //     let el = document.createElement('div');
+  //     el.className = 'marker';
 
-      // make a marker for each feature and add to the map
-      let oneMarker = new mapboxgl.Marker(el)
-        .setLngLat([position.longitude, position.latitude])
-        .setPopup(
-          new mapboxgl.Popup({ offset: 10 }) // add popups
-            .setHTML(
-              `<h3>Location ID: ${locationId}</h3>
-             <h5>${name}</h5>`
-            )
-        )
-        .addTo(map.current);
+  //     const innerHtmlContent = `<div style="min-width: 100px;font-size: large;color : black;">
+  //                 <h4 class="h4Class"> ${name} </h4> </div>`;
 
-      return oneMarker;
-    });
-    markerList.forEach((marker) => marker.remove());
-    setMarkerList(markers);
-  }, [searchLocationList]);
+  //     const divElement = document.createElement('div');
+  //     const assignBtn = document.createElement('div');
+  //     assignBtn.innerHTML = `<button class="btn btn-success btn-simple text-white" > visit </button>`;
+  //     divElement.innerHTML = innerHtmlContent;
+  //     divElement.appendChild(assignBtn);
+  //     assignBtn.addEventListener('click', (e) => {
+  //       navigate('/user/location/' + locationId);
+  //     });
+
+  //     // make a marker for each feature and add to the map
+  //     let oneMarker = new mapboxgl.Marker(el)
+  //     .setLngLat([position.longitude, position.latitude])
+  //     .setPopup(
+  //       new mapboxgl.Popup({
+  //         closeOnClick: true,
+  //         offset: 10,
+  //         Anchor: false
+  //       }) // add popups
+  //       .setDOMContent(divElement)
+  //     )
+  //     .addTo(map.current)
+
+  //     return oneMarker;
+  //   });
+  //   markerList.forEach((marker) => marker.remove());
+  //   setMarkerList(markers);
+  // }, [searchLocationList]);
 
 
   // Search for locations which contain keywords in the name
@@ -129,13 +142,6 @@ const AllLocation = () => {
 
   return (
     <div>
-      <div id="map">
-        <div ref={mapContainer} className="map-container">
-          <div className="sidebar">
-            Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-          </div>
-        </div>
-      </div>
 
       <div className='search-box'>
         <input className='search-input' type="text" id="SearchingKeyword"
@@ -143,7 +149,7 @@ const AllLocation = () => {
         <button className="search-btn"><i className="fas fa-search"></i></button>
       </div>
 
-      <button className='btn btn-outline-dark m-2' onClick={() => { switchFavourite() }}>{favouriteSwitch ? "Show all locations" : "Show favourite locations"}</button>
+      <button onClick={() => { switchFavourite() }}>{favouriteSwitch ? "Show all locations" : "Show favourite locations"}</button>
 
       <table className="container-fluid">
         <thead>
@@ -168,9 +174,7 @@ const AllLocation = () => {
             })}
         </tbody>
       </table>
-
-    </div>
-
+  </div>
   );
 }
 
