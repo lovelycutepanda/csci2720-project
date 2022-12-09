@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const user = require('./userhandler.js');
+
 const LocationSchema = Schema({
     locationId: { type: Number, required: true, unique: true },
     name: { type: String },
@@ -98,4 +100,21 @@ module.exports.delete = async function (req, res) {
 module.exports.getObjectId = async function (locationId) {
     const location = await Location.findOne({ locationId: locationId });
     return location._id;
+}
+
+module.exports.uploadComment = async function (req, res) {
+    console.log('u success go to here');
+    console.log(req.body);
+    const locationId = req.params['locationId'];
+    const userId = await user.getObjectId(req.body['newComment'].user);
+    Location.findOne({locationId: locationId})
+    .select("comment")
+    .exec((err, e) => {
+        e.comment.push({
+            user: userId,
+            message: req.body['newComment'].comment 
+        });
+        e.save();
+        res.json("sucessful");
+    })
 }

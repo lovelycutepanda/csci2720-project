@@ -82,14 +82,12 @@ app.delete('/user/delete', async (req, res) => {
 
 // load location comments
 app.get('/user/location/:locationId', async(req, res) => {
-
+    res.send('hi')
 })
 
 // update location comment
 app.post('/user/location/:locationId', async(req, res) => {
-    console.log('u success go to here');
-    console.log(req.body);
-    res.send(req.body['newComment']);
+    return location.uploadComment(req,res);
 })
 
 // user add favourite location request

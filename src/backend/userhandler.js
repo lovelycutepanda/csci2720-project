@@ -103,6 +103,7 @@ module.exports.getObjectId = async function (username) {
     return User.findOne({ username: username })
         .select("_id")
         .exec((err, user) => {
+            console.log(user);
             if (!user)
                 return -1;
             else 
