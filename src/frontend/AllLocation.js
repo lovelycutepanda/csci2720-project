@@ -132,10 +132,10 @@ const AllLocation = () => {
   //adding fav location by clicking heart icon
   const addFav = (e, locationId, favourite) => {
     e.stopPropagation();
-    console.log("Clicked, location Id is "+ locationId);
-    if(favourite.includes(locationId)){
+    console.log("Clicked, location Id is " + locationId);
+    if (favourite.includes(locationId)) {
       setFavourite(favourite.filter((locId) => locId !== parseInt(locationId)));
-    } else{
+    } else {
       setFavourite([...favourite, parseInt(locationId)]);
     }
   }
@@ -149,7 +149,7 @@ const AllLocation = () => {
         <button className="search-btn"><i className="fas fa-search"></i></button>
       </div>
 
-      <button onClick={() => { switchFavourite() }}>{favouriteSwitch ? "Show all locations" : "Show favourite locations"}</button>
+      <button className='btn btn-outline-dark m-2' onClick={() => { switchFavourite() }}>{favouriteSwitch ? "Show all locations" : "Show favourite locations"}</button>
 
       <table className="container-fluid">
         <thead>
@@ -169,12 +169,12 @@ const AllLocation = () => {
                   <td>{locationId}</td>
                   <td>{name}</td>
                   <td>{eventList.length}</td>
-                  <td onClick={(e, x=locationId, f=favourite) => { addFav(e,x,f) }}>{favCol(favourite, locationId)}</td>
+                  <td onClick={(e, x = locationId, f = favourite) => { addFav(e, x, f) }}>{favCol(favourite, locationId)}</td>
                 </tr>)
             })}
         </tbody>
       </table>
-  </div>
+    </div>
   );
 }
 
