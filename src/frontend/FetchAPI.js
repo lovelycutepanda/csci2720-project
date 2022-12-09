@@ -125,3 +125,16 @@ module.exports.loadUser = async (username) => {
   })
   .then((res) => res.json());
 }
+
+module.exports.loadComments = async (locationId) => {
+  return await fetch(`${process.env.REACT_APP_SERVER_URL}/location/getcomment`, {
+    method: "POST",
+    headers: new Headers({
+        "Content-Type": 'application/json',
+    }),
+    body: JSON.stringify({
+        locationId: locationId
+    })
+  })
+  .then((res) => res.json());
+}

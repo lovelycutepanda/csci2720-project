@@ -55,6 +55,11 @@ app.delete('/location/delete', async (req, res) => {
     return location.delete(req, res);
 })
 
+// get comment of one location
+app.post('/location/getcomment', async (req, res) => {
+    return location.getComment(req, res);
+})
+
 // get user list
 app.get('/user/findall', async (req, res) => {
     return user.findAllUser(req, res);

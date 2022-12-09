@@ -3,6 +3,7 @@ import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
 import './SingleLocation.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import API from './FetchAPI.js';
 
 
 const SingleLocation = () => {
@@ -15,6 +16,7 @@ const SingleLocation = () => {
 
   const [location, setLocation] = useState({});
   const [comment, setComment] = useState("");
+  const [commentList, setCommentList] = useState([]);
   const [isFavourite, setIsFavourite] = useState(false);
 
   const back = () => {
@@ -34,6 +36,12 @@ const SingleLocation = () => {
     if (!loc)
       back();
     setLocation(loc);
+
+    API.loadComments(parseInt(locationId))
+    .then((comments) => {
+      console.log(comments);
+      setCommentList(comments)
+    });
   }, [locationList]);
 
   // send comment to database and clear the textarea
@@ -67,8 +75,12 @@ const SingleLocation = () => {
           toast.error(obj.err);
       else
           toast.success(obj.msg);
+
+      API.loadComments(parseInt(locationId))
+      .then((comments) => setCommentList(comments));
       });
     }
+    setComment("");
 
   }
 
@@ -160,7 +172,7 @@ const SingleLocation = () => {
         <div>
           <h2>Comments: </h2>
           <div className='comment'>
-            {location?.comment?.map(({user, message}, index) => {
+            {commentList?.map(({user, message}, index) => {
               return <p key={index}>{user.username} commented: {message}</p>
             })}
           </div>
