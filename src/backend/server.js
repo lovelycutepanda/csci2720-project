@@ -91,6 +91,11 @@ app.post('/user/location/:locationId', async(req, res) => {
     console.log(req.body);
     res.send(req.body['newComment']);
 })
+
+// user add favourite location request
+app.put('/user/addfavourite', async (req, res) => {
+    return user.addFavourite(req, res);
+})
     
 // handle ALL requests
 app.all('/*', (req, res) => {

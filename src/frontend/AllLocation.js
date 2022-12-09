@@ -20,14 +20,18 @@ const AllLocation = () => {
   const [lat, setLat] = useState(22.3725);
   const [zoom, setZoom] = useState(9.39);
 
+  const [keyWord, setKeyWord] = useState("");
+
   const [showOrder, setShowOrder] = useState(1);
 
-  const locationList = useOutletContext();
+  const [favourite, setFavourite, locationList] = useOutletContext();
   const [searchLocationList, setSearchLocationList] = useState([]);
-  
 
+  const [baseLocationList, setBaseLocationList] = useState([]);
+  const [favouriteSwitch, setFavouriteSwitch] = useState(false);
+  
   // create some markers on the map
-  let currentMarkers = []
+  const [markerList, setMarkerList] = useState([])
 
   useEffect(() => {
     // initialize map
@@ -49,13 +53,13 @@ const AllLocation = () => {
   }, [lng, lat, zoom]);
 
   useEffect(() => {
-    setSearchLocationList(locationList);
+    setBaseLocationList(locationList);
   }, [locationList]);
+
 
   // change marker on map
   useEffect(() => {
-
-    searchLocationList.forEach(({locationId, name, position}) => {
+    const markers = searchLocationList.map(({locationId, name, position}) => {
       // create a HTML element for each feature
       let el = document.createElement('div');
       el.className = 'marker';
@@ -72,33 +76,35 @@ const AllLocation = () => {
       )
       .addTo(map.current);
       
-      currentMarkers.push(oneMarker)
-    })
+      return oneMarker;
+    });
+    markerList.forEach((marker) => marker.remove());
+    setMarkerList(markers);
   }, [searchLocationList]);
+
+
+  // Search for locations which contain keywords in the name
+  useEffect(() => {
+    let searchingResult = baseLocationList.filter((loc) => loc.name.toLowerCase().indexOf(keyWord.toLowerCase()) !== -1);
+
+    // show result
+    setSearchLocationList(searchingResult);
+  }, [keyWord, baseLocationList])
+
 
   const visitLocation = (locationId) => {
     navigate(`/user/location/${locationId}`);
   }
 
-  // Search for locations which contain keywords in the name
-  const keywordSearch = (list, keyWord) => {
-    let reg = new RegExp(keyWord);
-    return list.filter((obj) => reg.test(obj.name));
-  }
-
-  const showSearching = (e) => {
-  
-    // prevent reload, need to delete after update html element
-    e.preventDefault();
-
-    let keyword = document.getElementById('SearchingKeyword').value;
-    let searchingResult = keywordSearch(locationList, keyword);
-
-    // remove markers 
-    currentMarkers.forEach((marker) => marker.remove());
-
-    // show result
-    setSearchLocationList(searchingResult);
+  // switch to view all locations or favourite locations only 
+  const switchFavourite = () => {
+    if (favouriteSwitch) {
+      setBaseLocationList(locationList);
+    } else {
+      const newLocation = locationList.filter((loc) => favourite.indexOf(loc.locationId) !== -1)
+      setBaseLocationList(newLocation);
+    }
+    setFavouriteSwitch(!favouriteSwitch);
   }
 
 
@@ -113,9 +119,12 @@ const AllLocation = () => {
       </div>
 
       <div className='search-box'>
-        <input className='search-input' type="text" id="SearchingKeyword" placeholder="Search location.." onChange={(e) => showSearching(e)}></input>
+        <input className='search-input' type="text" id="SearchingKeyword" 
+               placeholder="Search location.." onChange={(e) => setKeyWord(e.target.value)} value={keyWord}></input>
         <button className="search-btn"><i className="fas fa-search"></i></button>
       </div>
+
+      <button onClick={() => {switchFavourite()}}>{favouriteSwitch? "Show all locations" : "Show favourite locations"}</button>
 
       <table className="container-fluid">
         <thead>
@@ -123,7 +132,6 @@ const AllLocation = () => {
             <th>Location ID</th>
             <th>Location name</th>
             <th>Event number<img id="updownIcon" src={updownIcon} onClick={() => setShowOrder(-showOrder)} /></th>
-            <th>Visit location</th>
           </tr>
         </thead>
         <tbody>
@@ -131,11 +139,10 @@ const AllLocation = () => {
           .sort((a, b) => showOrder * (a.eventList.length - b.eventList.length))
           .map(({locationId, name, eventList}, index) => {
             return (
-              <tr key={index}>
+              <tr key={index} onClick={() => {visitLocation(locationId)}}>
                 <td>{locationId}</td>
                 <td>{name}</td>
                 <td>{eventList.length}</td>
-                <td><button onClick={() => {visitLocation(locationId)}}>GO</button></td>
               </tr>)
           })}
         </tbody>
