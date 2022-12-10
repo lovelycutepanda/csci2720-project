@@ -88,7 +88,7 @@ const SingleLocation = () => {
       message: comment
     };
     // send newComment to database
-    
+
     const comments = [...commentList];
     comments.push(newComment);
     setCommentList(comments);
@@ -102,17 +102,17 @@ const SingleLocation = () => {
         newComment: newComment,
       })
     })
-    .then((res) => res.json())
-    .then((obj) => {
-      // if error is found
-      if (obj.err)
-        toast.error(obj.err);
-      else
-        toast.success(obj.msg);
-      setComment("");
-    })
-    
-  
+      .then((res) => res.json())
+      .then((obj) => {
+        // if error is found
+        if (obj.err)
+          toast.error(obj.err);
+        else
+          toast.success(obj.msg);
+        setComment("");
+      })
+
+
 
   }
 
@@ -137,10 +137,10 @@ const SingleLocation = () => {
 
   return (
     <div>
-      <p>Location ID: {locationId}</p>
-      <p>Location name: {location.name}</p>
-      <button className='btn btn-outline-dark m-2' onClick={() => back()}>Return to all locations</button>
-      <button className='btn btn-outline-dark m-2' onClick={() => addFavourite()}>{isFavourite ? "Remove from favourite" : "Add to favourite"}</button>
+      <h2 className="mt-5">{location.name}<span className="badge bg-secondary mx-1">{locationId}</span></h2>
+
+      <button className='btn btn-outline-dark me-2' onClick={() => back()}>Return to all locations</button>
+      <button className='btn btn-outline-dark me-2' onClick={() => addFavourite()}>{isFavourite ? "Remove from favourite" : "Add to favourite"}</button>
 
       <div>
 
@@ -203,11 +203,21 @@ const SingleLocation = () => {
       </table>
 
       <div>
+        <hr />
         <h2>Comments: </h2>
         <div className='comment'>
-          {commentList?.map(({ user, message }, index) => {
-            return <p key={index}>{user} commented: {message}</p>
-          })}
+          <div className="conatiner-fluid mx-2">
+            {commentList?.map(({ user, message }, index) => {
+              return (
+                <div className='row' key={index}>
+                  <div className='col-auto' ><span id='userNameBg'>{user}</span></div>
+                  <div className='col-auto' id='userMessageBg'><p>{message}</p></div>
+                  
+                </div>
+                // <p key={index}>{user} commented: {message}</p>
+              )
+            })}
+          </div>
         </div>
 
         <h2>Leave your comment below: </h2>

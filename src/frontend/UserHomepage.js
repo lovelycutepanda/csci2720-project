@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState} from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import './UserHomepage.css';
 import API from './FetchAPI.js';
@@ -11,7 +11,7 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
 
 const UserHomepage = (props) => {
-  
+
   const navigate = useNavigate();
 
   const mapContainer = useRef(null);
@@ -105,16 +105,16 @@ const UserHomepage = (props) => {
 
       // make a marker for each feature and add to the map
       let oneMarker = new mapboxgl.Marker(el)
-      .setLngLat([position.longitude, position.latitude])
-      .setPopup(
-        new mapboxgl.Popup({
-          closeOnClick: true,
-          offset: 10,
-          Anchor: false
-        }) // add popups
-        .setDOMContent(divElement)
-      )
-      .addTo(map.current)
+        .setLngLat([position.longitude, position.latitude])
+        .setPopup(
+          new mapboxgl.Popup({
+            closeOnClick: true,
+            offset: 10,
+            Anchor: false
+          }) // add popups
+            .setDOMContent(divElement)
+        )
+        .addTo(map.current)
 
       return oneMarker;
     });
@@ -129,8 +129,8 @@ const UserHomepage = (props) => {
   const [favourite, setFavourite] = useState([]);
 
   const [loading, setLoading] = useState(false);
-  
-  
+
+
   useEffect(() => {
 
     // retrieve locationList and favourite
@@ -142,15 +142,15 @@ const UserHomepage = (props) => {
     else {
       setLoading(true);
       API.loadLocation()
-      .then(({locList, fetchTime}) => {
-        // console.log(locList);
-        setLocationList(locList);
-        setLastFetchTime(fetchTime);
-        console.log(fetchTime);
-        setLoading(false);
-        window.sessionStorage.setItem("locationList", JSON.stringify(locList));
-        window.sessionStorage.setItem("lastFetchTime", fetchTime);
-      });
+        .then(({ locList, fetchTime }) => {
+          // console.log(locList);
+          setLocationList(locList);
+          setLastFetchTime(fetchTime);
+          console.log(fetchTime);
+          setLoading(false);
+          window.sessionStorage.setItem("locationList", JSON.stringify(locList));
+          window.sessionStorage.setItem("lastFetchTime", fetchTime);
+        });
     }
 
     API.loadUser(window.sessionStorage.getItem("user"))
@@ -158,7 +158,7 @@ const UserHomepage = (props) => {
         const favouriteList = user.favourite.map((loc) => loc.locationId);
         setFavourite(favouriteList);
       })
-    
+
   }, []);
 
   // testing
@@ -171,7 +171,7 @@ const UserHomepage = (props) => {
     window.sessionStorage.clear();
     props.switchAccount("");
   }
-    
+
   return (
     <>
       <Spinner display={loading} />
@@ -184,25 +184,27 @@ const UserHomepage = (props) => {
           <div className="col-6 text-end">
             <i className="fa-regular fa-circle-user fa-2xl"></i>
             <span className='username'>&nbsp;{window.sessionStorage.getItem("user")}</span>
-            <button className="btn btn-primary" onClick={() => {logout()}} id="logOut">Sign Out <i className="fa-solid fa-right-from-bracket fa-xl"></i></button>
+            <button className="btn btn-primary" onClick={() => { logout() }} id="logOut">Sign Out <i className="fa-solid fa-right-from-bracket fa-xl"></i></button>
+          </div>
+        </div>
+        <hr />
+
+        {/* This is for map container */}
+        <div id="map">
+          <div ref={mapContainer} className="map-container">
+            <div className="sidebar">
+              Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+            </div>
           </div>
         </div>
 
-      {/* This is for map container */}
-      <div id="map">
-        <div ref={mapContainer} className="map-container">
-          <div className="sidebar">
-            Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-          </div>
-        </div>
+        <Outlet context={[favourite, setFavourite, locationList, searchLocationList, setSearchLocationList, map]} />
+        <footer className="pb-1">
+          <p className="m-2">Last updated time: {lastFetchTime}</p>
+        </footer>
       </div>
+    </>
 
-      <Outlet context={[favourite, setFavourite, locationList, searchLocationList, setSearchLocationList, map]}/>
-      <p>Last updated time: {lastFetchTime}</p>
-    </div>
-
-  </>
-    
   );
 }
 
