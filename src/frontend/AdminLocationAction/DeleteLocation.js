@@ -31,13 +31,9 @@ const DeleteLocation = () => {
     // displayed when "Delete location" button is clicked
     return(
         <form>
-        Delete location <br/>
-        <br/>
-  
-        <label htmlFor="locationId">Location ID</label>
-        <input type="text" id="locationId" name="locationId" />
-        <br/>
-  
+        <h4>Delete location</h4><hr/>
+        <label htmlFor="locationId"></label>
+        <input type="text" id="locationId" name="locationId" placeholder='Enter a location'/>
         <button className="btn btn-success" onClick={(e) => {submitDelete(e)}}>Delete</button>
   
         </form>

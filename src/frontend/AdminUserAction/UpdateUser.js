@@ -75,8 +75,8 @@ const UpdateUser = () => {
     return(
         <>
             <p id="getdata">
-                Input user name to load the user information: 
-                <input type="text" id="username" name="username" />
+                <h4>Load the user information: </h4><hr/>
+                <input type="text" id="username" name="username" placeholder='Input an user name'/>
                 <button className="btn btn-success" onClick={(e) => {findUser(e)}}>Load user</button>
             </p>
     

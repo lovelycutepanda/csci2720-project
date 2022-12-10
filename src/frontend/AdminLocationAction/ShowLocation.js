@@ -24,27 +24,36 @@ const ShowLocation = () => {
     return(
         <div>
         Location List:
-        <br/><br/>
+        <hr/>
+        <table>
+        <tr>
+            <th>Location Id</th>
+            <th>Name</th>
+            <th>Position (longitude, latitude)</th>
+            <th>EventList (Event ID)</th>
+            <th>Comment</th>
+        </tr>
         {locationList.map(({locationId, name, position, eventList, comment}, index) => {
             return(
-            <p key={index}>
-                location {index+1} <br/>
-                locationId: {locationId} <br/>
-                name: {name} <br/>
-                position (longitude, latitude): {position? `${position.longitude}, ${position.latitude}` : ""} <br/>
-                eventList (Event ID): <span>{
+            <tr key={index}>
+                <td>{index+1}</td>
+                <td>{locationId}</td>
+                <td>{name} </td>
+                <td>{position? `${position.longitude}, ${position.latitude}` : ""} </td>
+                <td>{
                     eventList
                     .map((event) => {return `${event.eventId}`})
                     .join(', ')
-                }</span> <br/>
-                comment: <span>{
+                }</td>
+                <td>{
                     comment
                     .map(({user, message}) => {return `${message} (by ${user.username})`})
                     .join(', ')
-                }</span> <br/>
-            </p>
+                }</td>
+            </tr>
             );
         })}
+        </table>
         </div>
     ) 
 

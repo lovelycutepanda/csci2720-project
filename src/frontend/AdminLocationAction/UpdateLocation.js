@@ -76,8 +76,8 @@ const UpdateLocation = () => {
     return(
         <>
             <p id="getdata">
-                Input location ID to load the location information: 
-                <input type="text" id="locationId" name="locationId" />
+                <h4>Load the location information:</h4><hr/>
+                <input type="text" id="locationId" name="locationId" placeholder='Input a location ID'/>
                 <button className="btn btn-success" onClick={(e) => {findLocation(e)}}>Load location</button>
             </p>
     
