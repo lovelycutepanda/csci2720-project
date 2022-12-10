@@ -30,6 +30,11 @@ app.get('/event', async (req, res) => {
     return event.findAllEvent(req, res);
 })
 
+// create event
+app.post('/event/create', async (req, res) => {
+    return event.create(req, res);
+})
+
 // get location list
 app.get('/location/findall', async (req, res) => {
     return location.findAllLocation(req, res);
@@ -80,6 +85,11 @@ app.delete('/user/delete', async (req, res) => {
     return user.delete(req, res);
 })
 
+// create/update online event data
+app.post('/event/uploadonlineevent', async (req, res) => {
+    return event.uploadOnlineEvent(req, res);
+})
+
 // load location comments
 app.get('/user/location/:locationId', async(req, res) => {
     res.send('hi')
@@ -93,6 +103,10 @@ app.post('/user/location/:locationId', async(req, res) => {
 // user add favourite location request
 app.put('/user/addfavourite', async (req, res) => {
     return user.addFavourite(req, res);
+})
+
+app.post('/location/getcomment', async (req, res) => {
+    return location.getComment(req, res);
 })
     
 // handle ALL requests

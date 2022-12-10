@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import { ShowUser, CreateUser, UpdateUser, DeleteUser } from './AdminUserAction/index.js';
 import { ShowLocation, CreateLocation, UpdateLocation, DeleteLocation } from './AdminLocationAction/index.js';
+import { ShowEvent, CreateEvent, UpdateEvent, DeleteEvent } from './AdminEventAction/index.js';
 import './AdminHomepage.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,13 +29,16 @@ const AdminHomepage = (props) => {
       {action === "createLocation" && <CreateLocation />}
       {action === "updateLocation" && <UpdateLocation />}
       {action === "deleteLocation" && <DeleteLocation />}
+      {action === "createEvent" && <CreateEvent />}
+      {action === "showEvent" && <ShowEvent />}
+      {action === "updateEvent" && <UpdateEvent />}
+      {action === "deleteEvent" && <DeleteEvent />} 
     </div>;
   }
 
   return (
     <div id="admin" className="container-fluid">
 
-      {/* please work on frontend design */}
       <div id="sidebar" className="side-bar" style={{width: `${menu? "20%" : "0%"}`}}>
       <h2>Action Menu</h2>
       <button className="btn" onClick={() => {setAction("createUser")}}>Create user <i className="fa-solid fa-user-plus"></i></button>
@@ -45,6 +49,10 @@ const AdminHomepage = (props) => {
       <button className="btn" onClick={() => {setAction("showLocation")}}>Show locations <i className="fa-solid fa-location-crosshairs"></i></button>
       <button className="btn" onClick={() => {setAction("updateLocation")}}>Update location <i className="fa-solid fa-pen-nib"></i></button>        
       <button className="btn" onClick={() => {setAction("deleteLocation")}}>Delete location <i className="fa-solid fa-trash-can"></i></button>
+      <button className="btn" onClick={() => {setAction("createEvent")}}>Create Event<i className="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
+      <button className="btn" onClick={() => {setAction("showEvent")}}>Show Events<i className="fa fa-calendar-o"></i></button>
+      <button className="btn" onClick={() => {setAction("updateEvent")}}>Update Event<i className="fa fa-pencil-square-o"></i></button>
+      <button className="btn" onClick={() => {setAction("deleteEvent")}}>Delete Event<i className="fa fa-calendar-times-o"></i></button>
       </div>
       
       <div id="contentarea" className="row" style={{marginLeft: `${menu? "20%" : "0%"}`}}>

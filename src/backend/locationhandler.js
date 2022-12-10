@@ -70,7 +70,6 @@ module.exports.create = async function (req, res) {
 
 module.exports.update = async function (req, res) {
     const { locationId, newLocationId, newName, newLongitude, newLatitude } = req.body;
-    // console.log("updateTarget:", username, "username:", newUsername, ", password:", newPassword);
 
     const location = await Location.findOne({ locationId: locationId })
 
@@ -86,7 +85,6 @@ module.exports.update = async function (req, res) {
 
 module.exports.delete = async function (req, res) {
     const { locationId } = req.body;
-    // console.log("username:", username);
 
     Location.deleteOne({ locationId: locationId }, (err, location) => {
         if (location.deletedCount === 0)
@@ -103,18 +101,35 @@ module.exports.getObjectId = async function (locationId) {
 }
 
 module.exports.uploadComment = async function (req, res) {
-    console.log('u success go to here');
-    console.log(req.body);
+
     const locationId = req.params['locationId'];
+
     const userId = await user.getObjectId(req.body['newComment'].user);
-    Location.findOne({locationId: locationId})
+    
+    const location = await Location.findOne({locationId: locationId});
+
+    location.comment.push({
+        user: userId,
+        message: req.body['newComment'].message 
+    });
+    location.save();
+    res.json({msg: "Comment uploaded successfully."});
+}
+
+module.exports.getComment = async function (req, res) {
+
+    const { locationId } = req.body;
+    
+    Location.findOne({ locationId: locationId })
     .select("comment")
-    .exec((err, e) => {
-        e.comment.push({
-            user: userId,
-            message: req.body['newComment'].comment 
-        });
-        e.save();
-        res.json("sucessful");
+    .populate({ path: "comment.user" , select: "username" })
+    .exec((err, location) => {
+        res.json(location.comment);
     })
+}
+
+module.exports.uploadEventList = async function (locationId, eventList) {
+    const location = await Location.findOne({ locationId: locationId });
+    location.eventList = eventList;
+    location.save();
 }

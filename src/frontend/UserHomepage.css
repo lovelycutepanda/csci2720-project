@@ -126,38 +126,38 @@
   padding: 2px 5px;
 }
 
-h2 {
+#user h2 {
   font-family: 'Zen Dots', cursive;
 }
 
-h6{
+#user h6{
   font-family: 'Zen Dots', cursive;
 }
 
-.username{
+#user .username{
   font-family: 'Oswald', sans-serif;
 }
 
 /*Table*/
-thead{
+#user thead{
   background-color: #6c6c6c;
   color: #fff;
 }
 
-tbody>tr>:nth-child(2){
+#user tbody>tr>:nth-child(2){
   font-weight: bold;
- }
+}
 
-tbody>tr>:nth-child(3){
+#user tbody>tr>:nth-child(3){
   color: red;
   font-weight: bold;
- }
+}
 
-tr{
+#user tr{
   border-bottom: 1px solid #ddd !important;
 }
 
-tbody tr:hover{
+#user tbody tr:hover{
   background-color: rgb(184, 184, 184);
   cursor: pointer;
 }
@@ -169,4 +169,22 @@ tbody tr:hover{
  }
 }
  
- 
+#user footer {
+  color: grey;
+  text-align: end;
+}
+
+/* user comment speech bubble */
+#userNameBg {
+  color: rgb(70, 115, 115);
+  border-radius: 10px;
+  border: 2px solid cadetblue;
+  padding: 3px;
+} 
+
+#userMessageBg {
+ background-color: cadetblue ;
+ color: rgb(11, 16, 16);
+ border-radius: 20px;
+ padding-top: 5px;
+}

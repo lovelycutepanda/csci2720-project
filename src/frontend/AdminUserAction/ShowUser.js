@@ -27,20 +27,24 @@ const ShowUser = () => {
         <hr/>
     
         <table>
-        <tr>
-            <th>Username</th>
-            <th>Password (hashed):</th>
-            <th>Favourite Locations (Location _id):</th>
-        </tr>
-        {userList.map(({username, password, favourite}, index) => {
-            return(
-            <tr key={index}>
-                <td>{username}</td>
-                <td>{password}</td>
-                <td>{favourite.join(', ')}</td>
-            </tr>
-            );
-        })}
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Password (hashed):</th>
+                    <th>Favourite Locations (Location ID):</th>
+                </tr>
+            </thead>
+            <tbody>
+                {userList.map(({username, password, favourite}, index) => {
+                    return(
+                    <tr key={index}>
+                        <td>{username}</td>
+                        <td>{password}</td>
+                        <td>{favourite.map((loc) => loc.locationId).join(', ')}</td>
+                    </tr>
+                    );
+                })}
+            </tbody>
         </table>
         </div>
     ) 
