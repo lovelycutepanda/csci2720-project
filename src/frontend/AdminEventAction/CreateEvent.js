@@ -13,7 +13,7 @@ const CreateEvent = () => {
             date: document.getElementById("date").value,
             description: document.getElementById("description").value,
             presenter: document.getElementById("presenter").value,
-            price: parseFloat(document.getElementById("price").value)
+            price: document.getElementById("price").value
         }
 
         if (!obj.eventId) toast.error("Event ID is required.");

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const location = require('./locationhandler.js');
+const { Location } = require('./locationhandler.js');
 
 const EventSchema = Schema({
     eventId: { type: Number, required: true, unique: true },
@@ -27,14 +27,16 @@ module.exports.create = async function (req, res) {
         return res.json({err: "Event already exists."});
 
     // check if venue exists
-    const venue_objectId = await Location.findOne({locationID: venue}, '_id');
+    const venue_objectId = await Location.findOne({locationId: venue}, '_id');
 
     if (!venue_objectId)
         return res.json({err: "Location does not exist."});
     
     // convert date from string to list of string
-    const dateList = date.replace(' ', '').split(',');
+    const dateListStr = date.replace(' ', '').split(',');
+    const dateList = dateListStr.map((d) => new Date(parseInt(d.slice(0, 4)), parseInt(d.slice(4, 6)) - 1, parseInt(d.slice(6)), 8, 0, 0));
 
+    console.log(dateList);
     // create event
     await Event.create({
         eventId: eventId,
@@ -48,7 +50,7 @@ module.exports.create = async function (req, res) {
         if (err) 
             res.json({err: "Some error has occured. Please check if the input is correct."});
         else
-            res.json({err: `Event ${eventId} successfully created.`});
+            res.json({msg: `Event ${eventId} successfully created.`});
     })
 }
 
