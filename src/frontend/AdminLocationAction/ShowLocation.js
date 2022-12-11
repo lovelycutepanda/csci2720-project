@@ -27,6 +27,7 @@ const ShowLocation = () => {
         <hr/>
         <table>
         <tr>
+            <th>Index</th>
             <th>Location Id</th>
             <th>Name</th>
             <th>Position (longitude, latitude)</th>

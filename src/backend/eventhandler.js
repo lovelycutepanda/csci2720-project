@@ -1,3 +1,4 @@
+const e = require('cors');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const { Location } = require('./locationhandler.js');
@@ -15,7 +16,52 @@ const Event = mongoose.model('Event', EventSchema);
 
 // example
 module.exports.findAllEvent = async function (req, res) {
-    res.send({ message: "event" });
+    //res.send({ message: "event" });
+    Event.find()
+    .select("eventId title venue date description presenter price")
+    .populate({path: "venue", select: "name"})
+    .exec((err, events) => {
+        if (err)
+            res.json({err: err})
+        else {
+            /*
+            for (e of events){
+                let simplifiedDate = [];
+                for (let d in e.date) {
+                    if (simplifiedDate.length === 0
+                        || simplifiedDate[simplifiedDate.length - 1].slice(4, 6) !== e.date[d].slice(4, 6)
+                        || (simplifiedDate[simplifiedDate.length - 1].slice(6).length === 2 && Number(simplifiedDate[simplifiedDate.length - 1].slice(6)) + 1 !== Number(e.date[d].slice(6)))
+                        || (simplifiedDate[simplifiedDate.length - 1].slice(6).length === 4 && Number(simplifiedDate[simplifiedDate.length - 1].slice(9)) + 1 !== Number(e.date[d].slice(6)))) {
+                        /* This matches 4 cases:
+                        (1) No elements in simplifiedDate 
+                        (2) New element's (d) month does not match that of last element
+                        (3) Last element's date is not a range (i.e. not xx~yy) and the new date (d) is not the next day
+                            e.g. last element is 20220708 then d is 20220710
+                        (4) Last element's date is a range (i.e. xx~yy) and the new date (d) is not the next day
+                            e.g. last element is 20220708~10 (i.e. 08~10/07/2022), then d is 20220712
+                        Any of these 4 cases results in a new element in simplifiedDate
+                        
+                        simplifiedDate.push(e.date[d]);
+                    } else {
+                        //The remaining case must be the new date (d) is the next day of the last element of simplifiedDate
+                        if (simplifiedDate[simplifiedDate.length - 1].length === 8) {
+                        //date is not a range (i.e. not xx~yy)
+                        simplifiedDate[simplifiedDate.length - 1] += '~' + e.date[d].slice(6);
+                        //console.log('~' + date[d].slice(6));
+                        } else {
+                        //date is a range
+                        simplifiedDate[simplifiedDate.length - 1] = simplifiedDate[simplifiedDate.length - 1].slice(0, 9) + e.date[d].slice(6);
+                        //console.log(simplifiedDate[simplifiedDate.length - 1].slice(0, 9) + date[d].slice(6));
+                        }
+                        //console.log(simplifiedDate);
+                    }
+                }
+                e.date = simplifiedDate;
+            }
+            */
+            res.json(events);
+        }
+    })
 }
 
 module.exports.create = async function (req, res) {
@@ -80,7 +126,7 @@ module.exports.uploadOnlineEvent = async function (req, res) {
                 event.description = e.description;
                 event.venue = locationObjectId;
                 event.presenter = e.presenter;
-                event.price = e.pric;
+                event.price = e.price;
                 event.date = e.date.map((d) => new Date(`${d.slice(0,4)}-${d.slice(4,6)}-${d.slice(6)}`));
                 event.save();
                 return event._id;
