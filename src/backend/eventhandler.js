@@ -101,17 +101,55 @@ module.exports.create = async function (req, res) {
 }
 
 module.exports.update = async function(req, res) {
+    const { eventId, newEventId, newTitle, newVenue, newDate, newDescription, newPresenter, newPrice } = req.body;
 
+    const event = await Event.findOne({eventId: eventId});
+
+    const newVenueLoc = await location.Location.findOne({locationId: newVenue});
+    
+    let processDate = (d) => {
+        let dList = d.replaceAll(' ', '').split(',');
+        dateList = dList.map((dString) => {
+            L = dString.split('-').map((element) => {
+                return parseInt(element);
+            });
+            return new Date(L[0], L[1] - 1, L[2], 8, 0, 0);
+        });
+        return dateList;
+    }
+    event.eventId = newEventId;
+    event.title = newTitle;
+    event.venue = newVenueLoc;
+    event.date = processDate(newDate);
+    event.description = newDescription;
+    event.presenter = newPresenter;
+    event.price = newPrice;
+    event.save();
+
+    res.json({msg: `Event ${newEventId} successfully updated.`});
 }
 
 module.exports.findOne = async function(req, res) {
-    
+    const eventId = req.body.eventId;
+
+    Event.findOne({eventId: eventId}, 'eventId title venue date description presenter price')
+    .populate({path: 'venue', select: 'locationId'})
+    .exec((err, e) => {
+        if (err){
+            console.log(err);
+            res.json({err: err});
+        }
+        else{
+            console.log(e);
+            res.json(e);
+        }
+    })
 }
 
 module.exports.uploadOnlineEvent = async function (req, res) {
     const { locationId, eventList } = req.body;
     
-    const locationObjectId = await Location.getObjectId(locationId);
+    const locationObjectId = await location.getObjectId(locationId);
 
     try {
         const newEventList = await Promise.all(eventList.map(async (e) => {

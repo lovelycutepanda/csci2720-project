@@ -18,7 +18,7 @@ const UpdateEvent = () => {
             return toast.error("Event ID required.");
         
         await fetch(`${process.env.REACT_APP_SERVER_URL}/event/findone`, {
-            method: "GET",
+            method: "POST",
             headers: new Headers({
                 "Content-Type": 'application/json',
             }),
@@ -41,25 +41,31 @@ const UpdateEvent = () => {
     const submitUpdate = async (e) => {
         e.preventDefault();
 
-        let locationId = parseInt(document.getElementById("newLocationId").value);
-        let name = document.getElementById("newName").value;
-        let longitude = parseFloat(document.getElementById("newLongitude").value);
-        let latitude = parseFloat(document.getElementById("newLatitude").value);
+        let eventId = parseInt(document.getElementById("newEventId").value);
+        let title = document.getElementById("newTitle").value;
+        let venue = parseInt(document.getElementById("newVenue").value);
+        let date = document.getElementById("newDate").value;
+        let description = document.getElementById("newDescription").value;
+        let presenter = document.getElementById("newPresenter").value;
+        let price = document.getElementById("newPrice").value;
 
-        if (!locationId)
-            return toast.error("Location ID required.");
+        if (!eventId)
+            return toast.error("Event ID required.");
 
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/location/update`, {
+        await fetch(`${process.env.REACT_APP_SERVER_URL}/event/update`, {
             method: "PUT",
             headers: new Headers({
                 "Content-Type": 'application/json',
             }),
             body: JSON.stringify({
-                locationId: updateTarget.locationId,
-                newLocationId: locationId,
-                newName: name,
-                newLongitude: longitude,
-                newLatitude: latitude
+                eventId: updateTarget.eventId,
+                newEventId: eventId,
+                newTitle: title,
+                newVenue: venue,
+                newDate: date,
+                newDescription: description,
+                newPresenter: presenter,
+                newPrice: price
             })
         })
         .then((res) => res.json())
@@ -70,6 +76,12 @@ const UpdateEvent = () => {
             else
                 toast.success(obj.msg);
         });
+    }
+    
+    // convert Array of Date() object to Array of string to string
+    const processDate = (dateList) => {
+        let dateStrList = dateList.map((d) => {return d.toString().slice(0, 10)});
+        return dateStrList.join(', ');
     }
 
     // displayed when "Update Location" button is clicked
@@ -89,16 +101,16 @@ const UpdateEvent = () => {
             <input type="text" id="newEventId" name="newEventId" defaultValue={updateTarget.eventId} />
             <br />
     
-            <label htmlFor="newName">Title</label>
-            <input type="text" id="newName" name="newName" defaultValue={updateTarget.title} />
+            <label htmlFor="newTitle">Title</label>
+            <input type="text" id="newTitle" name="newTitle" defaultValue={updateTarget.title} />
             <br />
 
-            <label htmlFor="newVenue">Venue</label>
-            <input type="text" id="newVenue" name="newVenue" defaultValue={updateTarget.venue} />
+            <label htmlFor="newVenue">Venue ID</label>
+            <input type="text" id="newVenue" name="newVenue" defaultValue={updateTarget.venue.locationId} />
             <br/>
 
             <label htmlFor="newDate">Date</label>
-            <input type="text" id="newDate" name="newDate" defaultValue={updateTarget.date} />
+            <input type="text" id="newDate" name="newDate" defaultValue={processDate(updateTarget.date)} />
             <br/>
 
             <label htmlFor="newDescription">Description</label>

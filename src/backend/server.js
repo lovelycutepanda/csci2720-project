@@ -36,12 +36,12 @@ app.post('/event/create', async (req, res) => {
 })
 
 // find one event
-app.get('/event/findone', async (req, res) => {
+app.post('/event/findone', async (req, res) => {
     return event.findOne(req, res);
 })
 
 // update event
-app.post('/event/update', async (req, res) => {
+app.put('/event/update', async (req, res) => {
     return event.update(req, res);
 })
 
