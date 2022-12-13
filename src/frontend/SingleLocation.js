@@ -210,8 +210,13 @@ const SingleLocation = () => {
             {commentList?.map(({ user, message }, index) => {
               return (
                 <div className='row' key={index}>
-                  <div className='col-auto' ><span id='userNameBg'>{user}</span></div>
-                  <div className='col-auto' id='userMessageBg'><p>{message}</p></div>
+                  {/* <div className='col-auto' ><span id='userNameBg'>{user}</span></div>
+                  <div className='col-auto' id='userMessageBg'><p>{message}</p></div> */}
+                  <div className='col-auto' id='userMessageBg'>
+                    <span className='badge text-bg-light rounded-pill'>{user}</span>
+                    <br />
+                    <p>{message}</p>
+                    </div>
                   
                 </div>
                 // <p key={index}>{user} commented: {message}</p>

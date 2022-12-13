@@ -175,16 +175,9 @@
 }
 
 /* user comment speech bubble */
-#userNameBg {
-  color: rgb(70, 115, 115);
-  border-radius: 10px;
-  border: 2px solid cadetblue;
-  padding: 3px;
-} 
-
 #userMessageBg {
  background-color: cadetblue ;
  color: rgb(11, 16, 16);
- border-radius: 20px;
+ border-radius: 20px 20px 20px 2px;
  padding-top: 5px;
 }
