@@ -100,10 +100,14 @@ module.exports.create = async function (req, res) {
     })
 }
 
+module.exports.update = async function(req, res) {
+    
+}
+
 module.exports.uploadOnlineEvent = async function (req, res) {
     const { locationId, eventList } = req.body;
     
-    const locationObjectId = await location.getObjectId(locationId);
+    const locationObjectId = await Location.getObjectId(locationId);
 
     try {
         const newEventList = await Promise.all(eventList.map(async (e) => {
