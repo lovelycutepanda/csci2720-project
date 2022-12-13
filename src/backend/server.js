@@ -35,6 +35,16 @@ app.post('/event/create', async (req, res) => {
     return event.create(req, res);
 })
 
+// find one event
+app.get('/event/findone', async (req, res) => {
+    return event.findOne(req, res);
+})
+
+// update event
+app.post('/event/update', async (req, res) => {
+    return event.update(req, res);
+})
+
 // get location list
 app.get('/location/findall', async (req, res) => {
     return location.findAllLocation(req, res);
