@@ -29,6 +29,7 @@ const ShowUser = () => {
         <table>
             <thead>
                 <tr>
+                    <th>Index</th>
                     <th>Username</th>
                     <th>Password (hashed):</th>
                     <th>Favourite Locations (Location ID):</th>
@@ -38,6 +39,7 @@ const ShowUser = () => {
                 {userList.map(({username, password, favourite}, index) => {
                     return(
                     <tr key={index}>
+                        <td>{index+1}</td>
                         <td>{username}</td>
                         <td>{password}</td>
                         <td>{favourite.map((loc) => loc.locationId).join(', ')}</td>

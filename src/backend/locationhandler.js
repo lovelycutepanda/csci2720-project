@@ -99,7 +99,7 @@ module.exports.delete = async function (req, res) {
 
 module.exports.getObjectId = async function (locationId) {
     const location = await Location.findOne({ locationId: locationId });
-    return location._id;
+    return (location)? location._id : 0;
 }
 
 module.exports.uploadComment = async function (req, res) {

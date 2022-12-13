@@ -1,7 +1,7 @@
 const e = require('cors');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { Location } = require('./locationhandler.js');
+const location = require('./locationhandler.js');
 
 const EventSchema = Schema({
     eventId: { type: Number, required: true, unique: true },
@@ -73,7 +73,7 @@ module.exports.create = async function (req, res) {
         return res.json({err: "Event already exists."});
 
     // check if venue exists
-    const venue_objectId = await Location.findOne({locationId: venue}, '_id');
+    const venue_objectId = await location.getObjectId(venue);
 
     if (!venue_objectId)
         return res.json({err: "Location does not exist."});
