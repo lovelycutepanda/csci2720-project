@@ -1,5 +1,3 @@
-// under construction
-
 import { toast } from "react-toastify"
 
 const CreateEvent = () => {

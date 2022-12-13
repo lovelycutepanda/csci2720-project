@@ -45,6 +45,11 @@ app.put('/event/update', async (req, res) => {
     return event.update(req, res);
 })
 
+// delete event
+app.delete('/event/delete', async (req, res) => {
+    return event.delete(req, res);
+})
+
 // get location list
 app.get('/location/findall', async (req, res) => {
     return location.findAllLocation(req, res);

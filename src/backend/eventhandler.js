@@ -146,6 +146,20 @@ module.exports.findOne = async function(req, res) {
     })
 }
 
+module.exports.delete = async function (req, res) {
+    const { eventId } = req.body;
+
+    const event = await Event.findOne({ eventId: eventId });
+
+    Event.deleteOne({ eventId: eventId }, (err, event) => {
+        if (event.deletedCount === 0)
+            res.json({ err: "Event not found."});
+        else {
+            res.json({ msg: `Event ${eventId} deleted.`});
+        }
+    });
+}
+
 module.exports.uploadOnlineEvent = async function (req, res) {
     const { locationId, eventList } = req.body;
     
