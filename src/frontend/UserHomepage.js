@@ -143,10 +143,8 @@ const UserHomepage = (props) => {
       setLoading(true);
       API.loadLocation()
         .then(({ locList, fetchTime }) => {
-          // console.log(locList);
           setLocationList(locList);
           setLastFetchTime(fetchTime);
-          console.log(fetchTime);
           setLoading(false);
           window.sessionStorage.setItem("locationList", JSON.stringify(locList));
           window.sessionStorage.setItem("lastFetchTime", fetchTime);

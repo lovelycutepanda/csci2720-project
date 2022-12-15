@@ -2,6 +2,19 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 
+const processDate = (date) => {
+    // convert date from string to list of string
+    const dateListStr = date.replace(/ /g, '').split(',');
+    const dateList = [];
+    for (let d of dateListStr) {
+        const newDate = new Date(parseInt(d.slice(0, 4)), parseInt(d.slice(4, 6)) - 1, parseInt(d.slice(6)), 8, 0, 0);
+        if (isNaN(newDate.valueOf()))
+            throw "error";
+        dateList.push(newDate);
+    }
+    return dateList;
+}
+
 const UpdateEvent = () => {
 
     // states
@@ -14,7 +27,7 @@ const UpdateEvent = () => {
         let eventId = parseInt(document.getElementById("eventId").value);
 
         if (!eventId)
-            return toast.error("Event ID required.");
+            return toast.error("Event ID is invalid.");
         
         await fetch(`${process.env.REACT_APP_SERVER_URL}/event/findone`, {
             method: "POST",
@@ -43,13 +56,22 @@ const UpdateEvent = () => {
         let eventId = parseInt(document.getElementById("newEventId").value);
         let title = document.getElementById("newTitle").value;
         let venue = parseInt(document.getElementById("newVenue").value);
-        let date = document.getElementById("newDate").value;
+        let date;
         let description = document.getElementById("newDescription").value;
         let presenter = document.getElementById("newPresenter").value;
         let price = document.getElementById("newPrice").value;
 
         if (!eventId)
-            return toast.error("Event ID required.");
+            return toast.error("Event ID is invalid.");
+
+        if (!venue)
+            return toast.error("Location ID is invalid.");
+
+        try {
+            date = document.getElementById("newDate").value? processDate(document.getElementById("newDate").value) : [];
+        } catch (e) {
+            return toast.error("Date data are invalid.");
+        }
 
         await fetch(`${process.env.REACT_APP_SERVER_URL}/event/update`, {
             method: "PUT",
@@ -78,53 +100,52 @@ const UpdateEvent = () => {
     }
     
     // convert Array of Date() object to Array of string to string
-    const processDate = (dateList) => {
-        let dateStrList = dateList.map((d) => {return d.toString().slice(0, 10)});
+    const unProcessDate = (dateList) => {
+        let dateStrList = dateList.map((d) => {return d.toString().slice(0, 10).replace(/-/g, '')});
         return dateStrList.join(', ');
     }
 
     // displayed when "Update Location" button is clicked
     return(
         <>
-            <p id="getdata">
-                <h4>Load the event information:</h4><hr/>
-                <input type="text" id="eventId" name="eventId" placeholder='Input an event ID'/>
-                <button className="btn btn-success" onClick={(e) => {findEvent(e)}}>Load event</button>
-            </p>
+            <h4>Load the event information:</h4><hr/>
+
+            <input type="text" id="eventId" name="eventId" placeholder='Input an event ID'/>
+            <button className="btn btn-success" onClick={(e) => {findEvent(e)}}>Load event</button>
     
             {updateTarget.eventId && <form id="inputForm" method="get">
-            <br />
-            Update to: <br />
-    
-            <label htmlFor="newEventId">Event ID</label>
-            <input type="text" id="newEventId" name="newEventId" defaultValue={updateTarget.eventId} />
-            <br />
-    
-            <label htmlFor="newTitle">Title</label>
-            <input type="text" id="newTitle" name="newTitle" defaultValue={updateTarget.title} />
-            <br />
+                <br />
+                <h4>Update to:</h4><hr/>
+        
+                <label htmlFor="newEventId"><b>Event ID</b></label>
+                <input type="text" id="newEventId" name="newEventId" defaultValue={updateTarget.eventId} />
+                <br />
+        
+                <label htmlFor="newTitle"><b>Title</b></label>
+                <input type="text" id="newTitle" name="newTitle" defaultValue={updateTarget.title} />
+                <br />
 
-            <label htmlFor="newVenue">Venue ID</label>
-            <input type="text" id="newVenue" name="newVenue" defaultValue={updateTarget.venue.locationId} />
-            <br/>
+                <label htmlFor="newVenue"><b>Venue ID</b></label>
+                <input type="text" id="newVenue" name="newVenue" defaultValue={updateTarget.venue.locationId} />
+                <br/>
 
-            <label htmlFor="newDate">Date</label>
-            <input type="text" id="newDate" name="newDate" defaultValue={processDate(updateTarget.date)} />
-            <br/>
+                <label htmlFor="newDate"><b>Date (Please enter in yyyymmdd format, separated by comma)</b></label>
+                <input type="text" id="newDate" name="newDate" defaultValue={unProcessDate(updateTarget.date)} />
+                <br/>
 
-            <label htmlFor="newDescription">Description</label>
-            <input type="text" id="newDescription" name="newDescription" defaultValue={updateTarget.description} />
-            <br/>
+                <label htmlFor="newDescription"><b>Description</b></label>
+                <input type="text" id="newDescription" name="newDescription" defaultValue={updateTarget.description} />
+                <br/>
 
-            <label htmlFor="newPresenter">Presenter</label>
-            <input type="text" id="newPresenter" name="newPresenter" defaultValue={updateTarget.presenter} />
-            <br/>
+                <label htmlFor="newPresenter"><b>Presenter</b></label>
+                <input type="text" id="newPresenter" name="newPresenter" defaultValue={updateTarget.presenter} />
+                <br/>
 
-            <label htmlFor="newPrice">Price</label>
-            <input type="text" id="newPrice" name="newPrice" defaultValue={updateTarget.price} />
-            <br/>
+                <label htmlFor="newPrice"><b>Price</b></label>
+                <input type="text" id="newPrice" name="newPrice" defaultValue={updateTarget.price} />
+                <br/>
 
-            <button className="btn btn-success" onClick={(e) => {submitUpdate(e)}}>Update</button>
+                <button className="btn btn-success" onClick={(e) => {submitUpdate(e)}}>Update</button>
             </form>}
 
         </>

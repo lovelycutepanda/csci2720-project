@@ -6,7 +6,7 @@ const location = require('./locationhandler.js');
 const EventSchema = Schema({
     eventId: { type: Number, required: true, unique: true },
     title: { type: String },
-    venue: { type: Schema.Types.ObjectId, ref: 'Location' },
+    venue: { type: Schema.Types.ObjectId, ref: 'Location', required: true },
     date: [{ type: Date }],
     description: { type: String },
     presenter: { type: String },
@@ -73,28 +73,23 @@ module.exports.create = async function (req, res) {
         return res.json({err: "Event already exists."});
 
     // check if venue exists
-    const venue_objectId = await location.getObjectId(venue);
+    const locationObjectId = await location.getObjectId(venue);
 
-    if (!venue_objectId)
+    if (!locationObjectId)
         return res.json({err: "Location does not exist."});
     
-    // convert date from string to list of string
-    const dateListStr = date.replace(' ', '').split(',');
-    const dateList = dateListStr.map((d) => new Date(parseInt(d.slice(0, 4)), parseInt(d.slice(4, 6)) - 1, parseInt(d.slice(6)), 8, 0, 0));
-
-    console.log(dateList);
     // create event
     await Event.create({
         eventId: eventId,
         title: title,
-        venue: venue_objectId,
-        date: dateList,
+        venue: locationObjectId,
+        date: date,
         description: description,
         presenter: presenter,
         price: price
     }, (err, e) => {
         if (err) 
-            res.json({err: "Some error has occured. Please check if the input is correct."});
+            res.json({err: "Some error has occured. Please check if the input are correct."});
         else
             res.json({msg: `Event ${eventId} successfully created.`});
     })
@@ -105,22 +100,16 @@ module.exports.update = async function(req, res) {
 
     const event = await Event.findOne({eventId: eventId});
 
-    const newVenueLoc = await location.Location.findOne({locationId: newVenue});
+    // check if venue exists
+    const newVenueLoc = await location.getObjectId(newVenue);
+
+    if (!newVenueLoc)
+        return res.json({err: "Location does not exist."});
     
-    let processDate = (d) => {
-        let dList = d.replaceAll(' ', '').split(',');
-        dateList = dList.map((dString) => {
-            L = dString.split('-').map((element) => {
-                return parseInt(element);
-            });
-            return new Date(L[0], L[1] - 1, L[2], 8, 0, 0);
-        });
-        return dateList;
-    }
     event.eventId = newEventId;
     event.title = newTitle;
     event.venue = newVenueLoc;
-    event.date = processDate(newDate);
+    event.date = newDate;
     event.description = newDescription;
     event.presenter = newPresenter;
     event.price = newPrice;
@@ -136,11 +125,9 @@ module.exports.findOne = async function(req, res) {
     .populate({path: 'venue', select: 'locationId'})
     .exec((err, e) => {
         if (err){
-            console.log(err);
             res.json({err: err});
         }
         else{
-            console.log(e);
             res.json(e);
         }
     })
@@ -148,8 +135,6 @@ module.exports.findOne = async function(req, res) {
 
 module.exports.delete = async function (req, res) {
     const { eventId } = req.body;
-
-    const event = await Event.findOne({ eventId: eventId });
 
     Event.deleteOne({ eventId: eventId }, (err, event) => {
         if (event.deletedCount === 0)
@@ -196,7 +181,7 @@ module.exports.uploadOnlineEvent = async function (req, res) {
         location.uploadEventList(locationId, newEventList);
         
     } catch (e) {
-        return res.json({err: e});
+        return res.json({err: "Some error has occured. Events upload failed."});
     }
     res.json({msg: "Events uploaded successfully."});
 }

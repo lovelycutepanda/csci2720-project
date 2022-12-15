@@ -38,18 +38,16 @@ const CreateUser = () => {
     // displayed when "Create User" button is clicked
     return(
         <form>
-        <h4>Create user</h4>
-        <hr/>
 
-        <label htmlFor="username"><b>Username</b></label>
-        <input type="text" id="username" name="username" placeholder="Enter Username"/>
-        <hr/>
+            <h4>Create user</h4><hr/>
 
-        <label htmlFor="password"><b>Password</b></label>
-        <input type="text" id="password" name="password" placeholder="Enter Password"/>
-        <hr/>
+            <label htmlFor="username"><b>Username</b></label>
+            <input type="text" id="username" name="username" placeholder="Enter Username"/>
 
-        <button className="btn btn-success" onClick={(e) => {submitCreate(e)}}>Create</button>
+            <label htmlFor="password"><b>Password</b></label>
+            <input type="text" id="password" name="password" placeholder="Enter Password"/>
+
+            <button className="btn btn-success" onClick={(e) => {submitCreate(e)}}>Create</button>
 
         </form>
     )

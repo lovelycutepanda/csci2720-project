@@ -34,10 +34,12 @@ const DeleteUser = () => {
     // displayed when "Delete user" button is clicked
     return(
         <form>
-        <h4>Delete user</h4><hr/>
-        <label htmlFor="username"></label>
-        <input type="text" id="username" name="username" placeholder='Enter an username'/>
-        <button className="btn btn-success" onClick={(e) => {submitDelete(e)}}>Delete</button>
+
+            <h4>Delete user</h4><hr/>
+            
+            <label htmlFor="username"></label>
+            <input type="text" id="username" name="username" placeholder='Enter an username'/>
+            <button className="btn btn-success" onClick={(e) => {submitDelete(e)}}>Delete</button>
   
         </form>
     )

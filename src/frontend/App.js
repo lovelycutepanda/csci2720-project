@@ -12,6 +12,8 @@ import UserHomepage from './UserHomepage.js';
 import Login from './Login.js';
 import SingleLocation from './SingleLocation.js';
 import AllLocation from './AllLocation.js';
+import AdminDefault from './AdminDefault.js';
+import AdminAction from './AdminAction.js';
 
 
 
@@ -38,7 +40,10 @@ const App = () => {
               <Route path="" element={<AllLocation />} />
               <Route path="location/:locationId" element={<SingleLocation />} />
             </Route>
-            <Route path="/admin" element={account === "admin"? <AdminHomepage switchAccount={switchAccount}/> : <Navigate to='/'/>} />
+            <Route path="/admin" element={account === "admin"? <AdminHomepage switchAccount={switchAccount}/> : <Navigate to='/'/>} >
+              <Route path="" element={<AdminDefault />}  />
+              <Route path="action/:action" element={<AdminAction />} />
+            </Route>
           </Routes>
         </div>
       </BrowserRouter>

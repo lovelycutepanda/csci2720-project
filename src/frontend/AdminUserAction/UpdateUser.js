@@ -31,7 +31,6 @@ const UpdateUser = () => {
                 toast.error(obj.err);
             else {
                 setUpdateTarget(obj);
-                console.log(obj);
                 setKey(!key);
             }
                 
@@ -74,25 +73,24 @@ const UpdateUser = () => {
     // displayed when "Update User" button is clicked
     return(
         <>
-            <p id="getdata">
-                <h4>Load the user information: </h4><hr/>
-                <input type="text" id="username" name="username" placeholder='Input an user name'/>
-                <button className="btn btn-success" onClick={(e) => {findUser(e)}}>Load user</button>
-            </p>
+            <h4>Load the user information:</h4><hr/>
+
+            <input type="text" id="username" name="username" placeholder='Input an user name'/>
+            <button className="btn btn-success" onClick={(e) => {findUser(e)}}>Load user</button>
     
             {updateTarget.username && <form id="inputForm" method="get" key={key}>
-            <br />
-            Update to: <br />
-    
-            <label htmlFor="newUsername">Username</label>
-            <input type="text" id="newUsername" name="newUsername" defaultValue={updateTarget.username}/>
-            <br />
-    
-            <label htmlFor="newPassword">Password</label>
-            <input type="text" id="newPassword" name="newPassword" />
-            <br />
-    
-            <button className="btn btn-success" onClick={(e) => {submitUpdate(e)}}>Update</button>
+                <br />
+                <h4>Update to:</h4><hr/>
+        
+                <label htmlFor="newUsername"><b>Username</b></label>
+                <input type="text" id="newUsername" name="newUsername" defaultValue={updateTarget.username}/>
+                <br />
+        
+                <label htmlFor="newPassword"><b>Password</b></label>
+                <input type="text" id="newPassword" name="newPassword" />
+                <br />
+        
+                <button className="btn btn-success" onClick={(e) => {submitUpdate(e)}}>Update</button>
             </form>}
   
         </>

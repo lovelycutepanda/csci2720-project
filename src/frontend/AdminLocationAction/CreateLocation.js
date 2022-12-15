@@ -16,7 +16,7 @@ const CreateLocation = () => {
         }
 
         if (!obj.locationId)
-            return toast.error("Location ID required.");
+            return toast.error("Location ID is invalid.");
 
         await fetch(`${process.env.REACT_APP_SERVER_URL}/location/create`, {
             method: "POST",
@@ -38,29 +38,24 @@ const CreateLocation = () => {
     // displayed when "Create Location" button is clicked
     return(
         <form>
-        <h4>Create location</h4>
-        <hr/>
 
-        <label htmlFor="locationId"><b>Location ID</b></label>
-        <input type="text" id="locationId" name="locationId" placeholder="Enter LocationId"/>
-        <hr/>
+            <h4>Create location</h4><hr/>
 
-        <label htmlFor="name"><b>Name</b></label>
-        <input type="text" id="name" name="name" placeholder="Enter Name"/>
-        <hr/>
+            <label htmlFor="locationId"><b>Location ID</b></label>
+            <input type="text" id="locationId" name="locationId" placeholder="Enter LocationId"/>
 
-        <h4>Position </h4>
-        <hr/>
+            <label htmlFor="name"><b>Name</b></label>
+            <input type="text" id="name" name="name" placeholder="Enter Name"/>
 
-        <label htmlFor="longitude"><b>Longitude</b></label>
-        <input type="text" id="longitude" name="longitude" placeholder="Enter Longitude"/>
-        <hr/>
+            <h4>Position </h4><hr/>
 
-        <label htmlFor="latitude"><b>Latitude</b></label>
-        <input type="text" id="latitude" name="latitude" placeholder="Enter Latitude"/>
-        <hr/>
+            <label htmlFor="longitude"><b>Longitude</b></label>
+            <input type="text" id="longitude" name="longitude" placeholder="Enter Longitude"/>
 
-        <button className="btn btn-success" onClick={(e) => {submitCreate(e)}}>Create</button>
+            <label htmlFor="latitude"><b>Latitude</b></label>
+            <input type="text" id="latitude" name="latitude" placeholder="Enter Latitude"/>
+
+            <button className="btn btn-success" onClick={(e) => {submitCreate(e)}}>Create</button>
 
         </form>
     )

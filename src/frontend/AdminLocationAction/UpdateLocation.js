@@ -14,7 +14,7 @@ const UpdateLocation = () => {
         let locationId = parseInt(document.getElementById("locationId").value);
 
         if (!locationId)
-            return toast.error("Location ID required.");
+            return toast.error("Location ID is invalid.");
         
         await fetch(`${process.env.REACT_APP_SERVER_URL}/location/findone`, {
             method: "POST",
@@ -47,7 +47,7 @@ const UpdateLocation = () => {
         let latitude = parseFloat(document.getElementById("newLatitude").value);
 
         if (!locationId)
-            return toast.error("Location ID required.");
+            return toast.error("Location ID is invalid.");
 
         await fetch(`${process.env.REACT_APP_SERVER_URL}/location/update`, {
             method: "PUT",
@@ -75,35 +75,35 @@ const UpdateLocation = () => {
     // displayed when "Update Location" button is clicked
     return(
         <>
-            <p id="getdata">
-                <h4>Load the location information:</h4><hr/>
-                <input type="text" id="locationId" name="locationId" placeholder='Input a location ID'/>
-                <button className="btn btn-success" onClick={(e) => {findLocation(e)}}>Load location</button>
-            </p>
+            <h4>Load the location information:</h4><hr/>
+
+            <input type="text" id="locationId" name="locationId" placeholder='Input a location ID'/>
+            <button className="btn btn-success" onClick={(e) => {findLocation(e)}}>Load location</button>
+            
     
             {updateTarget.locationId && <form id="inputForm" method="get" key={key}>
-            <br />
-            Update to: <br />
-    
-            <label htmlFor="newLocationId">Location ID</label>
-            <input type="text" id="newLocationId" name="newLocationId" defaultValue={updateTarget.locationId} />
-            <br />
-    
-            <label htmlFor="newName">Name</label>
-            <input type="text" id="newName" name="newName" defaultValue={updateTarget.name} />
-            <br />
+                <br />
+                <h4>Update to:</h4><hr/>
+        
+                <label htmlFor="newLocationId"><b>Location ID</b></label>
+                <input type="text" id="newLocationId" name="newLocationId" defaultValue={updateTarget.locationId} />
+                <br />
+        
+                <label htmlFor="newName"><b>Name</b></label>
+                <input type="text" id="newName" name="newName" defaultValue={updateTarget.name} />
+                <br />
 
-            Position <br/>
+                <h4>Position</h4><hr/>
 
-            <label htmlFor="newLongitude">Longitude</label>
-            <input type="text" id="newLongitude" name="newLongitude" defaultValue={updateTarget.longitude} />
-            <br/>
+                <label htmlFor="newLongitude"><b>Longitude</b></label>
+                <input type="text" id="newLongitude" name="newLongitude" defaultValue={updateTarget.longitude} />
+                <br/>
 
-            <label htmlFor="newLatitude">Latitude</label>
-            <input type="text" id="newLatitude" name="newLatitude" defaultValue={updateTarget.latitude} />
-            <br/>
+                <label htmlFor="newLatitude"><b>Latitude</b></label>
+                <input type="text" id="newLatitude" name="newLatitude" defaultValue={updateTarget.latitude} />
+                <br/>
 
-            <button className="btn btn-success" onClick={(e) => {submitUpdate(e)}}>Update</button>
+                <button className="btn btn-success" onClick={(e) => {submitUpdate(e)}}>Update</button>
             </form>}
 
         </>

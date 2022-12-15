@@ -19,8 +19,6 @@ const ShowEvent = () => {
         })
     }, []);
 
-    //console.log(eventList);
-
     //process date
     let convertDate = (date) => {
         let simplifiedDate = [];
@@ -59,39 +57,43 @@ const ShowEvent = () => {
     // retrieval, called when "Show Event" button is clicked
     return(
         <div>
-        Event List:
-        <hr/>
-        <table>
-        <tr>
-            <th>Index</th>
-            <th>Event ID</th>
-            <th>Title</th>
-            <th>Venue</th>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Presenter</th>
-            <th>Price</th>
-        </tr>
-        {eventList.map(({eventId, title, venue, date, description, presenter, price}, index) => {
-            return(
-            <tr key={index}>
-                <td>{index+1}</td>
-                <td>{eventId}</td>
-                <td>{title} </td>
-                <td>{venue.name} </td>
-                <td>{
-                    convertDate(
-                        date.map((d) => {return `${d.slice(0, 10).replaceAll('-', '')}`})
-                    )
-                    .join(', ')
-                }</td>
-                <td>{description}</td>
-                <td>{presenter}</td>
-                <td>{price}</td>
-            </tr>
-            );
-        })}
-        </table>
+            <h4>Event List:</h4><hr/>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Index</th>
+                        <th>Event ID</th>
+                        <th>Title</th>
+                        <th>Venue</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Presenter</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {eventList.map(({eventId, title, venue, date, description, presenter, price}, index) => {
+                        return(
+                        <tr key={index}>
+                            <td>{index+1}</td>
+                            <td>{eventId}</td>
+                            <td>{title} </td>
+                            <td>{venue.name} </td>
+                            <td>{
+                                convertDate(
+                                    date.map((d) => {return `${d.slice(0, 10).replaceAll('-', '')}`})
+                                )
+                                .join(', ')
+                            }</td>
+                            <td>{description}</td>
+                            <td>{presenter}</td>
+                            <td>{price}</td>
+                        </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
         </div>
     ) 
 

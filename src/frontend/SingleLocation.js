@@ -5,7 +5,6 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import API from './FetchAPI.js';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
 
 const SingleLocation = () => {
@@ -56,7 +55,7 @@ const SingleLocation = () => {
       return;
     let loc = locationList.find((loc) => loc.locationId === parseInt(locationId));
     if (!loc)
-      back();
+      return back();
     setLocation(loc);
     map.current.zoomTo(13, {
       duration: 1000,
@@ -139,8 +138,8 @@ const SingleLocation = () => {
     <div>
       <h2 className="mt-5">{location.name}<span className="badge bg-secondary mx-1">{locationId}</span></h2>
 
-      <button className='btn btn-outline-dark me-2' onClick={() => back()}>Return to all locations</button>
-      <button className='btn btn-outline-dark me-2' onClick={() => addFavourite()}>{isFavourite ? "Remove from favourite" : "Add to favourite"}</button>
+      <button className='btn btn-outline-dark me-2 mb-2' onClick={() => back()}>Return to all locations</button>
+      <button className='btn btn-outline-dark mb-2' onClick={() => addFavourite()}>{isFavourite ? "Remove from favourite" : "Add to favourite"}</button>
 
       <div>
 

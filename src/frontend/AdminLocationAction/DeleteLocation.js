@@ -7,7 +7,10 @@ const DeleteLocation = () => {
     const submitDelete = async (e) => {
         e.preventDefault();
 
-        let locationId = document.getElementById("locationId").value;
+        let locationId = parseInt(document.getElementById("locationId").value);
+
+        if (!locationId)
+            return toast.error("Location ID is invalid.");
 
         await fetch(`${process.env.REACT_APP_SERVER_URL}/location/delete`, {
             method: "DELETE",
@@ -31,10 +34,12 @@ const DeleteLocation = () => {
     // displayed when "Delete location" button is clicked
     return(
         <form>
-        <h4>Delete location</h4><hr/>
-        <label htmlFor="locationId"></label>
-        <input type="text" id="locationId" name="locationId" placeholder='Enter a location'/>
-        <button className="btn btn-success" onClick={(e) => {submitDelete(e)}}>Delete</button>
+
+            <h4>Delete location</h4><hr/>
+
+            <label htmlFor="locationId"></label>
+            <input type="text" id="locationId" name="locationId" placeholder='Enter a location'/>
+            <button className="btn btn-success" onClick={(e) => {submitDelete(e)}}>Delete</button>
   
         </form>
     )
