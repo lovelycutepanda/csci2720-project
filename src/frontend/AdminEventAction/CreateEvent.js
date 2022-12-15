@@ -39,7 +39,7 @@ const CreateEvent = () => {
             return toast.error("Date data are invalid.");
         }
         
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/event/create`, {
+        await fetch(`${window.location.origin}/api/event/create`, {
             method: "POST",
             headers: new Headers({
                 "Content-Type": 'application/json',

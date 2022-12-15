@@ -15,7 +15,7 @@ const CreateUser = () => {
         if (password.length < 4 || password.length > 20)
             return toast.error("Password is of 4-20 characters.");
 
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/user/create`, {
+        await fetch(`${window.location.origin}/api/user/create`, {
             method: "POST",
             headers: new Headers({
                 "Content-Type": 'application/json',

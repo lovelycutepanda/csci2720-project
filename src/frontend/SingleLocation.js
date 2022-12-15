@@ -92,7 +92,7 @@ const SingleLocation = () => {
     comments.push(newComment);
     setCommentList(comments);
 
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/user/location/${locationId}`, {
+    await fetch(`${window.location.origin}/api/user/location/${locationId}`, {
       method: "POST",
       headers: new Headers({
         "Content-Type": 'application/json',
@@ -117,7 +117,7 @@ const SingleLocation = () => {
 
   // add favourite location
   const addFavourite = () => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/user/addfavourite`, {
+    fetch(`${window.location.origin}/api/user/addfavourite`, {
       method: "PUT",
       headers: new Headers({
         "Content-Type": 'application/json',

@@ -11,7 +11,7 @@ const DeleteEvent = () => {
         if (!eventId)
             return toast.error("Event ID is invalid.");
 
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/event/delete`, {
+        await fetch(`${window.location.origin}/api/event/delete`, {
             method: "DELETE",
             headers: new Headers({
                 "Content-Type": 'application/json',

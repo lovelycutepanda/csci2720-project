@@ -7,7 +7,7 @@ const ShowEvent = () => {
 
     // componentDidMount
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_SERVER_URL}/event`, {
+        fetch(`${window.location.origin}/api/event`, {
             method: "GET",
             headers: new Headers({
                 "Content-Type": 'application/json',

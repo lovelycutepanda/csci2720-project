@@ -12,7 +12,7 @@ const DeleteLocation = () => {
         if (!locationId)
             return toast.error("Location ID is invalid.");
 
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/location/delete`, {
+        await fetch(`${window.location.origin}/api/location/delete`, {
             method: "DELETE",
             headers: new Headers({
                 "Content-Type": 'application/json',

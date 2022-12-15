@@ -105,7 +105,7 @@ const loadEvent = async (locationList) => {
 }
 
 const loadLocation = async () => {
-  return await fetch(`${process.env.REACT_APP_SERVER_URL}/location/findall`, {
+  return await fetch(`${window.location.origin}/api/location/findall`, {
     method: "GET",
     headers: new Headers({
         "Content-Type": 'application/json',
@@ -124,7 +124,7 @@ const loadLocation = async () => {
 }
 
 const loadUser = async (username) => {
-  return await fetch(`${process.env.REACT_APP_SERVER_URL}/user/findone`, {
+  return await fetch(`${window.location.origin}/api/user/findone`, {
     method: "POST",
     headers: new Headers({
         "Content-Type": 'application/json',
@@ -137,7 +137,7 @@ const loadUser = async (username) => {
 }
 
 const loadComments = async (locationId) => {
-  return await fetch(`${process.env.REACT_APP_SERVER_URL}/location/getcomment`, {
+  return await fetch(`${window.location.origin}/api/location/getcomment`, {
     method: "POST",
     headers: new Headers({
         "Content-Type": 'application/json',
@@ -151,7 +151,7 @@ const loadComments = async (locationId) => {
 
 const uploadOnlineEvent = async (locationList) => {
   locationList.forEach((loc) => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/event/uploadonlineevent`, {
+    fetch(`${window.location.origin}/api/event/uploadonlineevent`, {
       method: "POST",
       headers: new Headers({
           "Content-Type": 'application/json',

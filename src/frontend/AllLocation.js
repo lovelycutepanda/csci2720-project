@@ -63,7 +63,7 @@ const AllLocation = () => {
   const addFav = (e, locationId, favourite) => {
     e.stopPropagation();
     console.log("Clicked, location Id is " + locationId);
-    fetch(`${process.env.REACT_APP_SERVER_URL}/user/addfavourite`, {
+    fetch(`${window.location.origin}/api/user/addfavourite`, {
       method: "PUT",
       headers: new Headers({
         "Content-Type": 'application/json',

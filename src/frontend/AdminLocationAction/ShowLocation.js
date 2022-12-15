@@ -8,7 +8,7 @@ const ShowLocation = () => {
 
     // componentDidMount
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_SERVER_URL}/location/findall`, {
+        fetch(`${window.location.origin}/api/location/findall`, {
             method: "GET",
             headers: new Headers({
                 "Content-Type": 'application/json',

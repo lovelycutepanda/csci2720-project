@@ -16,7 +16,7 @@ const UpdateLocation = () => {
         if (!locationId)
             return toast.error("Location ID is invalid.");
         
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/location/findone`, {
+        await fetch(`${window.location.origin}/api/location/findone`, {
             method: "POST",
             headers: new Headers({
                 "Content-Type": 'application/json',
@@ -49,7 +49,7 @@ const UpdateLocation = () => {
         if (!locationId)
             return toast.error("Location ID is invalid.");
 
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/location/update`, {
+        await fetch(`${window.location.origin}/api/location/update`, {
             method: "PUT",
             headers: new Headers({
                 "Content-Type": 'application/json',

@@ -29,7 +29,7 @@ const UpdateEvent = () => {
         if (!eventId)
             return toast.error("Event ID is invalid.");
         
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/event/findone`, {
+        await fetch(`${window.location.origin}/api/event/findone`, {
             method: "POST",
             headers: new Headers({
                 "Content-Type": 'application/json',
@@ -73,7 +73,7 @@ const UpdateEvent = () => {
             return toast.error("Date data are invalid.");
         }
 
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/event/update`, {
+        await fetch(`${window.location.origin}/api/event/update`, {
             method: "PUT",
             headers: new Headers({
                 "Content-Type": 'application/json',

@@ -8,7 +8,8 @@ const ShowUser = () => {
 
     // componentDidMount
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_SERVER_URL}/user/findall`, {
+        console.log();
+        fetch(`${window.location.origin}/api/user/findall`, {
             method: "GET",
             headers: new Headers({
                 "Content-Type": 'application/json',

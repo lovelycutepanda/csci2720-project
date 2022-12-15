@@ -20,7 +20,7 @@ const Login = (props) => {
       return toast.error("Password is of 4-20 characters.");
 
     // input verification
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/user/findone`, {
+    await fetch(`${window.location.origin}/api/user/findone`, {
         method: "POST",
         headers: new Headers({
           "Content-Type": 'application/json',

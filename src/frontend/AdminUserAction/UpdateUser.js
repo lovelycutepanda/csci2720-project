@@ -16,7 +16,7 @@ const UpdateUser = () => {
         if (username === "admin")
             return toast.error("Cannot change admin data.");
         
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/user/findone`, {
+        await fetch(`${window.location.origin}/api/user/findone`, {
             method: "POST",
             headers: new Headers({
                 "Content-Type": 'application/json',
@@ -49,7 +49,7 @@ const UpdateUser = () => {
         if (password.length < 4 || password.length > 20)
             return toast.error("Password is of 4-20 characters.");
 
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/user/update`, {
+        await fetch(`${window.location.origin}/api/user/update`, {
             method: "PUT",
             headers: new Headers({
                 "Content-Type": 'application/json',

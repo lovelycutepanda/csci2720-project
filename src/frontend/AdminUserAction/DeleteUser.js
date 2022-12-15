@@ -12,7 +12,7 @@ const DeleteUser = () => {
         if (username === "admin")
             return toast.error("Cannot delete admin data.")
 
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/user/delete`, {
+        await fetch(`${window.location.origin}/api/user/delete`, {
             method: "DELETE",
             headers: new Headers({
                 "Content-Type": 'application/json',
