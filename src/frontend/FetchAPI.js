@@ -104,7 +104,7 @@ const loadEvent = async (locationList) => {
   return locationList;
 }
 
-module.exports.loadLocation = async () => {
+const loadLocation = async () => {
   return await fetch(`${process.env.REACT_APP_SERVER_URL}/location/findall`, {
     method: "GET",
     headers: new Headers({
@@ -123,7 +123,7 @@ module.exports.loadLocation = async () => {
   })
 }
 
-module.exports.loadUser = async (username) => {
+const loadUser = async (username) => {
   return await fetch(`${process.env.REACT_APP_SERVER_URL}/user/findone`, {
     method: "POST",
     headers: new Headers({
@@ -136,7 +136,7 @@ module.exports.loadUser = async (username) => {
   .then((res) => res.json());
 }
 
-module.exports.loadComments = async (locationId) => {
+const loadComments = async (locationId) => {
   return await fetch(`${process.env.REACT_APP_SERVER_URL}/location/getcomment`, {
     method: "POST",
     headers: new Headers({
@@ -170,3 +170,5 @@ const uploadOnlineEvent = async (locationList) => {
     })
   })
 }
+
+export default {loadLocation, loadUser, loadComments};

@@ -4,6 +4,7 @@ const user = require('./userhandler.js');
 
 
 const express = require('express');
+const path = require('path');
 const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended:false}));
@@ -24,6 +25,8 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
     console.log("Connection is open...");
 })
+
+app.use(express.static('build'));
 
 // get event list
 app.get('/event', async (req, res) => {
@@ -123,16 +126,11 @@ app.put('/user/addfavourite', async (req, res) => {
 app.post('/location/getcomment', async (req, res) => {
     return location.getComment(req, res);
 })
-    
-// handle ALL requests
-app.all('/*', (req, res) => {
-    let dataObject = {
-        login: "panda",
-        password: "1234"
-    }
-    res.json(dataObject);
+
+app.get('/*', (req, res) => {
+    const link = path.join(path.dirname(path.dirname(__dirname)), 'build', 'index.html');
+    res.sendFile(link);
 });
 
-
-// listen to port 4000
-const server = app.listen(4000);
+// listen to port 80
+app.listen(80);

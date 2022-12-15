@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
-import 'https://kit.fontawesome.com/7663343623.js';
 
 
 const Login = (props) => {

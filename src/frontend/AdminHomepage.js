@@ -3,7 +3,6 @@ import { useNavigate, Outlet } from 'react-router-dom';
 import './AdminHomepage.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'https://kit.fontawesome.com/7663343623.js';
 
 
 const AdminHomepage = (props) => {

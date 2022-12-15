@@ -3,7 +3,6 @@ import { useNavigate, Outlet } from 'react-router-dom';
 import './UserHomepage.css';
 import API from './FetchAPI.js';
 import Spinner from './Spinner.js';
-import 'https://kit.fontawesome.com/d97b87339f.js';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
