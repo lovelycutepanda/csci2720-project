@@ -58,6 +58,12 @@ const UpdateLocation = () => {
         if (!locationId)
             return toast.error("Location ID is invalid.");
 
+        if (longitude && (longitude > 180 || longitude < -180))
+            return toast.error("invalid longitude.");
+
+        if (latitude && (latitude > 90 || latitude < -90))
+            return toast.error("invalid latitude.");
+
         await fetch(`${window.location.origin}/api/location/update`, {
             method: "PUT",
             headers: new Headers({

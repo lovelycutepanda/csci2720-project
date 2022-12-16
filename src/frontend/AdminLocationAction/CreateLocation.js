@@ -25,6 +25,12 @@ const CreateLocation = () => {
         if (!obj.locationId)
             return toast.error("Location ID is invalid.");
 
+        if (obj.longitude && (obj.longitude > 180 || obj.longitude < -180))
+            return toast.error("invalid longitude.");
+
+        if (obj.latitude && (obj.latitude > 90 || obj.latitude < -90))
+            return toast.error("invalid latitude.");
+
         await fetch(`${window.location.origin}/api/location/create`, {
             method: "POST",
             headers: new Headers({
