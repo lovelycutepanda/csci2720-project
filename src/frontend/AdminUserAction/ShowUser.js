@@ -8,12 +8,14 @@
  */
 
 import { useEffect, useState } from 'react';
+import Spinner from '../Spinner.js';
 
 
 const ShowUser = () => {
 
     // states
     const [userList, setUserList] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     // componentDidMount
     useEffect(() => {
@@ -26,36 +28,42 @@ const ShowUser = () => {
         .then((res) => res.json())
         .then((obj) => {
             setUserList(obj);
+            setLoading(false);
         })
     }, []);
 
     // retrieval, called when "Show Users" button is clicked
     return(
-        <div>
+        <div style={{position: "relative"}}>
             <h4>User List:</h4><hr/>
-        
-            <table>
-                <thead>
-                    <tr>
-                        <th>Index</th>
-                        <th>Username</th>
-                        <th>Password (hashed):</th>
-                        <th>Favourite Locations (Location ID):</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {userList.map(({username, password, favourite}, index) => {
-                        return(
-                        <tr key={index}>
-                            <td>{index+1}</td>
-                            <td>{username}</td>
-                            <td>{password}</td>
-                            <td>{favourite.map((loc) => loc.locationId).join(', ')}</td>
+
+            <div style={{overflowX: "auto"}} >
+
+                <Spinner display={loading} />
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Index</th>
+                            <th>Username</th>
+                            <th>Password (hashed):</th>
+                            <th>Favourite Locations (Location ID):</th>
                         </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {userList.map(({username, password, favourite}, index) => {
+                            return(
+                            <tr key={index}>
+                                <td>{index+1}</td>
+                                <td>{username}</td>
+                                <td>{password}</td>
+                                <td>{favourite.map((loc) => loc.locationId).join(', ')}</td>
+                            </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     ) 
 

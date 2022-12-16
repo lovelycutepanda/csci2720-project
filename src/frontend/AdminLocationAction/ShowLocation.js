@@ -8,12 +8,14 @@
  */
 
 import { useEffect, useState } from 'react';
+import Spinner from '../Spinner.js';
     
 
 const ShowLocation = () => {
 
     // states
     const [locationList, setLocationList] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     // componentDidMount
     useEffect(() => {
@@ -26,48 +28,53 @@ const ShowLocation = () => {
         .then((res) => res.json())
         .then((obj) => {
             setLocationList(obj);
+            setLoading(false);
         })
     }, []);
 
     // retrieval, called when "Show Locations" button is clicked
     return(
-        <div>
+        <div style={{position: "relative"}}>
             <h4>Location List:</h4><hr/>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Index</th>
-                        <th>Location Id</th>
-                        <th>Name</th>
-                        <th>Position (longitude, latitude)</th>
-                        <th>EventList (Event ID)</th>
-                        <th>Comment</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {locationList.map(({locationId, name, position, eventList, comment}, index) => {
-                        return(
-                        <tr key={index}>
-                            <td>{index+1}</td>
-                            <td>{locationId}</td>
-                            <td>{name} </td>
-                            <td>{position? `${position.longitude}, ${position.latitude}` : ""} </td>
-                            <td>{
-                                eventList
-                                .map((event) => {return `${event.eventId}`})
-                                .join(', ')
-                            }</td>
-                            <td>{
-                                comment
-                                .map(({user, message}) => {return `${message} (by ${user.username})`})
-                                .join(', ')
-                            }</td>
+            <div style={{overflowX: "auto"}} >
+
+                <Spinner display={loading} />
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Index</th>
+                            <th>Location Id</th>
+                            <th>Name</th>
+                            <th>Position (longitude, latitude)</th>
+                            <th>EventList (Event ID)</th>
+                            <th>Comment</th>
                         </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {locationList.map(({locationId, name, position, eventList, comment}, index) => {
+                            return(
+                            <tr key={index}>
+                                <td>{index+1}</td>
+                                <td>{locationId}</td>
+                                <td>{name} </td>
+                                <td>{position? `${position.longitude}, ${position.latitude}` : ""} </td>
+                                <td>{
+                                    eventList
+                                    .map((event) => {return `${event.eventId}`})
+                                    .join(', ')
+                                }</td>
+                                <td>{
+                                    comment
+                                    .map(({user, message}) => {return `${message} (by ${user.username})`})
+                                    .join(', ')
+                                }</td>
+                            </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
         </div>
     ) 
 

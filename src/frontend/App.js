@@ -30,6 +30,8 @@ const App = () => {
   const [account, setAccount] = useState(() => sessionStorage.getItem("user"));
 
   useEffect(() => {
+    if (account === null)
+      return;
     sessionStorage.setItem("user", account);
   }, [account]);
 

@@ -13,6 +13,7 @@ import './SingleLocation.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import API from './FetchAPI.js';
+import Spinner from './Spinner.js';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 
@@ -28,6 +29,8 @@ const SingleLocation = () => {
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState([]);
   const [isFavourite, setIsFavourite] = useState(false);
+  const [loading, setLoading] = useState(true);
+
 
   /////////////////////////////////////////////////////////////////////////
   // Zoom in the specific location with camera //
@@ -78,7 +81,8 @@ const SingleLocation = () => {
             user: c.user.username,
             message: c.message
           }
-        }))
+        }));
+        setLoading(false);
       });
     setSearchLocationList([loc]);
   }, [locationList]);
@@ -209,8 +213,10 @@ const SingleLocation = () => {
         </tbody>
       </table>
 
-      <div>
-        <hr />
+      <hr />
+
+      <div style={{position: "relative"}}>
+        <Spinner display={loading} />
         <h2>Comments: </h2>
         <div className='comment'>
           <div className="conatiner-fluid mx-2">

@@ -8,11 +8,13 @@
  */
 
 import { useEffect, useState } from 'react';
+import Spinner from '../Spinner.js';
 
 const ShowEvent = () => {
 
     // states
     const [eventList, setEventList] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     // componentDidMount
     useEffect(() => {
@@ -25,6 +27,7 @@ const ShowEvent = () => {
         .then((res) => res.json())
         .then((obj) => {
             setEventList(obj); //set the eventList to obj
+            setLoading(false);
         })
     }, []);
 
@@ -65,44 +68,49 @@ const ShowEvent = () => {
 
     // retrieval, called when "Show Event" button is clicked
     return(
-        <div>
+        <div style={{position: "relative"}}>
             <h4>Event List:</h4><hr/>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>Index</th>
-                        <th>Event ID</th>
-                        <th>Title</th>
-                        <th>Venue</th>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Presenter</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {eventList.map(({eventId, title, venue, date, description, presenter, price}, index) => {
-                        return(
-                        <tr key={index}>
-                            <td>{index+1}</td>
-                            <td>{eventId}</td>
-                            <td>{title} </td>
-                            <td>{venue.name} </td>
-                            <td>{
-                                convertDate(
-                                    date.map((d) => {return `${d.slice(0, 10).replaceAll('-', '')}`})
-                                )
-                                .join(', ')
-                            }</td>
-                            <td>{description}</td>
-                            <td>{presenter}</td>
-                            <td>{price}</td>
+
+            <div style={{overflowX: "auto"}} >
+
+                <Spinner display={loading} />
+                                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Index</th>
+                            <th>Event ID</th>
+                            <th>Title</th>
+                            <th>Venue</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Presenter</th>
+                            <th>Price</th>
                         </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {eventList.map(({eventId, title, venue, date, description, presenter, price}, index) => {
+                            return(
+                            <tr key={index}>
+                                <td>{index+1}</td>
+                                <td>{eventId}</td>
+                                <td>{title} </td>
+                                <td>{venue.name} </td>
+                                <td>{
+                                    convertDate(
+                                        date.map((d) => {return `${d.slice(0, 10).replaceAll('-', '')}`})
+                                    )
+                                    .join(', ')
+                                }</td>
+                                <td>{description}</td>
+                                <td>{presenter}</td>
+                                <td>{price}</td>
+                            </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
         </div>
     ) 
 
