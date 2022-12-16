@@ -1,3 +1,12 @@
+/*
+ * Group members:
+ * Tam King Man 1155160072
+ * Ku Nok Tik 1155143829
+ * Tung Yuen Lok 1155143226
+ * Lai Cheuk Lam 1155159309
+ * Wong Wai Chun 1155159536
+ */
+
 import { React, useState } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import './AdminHomepage.css';
@@ -40,17 +49,22 @@ const AdminHomepage = (props) => {
       <button className="btn" onClick={() => {setAction("deleteevent")}}>Delete Event<i className="fa fa-calendar-times-o"></i></button>
       </div>
       
-      <div id="contentarea" className="row" style={{marginLeft: `${menu? "20%" : "0%"}`}}>
-        <div className="col-10 col-sm-8 col-lg-9 col-xl-10">
+      <div id="contentarea" className="d-flex" style={{marginLeft: `${menu? "20%" : "0%"}`}}>
+        <div className="container-fluid">
           <h2>Welcome to Admin's page.</h2>
           <button className="btn" onClick={() => {setMenu(!menu)}}>&#9776; Admin User Action</button>
           <Outlet />
         </div>
 
-        <div className="col-2 col-sm-4 col-lg-3 col-xl-2">
-          <i className="fa-regular fa-circle-user fa-3x"></i>
-          <span className='username'>&nbsp;{window.sessionStorage.getItem("user")}</span>
-          <button className="btn" onClick={() => {logout()}} id="logOut">Log Out<i className="fa-solid fa-right-from-bracket fa-xl"></i></button>
+        <div className="ml-auto right">
+          <div className="identity">
+            <i className="fa-regular fa-circle-user fa-3x"></i>
+            <span className='username'>{window.sessionStorage.getItem("user")}</span>
+          </div>
+          <div className="d-flex justify-content-end">
+            <button className="btn" onClick={() => {logout()}} id="logOut">Log Out<i className="fa-solid fa-right-from-bracket fa-xl"></i></button>
+          </div>
+          
         </div>
 
       </div>

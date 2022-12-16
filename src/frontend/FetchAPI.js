@@ -1,3 +1,12 @@
+/*
+ * Group members:
+ * Tam King Man 1155160072
+ * Ku Nok Tik 1155143829
+ * Tung Yuen Lok 1155143226
+ * Lai Cheuk Lam 1155159309
+ * Wong Wai Chun 1155159536
+ */
+
 const eventxml2json = (xml, locationList) => {
   let event = xml.getElementsByTagName("event");
   const dataList = [];
@@ -160,13 +169,6 @@ const uploadOnlineEvent = async (locationList) => {
           locationId: loc.locationId,
           eventList: loc.eventList
       })
-    })
-    .then((res) => res.json())
-    .then((obj) => {
-      if (obj.err)
-        console.log(obj.err);
-      else
-        console.log(obj.msg);
     })
   })
 }

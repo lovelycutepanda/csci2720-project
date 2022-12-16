@@ -1,4 +1,13 @@
-import { useRef, useState, useEffect } from 'react';
+/*
+ * Group members:
+ * Tam King Man 1155160072
+ * Ku Nok Tik 1155143829
+ * Tung Yuen Lok 1155143226
+ * Lai Cheuk Lam 1155159309
+ * Wong Wai Chun 1155159536
+ */
+
+import { useState, useEffect } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
@@ -23,7 +32,6 @@ const AllLocation = () => {
 
   useEffect(() => {
     setBaseLocationList(locationList);
-    console.log('map: ');
   }, [locationList]);
 
   // Search for locations which contain keywords in the name
@@ -62,7 +70,6 @@ const AllLocation = () => {
   //adding fav location by clicking heart icon
   const addFav = (e, locationId, favourite) => {
     e.stopPropagation();
-    console.log("Clicked, location Id is " + locationId);
     fetch(`${window.location.origin}/api/user/addfavourite`, {
       method: "PUT",
       headers: new Headers({

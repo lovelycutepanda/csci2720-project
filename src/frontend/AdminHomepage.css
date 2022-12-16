@@ -1,3 +1,12 @@
+/*
+ * Group members:
+ * Tam King Man 1155160072
+ * Ku Nok Tik 1155143829
+ * Tung Yuen Lok 1155143226
+ * Lai Cheuk Lam 1155159309
+ * Wong Wai Chun 1155159536
+ */
+
 #admin {
     height: 100%;
     overflow: auto;
@@ -44,7 +53,7 @@
     color: white;
     padding: 10px 15px;
     border: none;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 #contentarea .btn:hover{
@@ -56,12 +65,20 @@
     padding: 10px 0px;
 }
 
-#contentarea h2{
-    margin-top: 20px;
+#contentarea .identity {
+    text-align: right;
+}
+
+#contentarea .identity i {
+    margin-right: 6px;
 }
 
 #contentarea .username{
     font-size: 40px;
+}
+
+#contentarea #logOut {
+    right: 0;
 }
 
 #contentarea #logOut i{
@@ -114,6 +131,10 @@ tr:nth-of-type(odd){
     background: #e9e9e9;
 }
 
+#admin .right {
+    min-width: 180px;
+}
+
 
 
 @media only screen and (max-width: 768px) {
@@ -147,7 +168,7 @@ tr:nth-of-type(odd){
     }
 
     #contentarea h2{
-        padding-top: 20px;
+        padding-top: 10px;
         font-size: 20px;
     }
 
@@ -162,6 +183,18 @@ tr:nth-of-type(odd){
     
     #contentarea .btn i{
         display: none;
+    }
+
+    #admin .right {
+        min-width: 0;
+    }    
+
+    #contentarea .identity {
+        text-align: center;
+    }
+
+    #contentarea .identity i {
+        margin-right: 0;
     }
 
 }
