@@ -1,3 +1,11 @@
+![react](https://img.shields.io/github/package-json/dependency-version/lovelycutepanda/csci2720-project/react)
+![mongodb](https://img.shields.io/github/package-json/dependency-version/lovelycutepanda/csci2720-project/mongodb)
+![mongoose](https://img.shields.io/github/package-json/dependency-version/lovelycutepanda/csci2720-project/mongoose)
+![bootstrap](https://img.shields.io/github/package-json/dependency-version/lovelycutepanda/csci2720-project/bootstrap)
+![mapbox-gl](https://img.shields.io/github/package-json/dependency-version/lovelycutepanda/csci2720-project/mapbox-gl)
+![react-toastify](https://img.shields.io/github/package-json/dependency-version/lovelycutepanda/csci2720-project/react-toastify)
+![bcrypt](https://img.shields.io/github/package-json/dependency-version/lovelycutepanda/csci2720-project/bcrypt)
+
 # Overview
 This is the project of 2022-23 1st semester CSCI2720 Group 9.
 
@@ -26,7 +34,7 @@ REACT_APP_MAPBOXGL_STYLE=(style link for Mapbox GL)
 
 After that, create a production build, for instance using "npm run build", and run the website by "node src/backend/server.js". The website will be available in localhost on port 80.
 
-## Groupmates / Collaborators
+# Groupmates / Collaborators
 Tam King Man https://github.com/marcotam2002 <br>
 Ku Nok Tik https://github.com/lovelycutepanda <br>
 Tung Yuen Lok https://github.com/JohnnyTung123 <br>
